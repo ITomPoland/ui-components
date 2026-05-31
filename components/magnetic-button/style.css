@@ -1,0 +1,28 @@
+:root {
+  --t-btn-bg: #ffffff;
+  --t-btn-color: #000000;
+}
+
+.t-magnetic-btn {
+  padding: 1.5rem 3rem;
+  border-radius: 99px;
+  background: var(--t-btn-bg);
+  color: var(--t-btn-color);
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  will-change: transform;
+}
+
+.t-text {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+  display: inline-block;
+}
