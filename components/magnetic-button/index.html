@@ -3,122 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Magnetic Button | Component Viewer</title>
-  <link rel="stylesheet" href="../../src/style.css" />
+  <title>Magnetic Button | ITOM Sketchbook</title>
+  <link rel="stylesheet" href="../../src/css/style.css" />
   <!-- PrismJS for Syntax Highlighting -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-  <style>
-    /* Component Viewer Layout */
-    .viewer-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      height: calc(100vh - 8rem);
-    }
-    
-    .preview-section {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    
-    .preview-header {
-      padding: 1rem;
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .preview-iframe {
-      flex: 1;
-      width: 100%;
-      border: none;
-    }
-
-    .code-section {
-      background: #1d1f21;
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .code-tabs {
-      display: flex;
-      background: #111;
-      border-bottom: 1px solid #333;
-    }
-
-    .code-tab {
-      padding: 1rem 2rem;
-      color: #888;
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      user-select: none;
-    }
-
-    .code-tab.active {
-      color: #fff;
-      border-bottom-color: var(--accent);
-      background: #1d1f21;
-    }
-
-    .code-content {
-      flex: 1;
-      padding: 1rem;
-      overflow-y: auto;
-      margin: 0;
-    }
-
-    .copy-btn {
-      background: var(--accent);
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: opacity 0.2s;
-    }
-
-    .copy-btn:hover {
-      opacity: 0.9;
-    }
-
-    .back-btn {
-      color: #888;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 2rem;
-      transition: color 0.2s;
-    }
-    
-    .back-btn:hover { color: #fff; }
-
-    @media (max-width: 900px) {
-      .viewer-layout { grid-template-columns: 1fr; height: auto; }
-      .preview-iframe { min-height: 400px; }
-    }
-  </style>
 </head>
 <body>
   <div id="app">
-    <a href="../../" class="back-btn">← Back to Platform</a>
+    <a href="../../" class="back-btn">← Back to Notebook</a>
     
     <div class="viewer-layout">
       <!-- Live Preview -->
       <div class="preview-section">
         <div class="preview-header">
-          <h2 style="margin:0; font-size: 1.2rem;">Live Preview</h2>
+          <h2>Live Preview</h2>
         </div>
         <iframe class="preview-iframe" src="./preview.html"></iframe>
+        
+        <!-- Dynamic Settings Controls -->
+        <div class="preview-controls">
+          <div class="control-group">
+            <label>Magnet Pull: <span id="valMagnet">0.5</span></label>
+            <input type="range" id="slideMagnet" min="0" max="1.5" step="0.05" value="0.5">
+          </div>
+          <div class="control-group">
+            <label>Text Parallax: <span id="valText">0.2</span></label>
+            <input type="range" id="slideText" min="0" max="1" step="0.05" value="0.2">
+          </div>
+          <div class="control-group">
+            <label>Border Radius: <span id="valRadius">99px</span></label>
+            <input type="range" id="slideRadius" min="0" max="99" step="1" value="99">
+          </div>
+          <div class="control-group">
+            <label>Theme Preset</label>
+            <div class="theme-toggles">
+              <button class="theme-toggle-btn active" data-theme="dark">Dark</button>
+              <button class="theme-toggle-btn" data-theme="light">Light</button>
+              <button class="theme-toggle-btn" data-theme="accent">Accent</button>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Custom Colors</label>
+            <div class="color-pickers">
+              <div class="color-picker-item">
+                <span class="color-label">Button BG</span>
+                <input type="color" id="colorBg" value="#111111">
+              </div>
+              <div class="color-picker-item">
+                <span class="color-label">Text</span>
+                <input type="color" id="colorText" value="#ffffff">
+              </div>
+              <div class="color-picker-item">
+                <span class="color-label">Hover Ripple</span>
+                <input type="color" id="colorHover" value="#ea4aaa">
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Code Viewer -->

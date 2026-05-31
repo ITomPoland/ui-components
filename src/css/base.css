@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Inter:wght@400;500;700&display=swap');
+:root {
+  --bg-paper: #f4f4f0;
+  --text-ink: #111111;
+  --text-light-ink: #444444;
+  --accent: #ea4aaa;
+  --stroke-width: 3px;
+  --font-sketch: 'Architects Daughter', cursive;
+  --font-body: 'Inter', sans-serif;
+  --card-bg: #ffffff;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-paper);
+  color: var(--text-ink);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body, body.ruled-paper {
+  background-image: 
+    linear-gradient(rgba(17, 17, 17, 0.03) 1px, transparent 1px),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  background-size: 100% 24px, auto;
+}
+body.graph-paper {
+  background-image: 
+    linear-gradient(to right, rgba(17, 17, 17, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(17, 17, 17, 0.035) 1px, transparent 1px),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  background-size: 24px 24px, 24px 24px, auto;
+}
+body.blank-paper {
+  background-image: 
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  background-size: auto;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+#app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}

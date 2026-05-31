@@ -1,11 +1,13 @@
 :root {
-  --t-btn-bg: #ffffff;
-  --t-btn-color: #000000;
+  --t-btn-bg: #111111; 
+  --t-btn-color: #ffffff; 
+  --t-btn-hover-bg: #ea4aaa; 
+  --t-btn-radius: 99px;
+  --t-btn-padding: 1.5rem 3rem;
 }
-
 .t-magnetic-btn {
-  padding: 1.5rem 3rem;
-  border-radius: 99px;
+  padding: var(--t-btn-padding);
+  border-radius: var(--t-btn-radius);
   background: var(--t-btn-bg);
   color: var(--t-btn-color);
   border: none;
@@ -18,8 +20,19 @@
   justify-content: center;
   align-items: center;
   will-change: transform;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  z-index: 1;
 }
-
+.t-hover-circle {
+  position: absolute;
+  background: var(--t-btn-hover-bg);
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+}
 .t-text {
   position: relative;
   z-index: 1;

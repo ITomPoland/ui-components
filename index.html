@@ -4,30 +4,102 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>UI Components by ITomPoland</title>
-    <link rel="stylesheet" href="/src/style.css" />
+    <title>ITOM Sketchbook - UI Components</title>
+    <!-- Use relative paths so it works fine with Vite base config -->
+    <link rel="stylesheet" href="./src/css/style.css" />
   </head>
   <body>
-    <div id="app">
-      <header>
-        <h1>Creative UI Components</h1>
-        <p>A new Vanilla JS component every Wednesday.</p>
+    <canvas id="doodleCanvas"></canvas>
+    
+    <div id="app" class="home-layout">
+      
+      <aside class="sidebar">
+        <!-- Notebook Margin Line -->
+        <div class="notebook-margin-line"></div>
         
-        <div class="filter-container">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="button">Buttons</button>
-          <button class="filter-btn" data-filter="scroll">Scroll</button>
-          <button class="filter-btn" data-filter="text">Text Effects</button>
+        <div class="sidebar-content">
+          <div class="avatar-container">
+            <img src="./avatar.jpg" alt="ITom Avatar" style="width: 100%; height: 100%; object-fit: cover;" />
+          </div>
+
+          <h1 class="brand-title">ITOM UI</h1>
+          <p class="brand-subtitle">&lt;component library /&gt;</p>
+          
+          <!-- Sticky Search Note -->
+          <div class="search-sticky-note">
+            <input type="text" id="searchInput" placeholder="Search..." autocomplete="off" />
+          </div>
+          
+          <div class="filter-container">
+            <button class="filter-btn active" data-filter="all">All Sketches</button>
+            <button class="filter-btn" data-filter="button">Buttons</button>
+            <button class="filter-btn" data-filter="scroll">Scroll FX</button>
+            <button class="filter-btn" data-filter="text">Kinetic Text</button>
+          </div>
+
+          <a href="https://github.com/sponsors/ITomPoland" target="_blank" rel="noopener noreferrer" class="sponsor-btn">
+            Sponsor 💖
+          </a>
+
+          <!-- Interactive Toolbelt (Pencil Case) -->
+          <div class="pencil-case">
+            <h4 class="pencil-case-title">Pencil Case</h4>
+            <div class="sidebar-toolbelt">
+              <button id="btnDraw" class="tool-btn" title="Doodle Mode (Draw)">✏️</button>
+              <button id="btnClear" class="tool-btn" title="Clear Doodle Board">🧹</button>
+              <button id="btnMute" class="tool-btn muted" title="Pencil Audio Feedback">🔇</button>
+            </div>
+          </div>
+
+          <!-- Paper Swatches -->
+          <div class="paper-swatches">
+            <button class="swatch-btn active" data-paper="ruled" title="Lined Paper">Ruled</button>
+            <button class="swatch-btn" data-paper="graph" title="Grid Paper">Graph</button>
+            <button class="swatch-btn" data-paper="blank" title="Blank Paper">Blank</button>
+          </div>
+
+          <!-- Sketches Roadmap -->
+          <div class="roadmap-container">
+            <h3>Sketches To-Do</h3>
+            <ul class="roadmap-list">
+              <li class="done">Magnetic Button</li>
+              <li>Kinetic Text Wave</li>
+              <li>Canvas Particle Hover</li>
+              <li>Custom Cursor Trail</li>
+            </ul>
+            <a href="https://github.com/ITomPoland/ui-components/issues/new?title=Sketch+Suggestion:+[Name]" target="_blank" rel="noopener noreferrer" class="suggest-btn">
+              Suggest a Sketch 💡
+            </a>
+          </div>
         </div>
-      </header>
+      </aside>
       
       <main>
         <section class="components-grid" id="componentsGrid">
-          <!-- Components will be injected here via platform.js -->
+          <!-- Components injected here -->
         </section>
       </main>
+
     </div>
     
-    <script type="module" src="/src/platform.js"></script>
+    <!-- SVG Filters for Squigglevision (Wiggly Sketch Effect) -->
+    <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
+      <defs>
+        <filter id="squiggle-0">
+          <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" result="noise" seed="0"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <filter id="squiggle-1">
+          <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" result="noise" seed="1"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <filter id="squiggle-2">
+          <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" result="noise" seed="2"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+      </defs>
+    </svg>
+    
+    <script type="module" src="./src/js/main.js"></script>
   </body>
 </html>
