@@ -12,18 +12,22 @@
       <header>
         <h1>Creative UI Components</h1>
         <p>A new Vanilla JS component every Wednesday.</p>
+        
+        <div class="filter-container">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="button">Buttons</button>
+          <button class="filter-btn" data-filter="scroll">Scroll</button>
+          <button class="filter-btn" data-filter="text">Text Effects</button>
+        </div>
       </header>
       
       <main>
-        <section class="components-grid">
-          <a href="/components/magnetic-button/" class="component-card">
-            <h2>Magnetic Button</h2>
-            <p>GSAP powered magnetic hover effect</p>
-          </a>
-          <!-- Future components will go here -->
+        <section class="components-grid" id="componentsGrid">
+          <!-- Components will be injected here via platform.js -->
         </section>
       </main>
     </div>
-    <script type="module" src="/src/main.js"></script>
+    
+    <script type="module" src="/src/platform.js"></script>
   </body>
 </html>

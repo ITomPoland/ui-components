@@ -3,31 +3,193 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Magnetic Button | UI Components</title>
-  <link rel="stylesheet" href="./style.css" />
+  <title>Magnetic Button | Component Viewer</title>
+  <link rel="stylesheet" href="../../src/style.css" />
+  <!-- PrismJS for Syntax Highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
   <style>
-    /* Demo specific styles to center the component for preview */
-    body { 
-      display: flex; 
-      justify-content: center; 
-      align-items: center; 
-      min-height: 100vh; 
-      background: #0f0f0f; 
-      margin: 0; 
-      font-family: 'Inter', sans-serif; 
+    /* Component Viewer Layout */
+    .viewer-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      height: calc(100vh - 8rem);
+    }
+    
+    .preview-section {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    
+    .preview-header {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .preview-iframe {
+      flex: 1;
+      width: 100%;
+      border: none;
+    }
+
+    .code-section {
+      background: #1d1f21;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .code-tabs {
+      display: flex;
+      background: #111;
+      border-bottom: 1px solid #333;
+    }
+
+    .code-tab {
+      padding: 1rem 2rem;
+      color: #888;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      user-select: none;
+    }
+
+    .code-tab.active {
+      color: #fff;
+      border-bottom-color: var(--accent);
+      background: #1d1f21;
+    }
+
+    .code-content {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      margin: 0;
+    }
+
+    .copy-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+
+    .copy-btn:hover {
+      opacity: 0.9;
+    }
+
+    .back-btn {
+      color: #888;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      transition: color 0.2s;
+    }
+    
+    .back-btn:hover { color: #fff; }
+
+    @media (max-width: 900px) {
+      .viewer-layout { grid-template-columns: 1fr; height: auto; }
+      .preview-iframe { min-height: 400px; }
     }
   </style>
 </head>
 <body>
+  <div id="app">
+    <a href="/" class="back-btn">← Back to Platform</a>
+    
+    <div class="viewer-layout">
+      <!-- Live Preview -->
+      <div class="preview-section">
+        <div class="preview-header">
+          <h2 style="margin:0; font-size: 1.2rem;">Live Preview</h2>
+        </div>
+        <iframe class="preview-iframe" src="./preview.html"></iframe>
+      </div>
 
-  <!-- ========================================== -->
-  <!-- ✂️ COPY FROM HERE (COMPONENT MARKUP)       -->
-  <!-- ========================================== -->
-  <button class="t-magnetic-btn">
-    <span class="t-text">Hover Me</span>
-  </button>
-  <!-- ========================================== -->
+      <!-- Code Viewer -->
+      <div class="code-section">
+        <div class="code-tabs">
+          <div class="code-tab active" data-target="html">HTML</div>
+          <div class="code-tab" data-target="css">CSS</div>
+          <div class="code-tab" data-target="js">JS</div>
+          <div style="flex:1"></div>
+          <button class="copy-btn" id="copyBtn">Copy Code</button>
+        </div>
+        <pre class="code-content"><code id="codeBlock" class="language-html">Loading...</code></pre>
+      </div>
+    </div>
+  </div>
 
-  <script type="module" src="./main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script type="module">
+    // Simplified Code Viewer Logic
+    const files = {
+      html: { path: './preview.html', lang: 'language-html', content: '' },
+      css: { path: './style.css', lang: 'language-css', content: '' },
+      js: { path: './main.js', lang: 'language-javascript', content: '' }
+    };
+
+    let activeTab = 'html';
+    const codeBlock = document.getElementById('codeBlock');
+    const copyBtn = document.getElementById('copyBtn');
+
+    // Fetch raw contents
+    async function loadFiles() {
+      for (const key of Object.keys(files)) {
+        const res = await fetch(files[key].path);
+        let text = await res.text();
+        
+        // Clean up HTML wrapper for display (extract body content)
+        if (key === 'html') {
+          const bodyMatch = text.match(/<body>([\s\S]*?)<script/);
+          if (bodyMatch) text = bodyMatch[1].trim();
+        }
+        
+        files[key].content = text;
+      }
+      renderCode();
+    }
+
+    function renderCode() {
+      codeBlock.className = files[activeTab].lang;
+      codeBlock.textContent = files[activeTab].content;
+      Prism.highlightElement(codeBlock);
+    }
+
+    // Tabs
+    document.querySelectorAll('.code-tab').forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        document.querySelector('.code-tab.active').classList.remove('active');
+        e.target.classList.add('active');
+        activeTab = e.target.dataset.target;
+        renderCode();
+      });
+    });
+
+    // Copy Code
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(files[activeTab].content);
+      const originalText = copyBtn.textContent;
+      copyBtn.textContent = 'Copied! ✨';
+      setTimeout(() => copyBtn.textContent = originalText, 2000);
+    });
+
+    loadFiles();
+  </script>
 </body>
 </html>
