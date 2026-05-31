@@ -7,7 +7,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        magneticButton: resolve(__dirname, 'components/magnetic-button/index.html')
+        magneticButton: resolve(__dirname, 'components/magnetic-button/index.html'),
+        magneticButtonPreview: resolve(__dirname, 'components/magnetic-button/preview.html')
         // Add future components here for production builds
       }
     }

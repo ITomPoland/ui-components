@@ -136,60 +136,6 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-  <script type="module">
-    // Simplified Code Viewer Logic
-    const files = {
-      html: { path: './preview.html', lang: 'language-html', content: '' },
-      css: { path: './style.css', lang: 'language-css', content: '' },
-      js: { path: './main.js', lang: 'language-javascript', content: '' }
-    };
-
-    let activeTab = 'html';
-    const codeBlock = document.getElementById('codeBlock');
-    const copyBtn = document.getElementById('copyBtn');
-
-    // Fetch raw contents
-    async function loadFiles() {
-      for (const key of Object.keys(files)) {
-        const res = await fetch(files[key].path);
-        let text = await res.text();
-        
-        // Clean up HTML wrapper for display (extract body content)
-        if (key === 'html') {
-          const bodyMatch = text.match(/<body>([\s\S]*?)<script/);
-          if (bodyMatch) text = bodyMatch[1].trim();
-        }
-        
-        files[key].content = text;
-      }
-      renderCode();
-    }
-
-    function renderCode() {
-      codeBlock.className = files[activeTab].lang;
-      codeBlock.textContent = files[activeTab].content;
-      Prism.highlightElement(codeBlock);
-    }
-
-    // Tabs
-    document.querySelectorAll('.code-tab').forEach(tab => {
-      tab.addEventListener('click', (e) => {
-        document.querySelector('.code-tab.active').classList.remove('active');
-        e.target.classList.add('active');
-        activeTab = e.target.dataset.target;
-        renderCode();
-      });
-    });
-
-    // Copy Code
-    copyBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(files[activeTab].content);
-      const originalText = copyBtn.textContent;
-      copyBtn.textContent = 'Copied! ✨';
-      setTimeout(() => copyBtn.textContent = originalText, 2000);
-    });
-
-    loadFiles();
-  </script>
+  <script type="module" src="./viewer.js"></script>
 </body>
 </html>
