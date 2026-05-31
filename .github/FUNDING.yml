@@ -1,9 +1,11 @@
+# Główne źródło finansowania (bez prowizji GitHuba!)
 github: ITomPoland
-# Możesz odkomentować poniższe opcje, jeśli założysz tam konta:
+
+# [Na Przyszłość] Jeśli załozysz Ko-Fi albo Buy Me a Coffee:
 # ko_fi: ITomPoland
 # buy_me_a_coffee: ITomPoland
-# patreon: ITomPoland
 
+# Customowe linki
 custom: 
   - https://github.com/sponsors/ITomPoland
-  # - https://www.awwwards.com/ITomPoland # Super opcja na przyszłość, żeby pokazać swój profil Awwwards!
+  # - https://www.awwwards.com/ITomPoland # Mega patent: gdy będziesz miał profil na Awwwards, wrzuć go tu!
