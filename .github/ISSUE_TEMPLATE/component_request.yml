@@ -1,0 +1,33 @@
+name: Component Request
+description: Request a new Vanilla JS component for an upcoming Wednesday
+title: "[REQUEST]: "
+labels: ["enhancement", "component-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to request a new UI component! Make sure it fits the "Awwwards/Creative Developer" vibe.
+  - type: input
+    id: component-name
+    attributes:
+      label: Component Name
+      description: What is the name of the component? (e.g., Smooth Scroll Image Gallery)
+      placeholder: ex. Kinetic Typography Header
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description & Behavior
+      description: Describe how the component should look and animate.
+      placeholder: Tell me about the hover effects, scroll triggers, etc.
+    validations:
+      required: true
+  - type: input
+    id: inspiration
+    attributes:
+      label: Inspiration URL
+      description: Drop a link to an Awwwards site or Dribbble shot that inspired this.
+      placeholder: https://www.awwwards.com/...
+    validations:
+      required: false

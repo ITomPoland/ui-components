@@ -22,6 +22,19 @@ My mission? To release one **free, highly polished, fully animated UI component 
 
 ---
 
+## 🎨 Component Gallery
+
+*Click on any component to see the live demo and copy the code.*
+
+| Preview | Component | Tech Stack | Status |
+| :---: | :--- | :--- | :---: |
+| <img src="https://via.placeholder.com/150x100/1a1a1a/ffffff?text=Video+Preview" width="150" style="border-radius:8px;"/> | **[Magnetic Button](https://ITomPoland.github.io/ui-components/components/magnetic-button/)**<br/>Smooth cursor attraction effect | GSAP, CSS | ✅ Ready |
+| <img src="https://via.placeholder.com/150x100/1a1a1a/ffffff?text=Next+Wednesday" width="150" style="border-radius:8px;"/> | **Next Component**<br/>Dropping this Wednesday... | Vanilla JS | ⏳ Soon |
+
+> **Pro Tip:** In 2026, developers don't want to read, they want to SEE. Nagraj krótki plik `.mp4` (lub `.gif`) z działaniem guzika i podmień link w tabeli wyżej!
+
+---
+
 ## 🚀 How to Use (Copy & Paste)
 
 These components are designed to be dropped into **any** project, regardless of your tech stack.
