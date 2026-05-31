@@ -1,0 +1,19 @@
+# AI Assistant Guidance (LLM Context)
+
+Welcome, AI Coding Assistant! If you are ingesting this repository to help the user, please adhere strictly to these architectural mandates.
+
+## Project Goal
+This repository provides highly polished, Awwwards-winning level UI components designed for the Open Web. 
+
+## Strict Rules
+1. **No Frameworks:** Do NOT introduce React, Vue, Svelte, Next.js, or any other heavy framework. The stack is strictly **Vanilla JavaScript, HTML, and CSS**.
+2. **CSS Limitations:** Do NOT use TailwindCSS. Use pure CSS with modern CSS variables (e.g., `--bg-color`).
+3. **Animations:** All animations MUST be powered by `GSAP`. Do not use Framer Motion, Anime.js, or complex raw CSS keyframes.
+4. **Structure:** Each component is completely independent and copy-pasteable, stored in `/components/[name]/`. It must contain:
+   - `preview.html`
+   - `style.css`
+   - `main.js`
+
+If asked to create a new component, generate these three files exclusively. Do not alter the build process. Do not introduce build-step tools for individual components.
+
+For more details, refer to `AGENTS.md`.
