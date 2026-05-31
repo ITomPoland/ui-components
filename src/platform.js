@@ -4,7 +4,7 @@ const components = [
     name: 'Magnetic Button',
     description: 'GSAP powered magnetic hover effect',
     tags: ['button'],
-    path: '/components/magnetic-button/'
+    path: './components/magnetic-button/'
   },
   // Add future components here
 ];
