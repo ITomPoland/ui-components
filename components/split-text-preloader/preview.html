@@ -51,8 +51,8 @@
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="src/preloader.js"></script>
-  <script src="src/hero.js"></script>
+  <script type="module" src="./src/preloader.js"></script>
+  <script type="module" src="./src/hero.js"></script>
   <script>
     window.addEventListener('message', (e) => {
       if (e.data && e.data.type === 'update-config') {
