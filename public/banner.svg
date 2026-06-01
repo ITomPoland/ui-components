@@ -5,6 +5,9 @@
       <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise" />
       <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" result="displaced" />
     </filter>
+    <filter id="drop-shadow" x="-5%" y="-5%" width="120%" height="120%">
+      <feDropShadow dx="3" dy="5" stdDeviation="4" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&amp;display=swap');
       .title { font-family: 'Caveat', cursive, sans-serif; font-size: 72px; fill: #111111; font-weight: bold; }
@@ -15,8 +18,11 @@
     </style>
   </defs>
 
-  <!-- Background Paper -->
-  <rect width="100%" height="100%" fill="#fafaf9" />
+  <!-- Transparent Background (For Dark Mode Compatibility) -->
+  <rect width="100%" height="100%" fill="transparent" />
+
+  <!-- Paper Card Background with shadow -->
+  <rect x="20" y="15" width="760" height="220" fill="#fafaf9" rx="15" filter="url(#drop-shadow)" />
 
   <!-- Sketchy Box behind Text -->
   <rect x="50" y="40" width="700" height="150" class="sketch-fill" rx="15" />

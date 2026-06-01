@@ -12,11 +12,19 @@
   [![Live Notebook](https://img.shields.io/badge/📖_Open_Sketchbook-View_Live-black?style=for-the-badge&logoColor=white)](https://ITomPoland.github.io/ui-components/)
   [![Vanilla JS](https://img.shields.io/badge/JavaScript-Vanilla-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://ITomPoland.github.io/ui-components/)
   [![GSAP](https://img.shields.io/badge/GSAP-Animation-88CE02?style=for-the-badge&logo=greensock&logoColor=white)](https://greensock.com/)
-  <br/>
-  [![Sponsor ITomPoland](https://img.shields.io/badge/Sponsor_Me-💖-ea4aaa?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/ITomPoland)
 
+</div>
+
+<div align="center">
+  <br />
+  <a href="https://github.com/sponsors/ITomPoland">
+    <img src="https://img.shields.io/badge/💖_Sponsor_This_Project-ea4aaa?style=for-the-badge&logo=githubsponsors&logoColor=white&scale=1.5" width="300" alt="Sponsor" />
+  </a>
+  <br />
   <br />
 </div>
+
+---
 
 ## 📓 What is the Sketchbook?
 
