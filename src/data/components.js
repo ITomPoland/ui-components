@@ -1,3 +1,5 @@
+import magneticButtonDemo from '../../components/magnetic-button/demo.mp4';
+
 export const components = [
   {
     id: 'magnetic-button',
@@ -5,6 +7,6 @@ export const components = [
     description: 'GSAP powered magnetic hover effect. Pure physics.',
     tags: ['button'],
     path: './components/magnetic-button/',
-    demo: './components/magnetic-button/demo.mp4'
+    demo: magneticButtonDemo
   }
 ];

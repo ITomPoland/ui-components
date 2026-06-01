@@ -11,75 +11,112 @@
   <body>
     <canvas id="doodleCanvas"></canvas>
     
-    <div id="app" class="home-layout">
+    <div id="app" class="book-scene">
       
-      <aside class="sidebar">
-        <!-- Notebook Margin Line -->
-        <div class="notebook-margin-line"></div>
+      <div class="book">
         
-        <div class="sidebar-content">
-          <div class="avatar-container">
-            <img src="./avatar.jpg" alt="ITom Avatar" style="width: 100%; height: 100%; object-fit: cover;" />
-          </div>
-
-          <h1 class="brand-title">ITOM UI</h1>
-          <p class="brand-subtitle">&lt;component library /&gt;</p>
-          
-          <!-- Sticky Search Note -->
-          <div class="search-sticky-note">
-            <input type="text" id="searchInput" placeholder="Search..." autocomplete="off" />
-          </div>
-          
-          <div class="filter-container">
-            <button class="filter-btn active" data-filter="all">All Sketches</button>
-            <button class="filter-btn" data-filter="button">Buttons</button>
-            <button class="filter-btn" data-filter="scroll">Scroll FX</button>
-            <button class="filter-btn" data-filter="text">Kinetic Text</button>
-          </div>
-
-          <a href="https://github.com/sponsors/ITomPoland" target="_blank" rel="noopener noreferrer" class="sponsor-btn">
-            Sponsor 💖
-          </a>
-
-          <!-- Interactive Toolbelt (Pencil Case) -->
-          <div class="pencil-case">
-            <h4 class="pencil-case-title">Pencil Case</h4>
-            <div class="sidebar-toolbelt">
-              <button id="btnDraw" class="tool-btn" title="Doodle Mode (Draw)">✏️</button>
-              <button id="btnClear" class="tool-btn" title="Clear Doodle Board">🧹</button>
-              <button id="btnMute" class="tool-btn muted" title="Pencil Audio Feedback">🔇</button>
-            </div>
-          </div>
-
-          <!-- Paper Swatches -->
-          <div class="paper-swatches">
-            <button class="swatch-btn active" data-paper="ruled" title="Lined Paper">Ruled</button>
-            <button class="swatch-btn" data-paper="graph" title="Grid Paper">Graph</button>
-            <button class="swatch-btn" data-paper="blank" title="Blank Paper">Blank</button>
-          </div>
-
-          <!-- Sketches Roadmap -->
-          <div class="roadmap-container">
-            <h3>Sketches To-Do</h3>
-            <ul class="roadmap-list">
-              <li class="done">Magnetic Button</li>
-              <li>Kinetic Text Wave</li>
-              <li>Canvas Particle Hover</li>
-              <li>Custom Cursor Trail</li>
-            </ul>
-            <a href="https://github.com/ITomPoland/ui-components/issues/new?title=Sketch+Suggestion:+[Name]" target="_blank" rel="noopener noreferrer" class="suggest-btn">
-              Suggest a Sketch 💡
-            </a>
+        <!-- Book Cover -->
+        <div class="cover">
+          <div class="cover-content">
+            <h1 class="cover-title">ITom UI</h1>
+            <p class="cover-subtitle">Sketchbook Vol. 1</p>
+            <div class="cover-instruction">Click to Open</div>
           </div>
         </div>
-      </aside>
-      
-      <main>
-        <section class="components-grid" id="componentsGrid">
-          <!-- Components injected here -->
-        </section>
-      </main>
 
+        <!-- Back to Grid Bookmark (Hidden initially) -->
+        <div class="bookmarks-container" id="componentBookmarks" style="display: none; left: 10%;">
+          <button class="bookmark active" id="btnBackToGrid">← Back to Notebook</button>
+        </div>
+
+        <!-- Bookmarks (Top Tabs) -->
+        <div class="bookmarks-container" id="gridBookmarks">
+          <button class="bookmark active" data-filter="all">All</button>
+          <button class="bookmark" data-filter="button">Buttons</button>
+          <button class="bookmark" data-filter="scroll">Scroll FX</button>
+          <button class="bookmark" data-filter="text">Text</button>
+        </div>
+
+        <!-- Left Base Page (Profile / Tools / Brudnopis) -->
+        <div class="page base-left-page">
+          <div class="notebook-margin-line"></div>
+          
+          <div class="page-content">
+            <div class="avatar-container">
+              <img src="./avatar.jpg" alt="ITom Avatar" style="width: 100%; height: 100%; object-fit: cover;" />
+            </div>
+
+            <h2 class="brand-title">ITOM UI</h2>
+            <p class="brand-subtitle">&lt;component library /&gt;</p>
+            
+            <div class="search-sticky-note">
+              <input type="text" id="searchInput" placeholder="Search..." autocomplete="off" />
+            </div>
+            
+            <a href="https://github.com/sponsors/ITomPoland" target="_blank" rel="noopener noreferrer" class="sponsor-btn">
+              Sponsor 💖
+            </a>
+
+            <div class="pencil-case">
+              <h4 class="pencil-case-title">Pencil Case</h4>
+              <div class="sidebar-toolbelt">
+                <button id="btnDraw" class="tool-btn" title="Doodle Mode (Draw)">✏️</button>
+                <button id="btnClear" class="tool-btn" title="Clear Doodle Board">🧹</button>
+                <button id="btnMute" class="tool-btn muted" title="Pencil Audio Feedback">🔇</button>
+              </div>
+            </div>
+
+            <div class="paper-swatches">
+              <button class="swatch-btn active" data-paper="ruled" title="Lined Paper">Ruled</button>
+              <button class="swatch-btn" data-paper="graph" title="Grid Paper">Graph</button>
+              <button class="swatch-btn" data-paper="blank" title="Blank Paper">Blank</button>
+            </div>
+
+            <div class="roadmap-container">
+              <h3>Sketches To-Do</h3>
+              <ul class="roadmap-list">
+                <li class="done">Magnetic Button</li>
+                <li>Kinetic Text Wave</li>
+                <li>Canvas Particle Hover</li>
+                <li>Custom Cursor Trail</li>
+              </ul>
+              <a href="https://github.com/ITomPoland/ui-components/issues/new?title=Sketch+Suggestion:+[Name]" target="_blank" rel="noopener noreferrer" class="suggest-btn">
+                Suggest a Sketch 💡
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right Base Page (Component Code Viewer) -->
+        <div class="page base-right-page">
+          <div class="notebook-margin-line"></div>
+          <div class="page-content" id="componentCodeContainer">
+            <!-- Code section injected here -->
+          </div>
+        </div>
+
+        <!-- Flipping Page (Front: Grid, Back: Demo) -->
+        <div class="page flip-page">
+          <!-- Front Face (Grid) -->
+          <div class="page-face front">
+            <div class="notebook-margin-line"></div>
+            <div class="page-content">
+              <section class="components-grid" id="componentsGrid">
+                <!-- Components injected here -->
+              </section>
+            </div>
+          </div>
+          
+          <!-- Back Face (Demo) -->
+          <div class="page-face back">
+            <div class="notebook-margin-line"></div>
+            <div class="page-content" id="componentDemoContainer">
+              <!-- Demo section injected here -->
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
     
     <!-- SVG Filters for Squigglevision (Wiggly Sketch Effect) -->

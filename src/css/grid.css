@@ -1,0 +1,90 @@
+/* Components Grid on right page */
+.components-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.component-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--card-bg);
+  text-decoration: none;
+  color: inherit;
+  border: var(--stroke-width) solid var(--text-ink);
+  border-radius: 2px 255px 3px 225px / 255px 5px 225px 3px;
+  box-shadow: 6px 8px 0px rgba(0,0,0,0.85);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  overflow: hidden;
+  position: relative;
+}
+.component-card::after {
+  content: '';
+  position: absolute;
+  top: 6px; left: 50%;
+  transform: translateX(-50%) rotate(-4deg);
+  width: 5.625rem; height: 1.75rem;
+  background-color: rgba(255, 255, 240, 0.7);
+  border: 1px solid rgba(17, 17, 17, 0.2);
+  border-left: 1px dashed rgba(17, 17, 17, 0.4);
+  border-right: 1px dashed rgba(17, 17, 17, 0.4);
+  box-shadow: 1px 2px 3px rgba(0,0,0,0.1);
+  z-index: 10;
+  pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.4s ease;
+  backdrop-filter: blur(2px);
+}
+.component-card:hover {
+  transform: rotate(-1.5deg) scale(1.02);
+  box-shadow: 8px 10px 0px rgba(0,0,0,0.85);
+}
+.component-card:hover::after {
+  transform: translateX(-50%) rotate(-1deg) scale(1.05);
+  background-color: rgba(255, 255, 240, 0.85);
+}
+
+.card-preview {
+  height: 15.625rem;
+  background-color: #fafaf6;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  border-bottom: var(--stroke-width) solid var(--text-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.card-preview iframe, .card-preview video, .card-preview img {
+  width: 100%;
+  height: 100%;
+  border: none;
+  pointer-events: none;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  object-fit: cover;
+}
+.component-card:hover .card-preview iframe,
+.component-card:hover .card-preview video,
+.component-card:hover .card-preview img {
+  transform: scale(1.04);
+}
+
+.card-info {
+  padding: 1.5rem;
+  background: white;
+  background-image: linear-gradient(transparent 90%, rgba(0,0,0,0.1) 90%);
+  background-size: 100% 20px;
+}
+.card-info h2 {
+  font-family: var(--font-sketch);
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+}
+.card-info p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-light-ink);
+  line-height: 1.5;
+}

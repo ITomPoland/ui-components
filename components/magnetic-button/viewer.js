@@ -2,14 +2,16 @@ import { gsap } from 'gsap';
 import htmlCode from './preview.html?raw';
 import cssCode from './style.css?raw';
 import jsCode from './main.js?raw';
-const files = {
-  html: { lang: 'language-html', content: htmlCode },
-  css: { lang: 'language-css', content: cssCode },
-  js: { lang: 'language-javascript', content: jsCode }
-};
-let activeTab = 'html';
-const codeBlock = document.getElementById('codeBlock');
-const copyBtn = document.getElementById('copyBtn');
+
+export function init() {
+  const files = {
+    html: { lang: 'language-html', content: htmlCode },
+    css: { lang: 'language-css', content: cssCode },
+    js: { lang: 'language-javascript', content: jsCode }
+  };
+  let activeTab = 'html';
+  const codeBlock = document.getElementById('codeBlock');
+  const copyBtn = document.getElementById('copyBtn');
 function getModifiedCode(tab) {
   let content = files[tab].content;
   const magnetVal = parseFloat(slideMagnet.value);
@@ -121,33 +123,44 @@ iframe.addEventListener('load', () => {
   updateConfig();
 });
 renderCode();
-gsap.from('.preview-section', {
-  opacity: 0,
-  x: -150,
-  y: -80,
-  rotation: -15,
-  scale: 0.85,
-  duration: 1.4,
-  ease: "expo.out",
-  delay: 0.1,
-  clearProps: "all"
-});
-gsap.from('.code-section', {
-  opacity: 0,
-  x: 150,
-  y: 80,
-  rotation: 15,
-  scale: 0.85,
-  duration: 1.4,
-  ease: "expo.out",
-  delay: 0.3,
-  clearProps: "all"
-});
-gsap.from('.back-btn', {
-  opacity: 0,
-  x: -30,
-  rotation: -10,
-  duration: 1.0,
-  ease: "back.out(1.5)",
-  delay: 0.6
-});
+  const inBook = !!document.querySelector('.book');
+  
+  if (!inBook) {
+    gsap.from('.preview-section', {
+      opacity: 0,
+      x: -150,
+      y: -80,
+      rotation: -15,
+      scale: 0.85,
+      duration: 1.4,
+      ease: "expo.out",
+      delay: 0.1,
+      clearProps: "all"
+    });
+    gsap.from('.code-section', {
+      opacity: 0,
+      x: 150,
+      y: 80,
+      rotation: 15,
+      scale: 0.85,
+      duration: 1.4,
+      ease: "expo.out",
+      delay: 0.3,
+      clearProps: "all"
+    });
+    
+    if(document.querySelector('.back-btn')) {
+      gsap.from('.back-btn', {
+        opacity: 0,
+        x: -30,
+        rotation: -10,
+        duration: 1.0,
+        ease: "back.out(1.5)",
+        delay: 0.6
+      });
+    }
+  }
+}
+
+// Auto-run for standalone viewer page
+init();

@@ -1,0 +1,236 @@
+/* 3D Book Scene */
+.book-scene {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+  perspective: 2500px;
+  background: var(--bg-color);
+  overflow: hidden;
+}
+
+.book {
+  position: relative;
+  width: 84.375rem;
+  height: 51.25rem;
+  transform-style: preserve-3d;
+  transform: translateX(-25%); 
+  will-change: transform;
+}
+
+/* Base style for all pages and cover */
+.cover, .page {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  transform-style: preserve-3d;
+  background: #fdfdfc;
+  border: var(--stroke-width) solid var(--text-ink);
+  box-sizing: border-box;
+  will-change: transform;
+}
+
+/* Cover specific */
+.cover {
+  left: 50%;
+  z-index: 10;
+  transform-origin: left center;
+  background: #2a2a2a;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.25'/%3E%3C/svg%3E");
+  color: #fff;
+  border-radius: 4px 15px 15px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: inset -5px 0 20px rgba(0,0,0,0.5), 15px 20px 0px rgba(0,0,0,0.85);
+  backface-visibility: hidden;
+}
+
+.cover-content {
+  text-align: center;
+  border: 4px solid #fff;
+  padding: 4rem;
+  border-radius: 2px 255px 3px 225px / 255px 5px 225px 3px;
+  transform: rotate(-2deg);
+  background: rgba(0,0,0,0.2);
+}
+
+.cover-title {
+  font-family: var(--font-sketch);
+  font-size: 5rem;
+  margin: 0;
+  letter-spacing: 3px;
+}
+
+.cover-subtitle {
+  font-family: var(--font-body);
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+.cover-instruction {
+  margin-top: 4rem;
+  font-family: var(--font-sketch);
+  font-size: 1.2rem;
+  animation: squiggle 0.25s infinite linear;
+}
+
+/* Base Pages */
+.base-left-page {
+  z-index: 2;
+  left: 0;
+  border-radius: 15px 4px 4px 15px;
+  transform-origin: right center;
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  box-shadow: inset -10px 0 20px rgba(0,0,0,0.05), 0 15px 0px rgba(0,0,0,0.85);
+}
+
+.base-right-page {
+  z-index: 1;
+  left: 50%;
+  border-radius: 4px 15px 15px 4px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  box-shadow: inset 10px 0 20px rgba(0,0,0,0.05), 15px 15px 0px rgba(0,0,0,0.85);
+}
+
+/* Flipping Page */
+.flip-page {
+  z-index: 3;
+  left: 50%;
+  transform-origin: left center;
+  transform: rotateY(0deg);
+  border-radius: 4px 15px 15px 4px;
+  transform-style: preserve-3d;
+}
+
+/* The faces of the flipping page */
+.page-face {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  backface-visibility: hidden;
+  border-radius: inherit;
+  background: #fdfdfc;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.page-face.front {
+  transform: rotateY(0deg);
+  box-shadow: inset 10px 0 20px rgba(0,0,0,0.05), 15px 15px 0px rgba(0,0,0,0.85);
+}
+
+.page-face.back {
+  transform: rotateY(180deg);
+  border-radius: 15px 4px 4px 15px;
+  box-shadow: inset -10px 0 20px rgba(0,0,0,0.05), 0 15px 0px rgba(0,0,0,0.85);
+}
+
+/* Center Binding / Spine shadow */
+.book::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3.75rem;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(0,0,0,0.15) 20%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0.15) 80%, transparent);
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Page content layout */
+.page-content {
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  scrollbar-color: rgba(17, 17, 17, 0.4) transparent;
+  scrollbar-width: thin;
+}
+
+/* Custom scrollbar */
+.page-content::-webkit-scrollbar {
+  width: 8px;
+}
+.page-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.page-content::-webkit-scrollbar-thumb {
+  background: rgba(17, 17, 17, 0.3);
+  border-radius: 4px;
+}
+.page-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(17, 17, 17, 0.6);
+}
+
+/* Base Left Page Layout (2 columns) */
+.base-left-page .page-content {
+  display: grid;
+  grid-template-columns: 15rem 1fr;
+  column-gap: 3rem;
+  grid-auto-rows: max-content;
+}
+.base-left-page .page-content > *:not(.roadmap-container) {
+  grid-column: 1;
+}
+
+.base-left-page .page-content,
+.flip-page .back .page-content {
+  padding: 3rem 2.5rem 3rem 5.5rem; 
+}
+
+/* Right Pages padding */
+.base-right-page .page-content,
+.flip-page .front .page-content {
+  padding: 3rem 5.5rem 3rem 2.5rem; 
+}
+.page-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* Margin line base */
+.notebook-margin-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: rgba(220, 80, 80, 0.4);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Left Pages Margin */
+.base-left-page .notebook-margin-line,
+.flip-page .back .notebook-margin-line {
+  left: 4rem;
+  right: auto;
+}
+
+/* Right Pages Margin */
+.base-right-page .notebook-margin-line,
+.flip-page .front .notebook-margin-line {
+  right: 4rem;
+  left: auto;
+}
+
+/* Animations */
+@keyframes squiggle {
+  0% { filter: url('#squiggle-0'); }
+  33% { filter: url('#squiggle-1'); }
+  66% { filter: url('#squiggle-2'); }
+}

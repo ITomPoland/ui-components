@@ -1,0 +1,55 @@
+/* ---------------------------------------------------
+   Overrides for injected Component Viewer (viewer.css) 
+   so it looks like text on a page, not crooked cards!
+   --------------------------------------------------- */
+.book .preview-section,
+.book .code-section {
+  flex: none;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  width: 100%;
+  height: auto !important;
+  min-height: 100%;
+  overflow: visible !important;
+}
+
+.book .preview-header {
+  background: transparent !important;
+  border-bottom: 2px dashed rgba(17,17,17,0.3) !important;
+  padding: 0 0 1rem 0 !important;
+  margin-bottom: 1rem;
+}
+
+.book .code-tabs {
+  background: transparent !important;
+  border-bottom: 2px dashed rgba(17,17,17,0.3) !important;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.book .code-tab.active {
+  background: transparent !important;
+}
+
+.book .code-content {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.book .preview-controls {
+  border-top: 2px dashed rgba(17,17,17,0.3) !important;
+  background: transparent !important;
+  padding: 1.5rem 0 !important;
+}
+
+.book .preview-iframe {
+  background: transparent !important;
+  height: 25rem !important;
+  flex: none !important;
+}

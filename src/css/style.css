@@ -1,3 +1,7 @@
 @import './base.css';
-@import './home.css';
+@import './book.css';
+@import './sidebar.css';
+@import './grid.css';
+@import './viewer-overrides.css';
+@import './doodle.css';
 @import './viewer.css';
