@@ -1,3 +1,13 @@
+/* Page Titles */
+.page-title {
+  font-family: var(--font-sketch);
+  font-size: 3rem;
+  margin: 0 0 2rem 0;
+  text-align: center;
+  letter-spacing: 2px;
+  color: var(--text-ink);
+}
+
 /* Components Grid on right page */
 .components-grid {
   display: flex;

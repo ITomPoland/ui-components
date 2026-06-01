@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Split Text Preloader Preview</title>
+  <style>
+    body, html {
+      margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: #111111; /* For the page underneath */
+    }
+  </style>
+  <link rel="stylesheet" href="src/preloader.css">
+  <link rel="stylesheet" href="src/hero.css">
+</head>
+<body class="overflow-hidden">
+  
+  <!-- Preloader Component -->
+  <section class="split-hero-container">
+    <div class="montage-wrapper">
+      <div class="montage-container">
+        <img class="montage-img montage-img-0" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop" alt="Abstract 1">
+        <img class="montage-img montage-img-1" src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000&auto=format&fit=crop" alt="Abstract 2">
+        <img class="montage-img montage-img-2" src="https://images.unsplash.com/photo-1550684376-efcbd6e3f031?q=80&w=1000&auto=format&fit=crop" alt="Abstract 3">
+        <img class="montage-img montage-img-3" src="https://images.unsplash.com/photo-1604871000636-074fa5117945?q=80&w=1000&auto=format&fit=crop" alt="Abstract 4">
+        <img class="montage-img montage-img-4" src="https://images.unsplash.com/photo-1555448248-2571daf6344b?q=80&w=1000&auto=format&fit=crop" alt="Abstract 5">
+        <img class="montage-img montage-img-5" src="https://images.unsplash.com/photo-1574169208507-84376144848b?q=80&w=1000&auto=format&fit=crop" alt="Abstract 6">
+        <img class="montage-img montage-img-6" src="https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=1000&auto=format&fit=crop" alt="Abstract 7">
+        <img class="montage-img montage-img-7" src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=1000&auto=format&fit=crop" alt="Abstract 8">
+        <img class="montage-img montage-img-8" src="https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?q=80&w=1000&auto=format&fit=crop" alt="Abstract 9">
+        <img class="montage-img montage-img-9" src="https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?q=80&w=1000&auto=format&fit=crop" alt="Abstract 10">
+        <div class="montage-overlay"></div>
+      </div>
+    </div>
+
+    <div class="preloader-text-wrapper">
+      <div class="text-container">
+        <h1 class="split-word-full text-ITOM">ITOM</h1>
+        <h1 class="split-word-top text-ITOM">ITOM</h1>
+        <h1 class="split-word-bottom text-ITOM">ITOM</h1>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main>
+    <div class="hero-content">
+      <h1 class="hero-title">HERO</h1>
+    </div>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="src/preloader.js"></script>
+  <script src="src/hero.js"></script>
+  <script>
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.type === 'update-config') {
+        const config = e.data.config;
+        
+        // Update Preloader Text (content only)
+        const length = config.preloaderText.length;
+        let fontSize = 20;
+        if (length > 4) {
+          fontSize = Math.round((Math.max(5, 80 / length)) * 10) / 10;
+        }
+        
+        const fullWord = document.querySelector('.split-word-full');
+        const topWord = document.querySelector('.split-word-top');
+        const bottomWord = document.querySelector('.split-word-bottom');
+        
+        fullWord.textContent = config.preloaderText;
+        topWord.textContent = config.preloaderText;
+        bottomWord.textContent = config.preloaderText;
+        
+        // Update Hero Text
+        document.querySelector('.hero-title').textContent = config.heroText;
+        
+        // Update CSS Variables
+        document.documentElement.style.setProperty('--preloader-bg', config.bgColor);
+
+        // Kill all tweens and reset inline styles before restarting
+        gsap.killTweensOf('*');
+        gsap.set('.split-word-full, .split-word-top, .split-word-bottom, .montage-img, .montage-container, .split-hero-container, .hero-title', { clearProps: 'all' });
+        
+        // Re-apply inline styles that GSAP just cleared
+        fullWord.style.fontSize = `${fontSize}vw`;
+        topWord.style.fontSize = `${fontSize}vw`;
+        bottomWord.style.fontSize = `${fontSize}vw`;
+        
+        // Force the container to reset
+        document.querySelector('.split-hero-container').style.backgroundColor = 'var(--preloader-bg)';
+        document.querySelector('.split-hero-container').style.zIndex = '9999';
+
+        // Update Image Count (MUST be after clearProps, otherwise GSAP removes the display:none style)
+        const images = document.querySelectorAll('.montage-img');
+        images.forEach((img, idx) => {
+          img.style.display = idx < config.imagesCount ? 'block' : 'none';
+        });
+
+        sessionStorage.removeItem('splitHeroPreloaderHasRun');
+        if (window.runPreloaderAnimation) {
+          window.runPreloaderAnimation().then(() => {
+            document.dispatchEvent(new Event('preloaderComplete'));
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -2,8 +2,6 @@ import { gsap } from 'gsap';
 import { playPencilScratch } from './audio.js';
 
 let bookOpened = false;
-
-// HTML Cache for fast flipping
 const componentCache = new Map();
 
 export function initAnimations() {
@@ -43,21 +41,7 @@ export function initAnimations() {
       duration: 0.5,
       stagger: 0.1,
       ease: "back.out(1.5)"
-    }, 1.0)
-    .to('.base-left-page .page-content > *', {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      stagger: 0.05,
-      ease: "power2.out"
-    }, 1.0)
-    .to('.flip-page .front .page-content > *', {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      stagger: 0.05,
-      ease: "power2.out"
-    }, 1.2);
+    }, 1.0);
   });
 
   document.addEventListener('click', (e) => {
@@ -69,15 +53,11 @@ export function initAnimations() {
   });
 
   document.getElementById('btnBackToGrid').addEventListener('click', () => {
-    playPencilScratch(900, 0.4, 0.05);
+    // Back to grid -> trigger searchInput reload or loadCategory
+    // which handles the backward flip
+    const activeBtn = document.querySelector('#gridBookmarks .bookmark.active');
+    const currentFilter = activeBtn ? activeBtn.dataset.filter : 'all';
     
-    // Restore visibility and interaction BEFORE flipping back so it's seen during the flip
-    const frontFace = document.querySelector('.flip-page .front');
-    if(frontFace) {
-      frontFace.style.display = 'block';
-      frontFace.style.pointerEvents = 'auto';
-    }
-
     gsap.to('#componentBookmarks .bookmark', {
       y: 20,
       opacity: 0,
@@ -91,18 +71,93 @@ export function initAnimations() {
         );
       }
     });
-    
-    gsap.to('.flip-page', {
-      rotateY: 0,
-      duration: 1.5,
-      ease: "power3.inOut"
+
+    // Instead of relying on a global loadCategory, we can just trigger a click on the active tab 
+    // to reload it and flip backward. But wait, we need a generic backward flip.
+    // Let's import loadCategory and call it.
+    import('./grid.js').then(module => {
+      module.loadCategory(currentFilter, false, true);
     });
   });
 }
 
-export async function flipToComponent(path) {
-  playPencilScratch(900, 0.4, 0.05);
+export function turnPage(newLeftHTML, newRightHTML, forward = true, isLeftCover = false) {
+  return new Promise(resolve => {
+    playPencilScratch(900, 0.4, 0.05);
 
+    const leftContainer = document.getElementById('leftPageContainer');
+    const rightContainer = document.getElementById('rightPageContainer');
+    const flipPage = document.querySelector('.flip-page');
+    const flipFront = document.getElementById('flipFrontContainer');
+    const flipBack = document.getElementById('flipBackContainer');
+    const baseLeftPage = document.querySelector('.base-left-page');
+    const flipBackFace = document.querySelector('.flip-page .back');
+    
+    flipPage.style.display = 'block';
+    flipPage.style.pointerEvents = 'none';
+
+    if (forward) {
+      flipFront.innerHTML = rightContainer.innerHTML;
+      flipBack.innerHTML = newLeftHTML;
+      rightContainer.innerHTML = newRightHTML; 
+      
+      // The back face will show the new left page
+      if (isLeftCover) flipBackFace.classList.add('is-cover-back');
+      else flipBackFace.classList.remove('is-cover-back');
+      
+      gsap.fromTo(flipPage, 
+        { rotateY: 0 }, 
+        { 
+          rotateY: -180, 
+          duration: 1.5, 
+          ease: "power3.inOut",
+          onComplete: () => {
+            if (isLeftCover) baseLeftPage.classList.add('is-cover-back');
+            else baseLeftPage.classList.remove('is-cover-back');
+            
+            leftContainer.innerHTML = newLeftHTML;
+            flipPage.style.display = 'none';
+            flipFront.innerHTML = '';
+            flipBack.innerHTML = '';
+            resolve();
+          }
+        }
+      );
+    } else {
+      // The back face will show the CURRENT left page
+      const currentIsCover = baseLeftPage.classList.contains('is-cover-back');
+      if (currentIsCover) flipBackFace.classList.add('is-cover-back');
+      else flipBackFace.classList.remove('is-cover-back');
+      
+      flipFront.innerHTML = newRightHTML;
+      flipBack.innerHTML = leftContainer.innerHTML;
+      
+      // We are updating the left container to the NEW left page immediately
+      if (isLeftCover) baseLeftPage.classList.add('is-cover-back');
+      else baseLeftPage.classList.remove('is-cover-back');
+      
+      leftContainer.innerHTML = newLeftHTML;
+      
+      gsap.fromTo(flipPage, 
+        { rotateY: -180 }, 
+        { 
+          rotateY: 0, 
+          duration: 1.5, 
+          ease: "power3.inOut",
+          onComplete: () => {
+            rightContainer.innerHTML = newRightHTML;
+            flipPage.style.display = 'none';
+            flipFront.innerHTML = '';
+            flipBack.innerHTML = '';
+            resolve();
+          }
+        }
+      );
+    }
+  });
+}
+
+export async function flipToComponent(path) {
   try {
     let html;
     if (componentCache.has(path)) {
@@ -119,44 +174,18 @@ export async function flipToComponent(path) {
     const previewSection = doc.querySelector('.preview-section');
     const codeSection = doc.querySelector('.code-section');
     
+    let leftHTML = previewSection ? previewSection.outerHTML : '';
+    let rightHTML = codeSection ? codeSection.outerHTML : '';
+
+    // Adjust iframe sources
     if (previewSection) {
-      const iframe = previewSection.querySelector('iframe');
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = leftHTML;
+      const iframe = tempDiv.querySelector('iframe');
       if (iframe && iframe.getAttribute('src').startsWith('./')) {
         iframe.src = path + iframe.getAttribute('src').replace('./', '');
-        
-        iframe.onload = () => {
-          try {
-            // Prevent iframe from having internal scroll
-            iframe.contentDocument.documentElement.style.overflow = 'hidden';
-            iframe.contentDocument.body.style.overflow = 'hidden';
-            
-            // Forward mouse wheel events perfectly to the parent page
-            const scrollContainer = document.querySelector('.flip-page .back .page-content');
-            iframe.contentWindow.addEventListener('wheel', (e) => {
-              e.preventDefault();
-              scrollContainer.scrollTop += e.deltaY;
-            }, { passive: false });
-          } catch(err) {
-            console.warn("Could not bind iframe scroll:", err);
-          }
-        };
+        leftHTML = tempDiv.innerHTML;
       }
-    }
-
-    document.getElementById('componentDemoContainer').innerHTML = '';
-    if (previewSection) document.getElementById('componentDemoContainer').appendChild(previewSection);
-    
-    document.getElementById('componentCodeContainer').innerHTML = '';
-    if (codeSection) document.getElementById('componentCodeContainer').appendChild(codeSection);
-    
-    try {
-      const compId = path.split('/').filter(Boolean).pop();
-      const mod = await import(`../../components/${compId}/viewer.js`);
-      if (mod && mod.init) {
-        mod.init();
-      }
-    } catch (err) {
-      console.warn("No viewer.js found or failed to load:", err);
     }
 
     gsap.to('#gridBookmarks .bookmark', {
@@ -174,20 +203,35 @@ export async function flipToComponent(path) {
       }
     });
 
-    gsap.to('.flip-page', {
-      rotateY: -180,
-      duration: 1.5,
-      ease: "power3.inOut",
-      onComplete: () => {
-        // Hide front face completely to kill IntersectionObserver (unloads videos)
-        // and prevent it from intercepting mouse events from the left page.
-        const frontFace = document.querySelector('.flip-page .front');
-        if (frontFace) {
-          frontFace.style.display = 'none';
-          frontFace.style.pointerEvents = 'none';
+    await turnPage(leftHTML, rightHTML, true);
+    
+    // Bind iframe scroll AFTER it is in DOM
+    const iframe = document.querySelector('.base-left-page iframe');
+    if (iframe) {
+      iframe.onload = () => {
+        try {
+          iframe.contentDocument.documentElement.style.overflow = 'hidden';
+          iframe.contentDocument.body.style.overflow = 'hidden';
+          const scrollContainer = document.getElementById('leftPageContainer');
+          iframe.contentWindow.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            scrollContainer.scrollTop += e.deltaY;
+          }, { passive: false });
+        } catch(err) {
+          console.warn("Could not bind iframe scroll:", err);
         }
+      };
+    }
+
+    try {
+      const compId = path.split('/').filter(Boolean).pop();
+      const mod = await import(`../../components/${compId}/viewer.js`);
+      if (mod && mod.init) {
+        mod.init();
       }
-    });
+    } catch (err) {
+      console.warn("No viewer.js found or failed to load:", err);
+    }
 
   } catch(e) {
     console.error("Failed to load component:", e);

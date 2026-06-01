@@ -1,0 +1,25 @@
+/* Hero CSS */
+:root {
+  --hero-text-color: #ffffff;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 120;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.hero-title {
+  font-size: 15vw;
+  font-weight: 900;
+  color: var(--hero-text-color);
+  opacity: 0;
+  transform: translateY(80px);
+  margin: 0;
+}

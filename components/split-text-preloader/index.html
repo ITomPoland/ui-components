@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Split Text Preloader | ITOM Sketchbook</title>
+  <link rel="stylesheet" href="../../src/css/style.css" />
+  <!-- PrismJS for Syntax Highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="app">
+    <a href="../../" class="back-btn">← Back to Notebook</a>
+    
+    <div class="viewer-layout">
+      <!-- Live Preview -->
+      <div class="preview-section">
+        <div class="preview-header">
+          <h2>Live Preview</h2>
+          <button class="replay-btn" onclick="const iframe = document.querySelector('.preview-iframe'); if(iframe.contentWindow){iframe.contentWindow.sessionStorage.clear()}; iframe.src += ''">Replay Animation</button>
+        </div>
+        <iframe class="preview-iframe" src="./preview.html"></iframe>
+        
+        <!-- Dynamic Settings Controls -->
+        <div class="preview-controls">
+          <div class="control-group">
+            <label>Image Count: <span id="valImages">10</span></label>
+            <input type="range" id="slideImages" min="1" max="10" step="1" value="10">
+          </div>
+          <div class="control-group">
+            <label>Preloader Text</label>
+            <input type="text" id="inputPreloaderText" value="ITOM" style="width:100%; padding: 6px; background: transparent; border: var(--stroke-width) solid var(--text-ink); color: var(--text-ink); font-family: var(--font-sketch); font-size: 1.1rem; border-radius: 6px; box-shadow: 2px 2px 0 var(--text-ink); box-sizing: border-box;">
+          </div>
+          <div class="control-group">
+            <label>Hero Text</label>
+            <input type="text" id="inputHeroText" value="HERO" style="width:100%; padding: 6px; background: transparent; border: var(--stroke-width) solid var(--text-ink); color: var(--text-ink); font-family: var(--font-sketch); font-size: 1.1rem; border-radius: 6px; box-shadow: 2px 2px 0 var(--text-ink); box-sizing: border-box;">
+          </div>
+          <div class="control-group">
+            <label>Background Color</label>
+            <div class="color-pickers">
+              <div class="color-picker-item">
+                <span class="color-label">BG Color</span>
+                <input type="color" id="colorBg" value="#fafaf9">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Code Viewer -->
+      <div class="code-section">
+        <div class="code-tabs" style="display: flex; flex-wrap: wrap; gap: 4px; padding-bottom: 8px;">
+          <div class="code-tab" data-target="readme">Tutorial</div>
+          <div class="code-tab active" data-target="preloaderHtml">Preloader HTML</div>
+          <div class="code-tab" data-target="heroHtml">Hero HTML</div>
+          <div class="code-tab" data-target="preloaderCss">Preloader CSS</div>
+          <div class="code-tab" data-target="heroCss">Hero CSS</div>
+          <div class="code-tab" data-target="preloaderJs">Preloader JS</div>
+          <div class="code-tab" data-target="heroJs">Hero JS</div>
+          <div style="flex:1; min-width: 20px;"></div>
+          <button class="copy-btn" id="copyBtn">Copy Code</button>
+        </div>
+        <!-- Container for code -->
+        <pre class="code-content" id="codeContainer"><code id="codeBlock" class="language-html">Loading...</code></pre>
+        <!-- Container for rendered markdown -->
+        <div class="markdown-content" id="markdownContainer" style="display: none; padding: 20px; overflow-y: auto; color: inherit;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script type="module" src="./viewer.js"></script>
+</body>
+</html>

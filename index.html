@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="./src/css/style.css" />
   </head>
   <body>
-    <canvas id="doodleCanvas"></canvas>
     
     <div id="app" class="book-scene">
       
@@ -31,93 +30,91 @@
 
         <!-- Bookmarks (Top Tabs) -->
         <div class="bookmarks-container" id="gridBookmarks">
-          <button class="bookmark active" data-filter="all">All</button>
+          <button class="bookmark active" data-filter="all">Home</button>
           <button class="bookmark" data-filter="button">Buttons</button>
-          <button class="bookmark" data-filter="scroll">Scroll FX</button>
-          <button class="bookmark" data-filter="text">Text</button>
+          <button class="bookmark" data-filter="preloader">Preloaders</button>
         </div>
 
-        <!-- Left Base Page (Profile / Tools / Brudnopis) -->
+        <!-- Left Base Page -->
         <div class="page base-left-page">
           <div class="notebook-margin-line"></div>
-          
-          <div class="page-content">
-            <div class="avatar-container">
-              <img src="./avatar.jpg" alt="ITom Avatar" style="width: 100%; height: 100%; object-fit: cover;" />
-            </div>
-
-            <h2 class="brand-title">ITOM UI</h2>
-            <p class="brand-subtitle">&lt;component library /&gt;</p>
-            
-            <div class="search-sticky-note">
-              <input type="text" id="searchInput" placeholder="Search..." autocomplete="off" />
-            </div>
-            
-            <a href="https://github.com/sponsors/ITomPoland" target="_blank" rel="noopener noreferrer" class="sponsor-btn">
-              Sponsor 💖
-            </a>
-
-            <div class="pencil-case">
-              <h4 class="pencil-case-title">Pencil Case</h4>
-              <div class="sidebar-toolbelt">
-                <button id="btnDraw" class="tool-btn" title="Doodle Mode (Draw)">✏️</button>
-                <button id="btnClear" class="tool-btn" title="Clear Doodle Board">🧹</button>
-                <button id="btnMute" class="tool-btn muted" title="Pencil Audio Feedback">🔇</button>
-              </div>
-            </div>
-
-            <div class="paper-swatches">
-              <button class="swatch-btn active" data-paper="ruled" title="Lined Paper">Ruled</button>
-              <button class="swatch-btn" data-paper="graph" title="Grid Paper">Graph</button>
-              <button class="swatch-btn" data-paper="blank" title="Blank Paper">Blank</button>
-            </div>
-
-            <div class="roadmap-container">
-              <h3>Sketches To-Do</h3>
-              <ul class="roadmap-list">
-                <li class="done">Magnetic Button</li>
-                <li>Kinetic Text Wave</li>
-                <li>Canvas Particle Hover</li>
-                <li>Custom Cursor Trail</li>
-              </ul>
-              <a href="https://github.com/ITomPoland/ui-components/issues/new?title=Sketch+Suggestion:+[Name]" target="_blank" rel="noopener noreferrer" class="suggest-btn">
-                Suggest a Sketch 💡
-              </a>
-            </div>
+          <div class="page-content" id="leftPageContainer">
+            <!-- Content injected here -->
           </div>
         </div>
         
-        <!-- Right Base Page (Component Code Viewer) -->
+        <!-- Right Base Page -->
         <div class="page base-right-page">
           <div class="notebook-margin-line"></div>
-          <div class="page-content" id="componentCodeContainer">
-            <!-- Code section injected here -->
+          <div class="page-content" id="rightPageContainer">
+            <!-- Content injected here -->
           </div>
         </div>
 
-        <!-- Flipping Page (Front: Grid, Back: Demo) -->
-        <div class="page flip-page">
-          <!-- Front Face (Grid) -->
+        <!-- Flipping Page (Dynamically used for transitions) -->
+        <div class="page flip-page" style="display: none;">
+          <!-- Front Face -->
           <div class="page-face front">
             <div class="notebook-margin-line"></div>
-            <div class="page-content">
-              <section class="components-grid" id="componentsGrid">
-                <!-- Components injected here -->
-              </section>
+            <div class="page-content" id="flipFrontContainer">
             </div>
           </div>
           
-          <!-- Back Face (Demo) -->
+          <!-- Back Face -->
           <div class="page-face back">
             <div class="notebook-margin-line"></div>
-            <div class="page-content" id="componentDemoContainer">
-              <!-- Demo section injected here -->
+            <div class="page-content" id="flipBackContainer">
             </div>
           </div>
         </div>
 
       </div>
     </div>
+
+    <!-- Templates -->
+    <template id="about-page-template">
+      <div class="about-page">
+        <div class="about-header">
+          <div class="avatar-container">
+            <img src="./avatar.jpg" alt="ITom Avatar" style="width: 100%; height: 100%; object-fit: cover;" />
+          </div>
+          <div class="about-title-group">
+            <h2 class="brand-title">ITOM UI</h2>
+            <p class="brand-subtitle">&lt;component library /&gt;</p>
+          </div>
+        </div>
+
+        <div class="about-mission">
+          <h3 class="mission-title">Hello! 👋</h3>
+          <p class="mission-text">
+            I created this sketchbook to share my knowledge and passion for building UI components!
+            <br><br>
+            It is designed especially for <strong>beginners</strong> who want to learn how to build modern UI interactions from scratch, without relying on heavy frameworks.
+            <br><br>
+            Copy, paste, experiment, and let's learn together! 🚀
+          </p>
+        </div>
+
+        <div class="about-actions">
+          <div class="search-sticky-note">
+            <input type="text" id="searchInput" placeholder="Search sketches..." autocomplete="off" />
+          </div>
+
+          <div class="sponsor-section">
+            <p class="sponsor-text">Found it useful? Support my work with a tip! ☕</p>
+            <a href="https://github.com/sponsors/ITomPoland" target="_blank" rel="noopener noreferrer" class="sponsor-btn">
+              Sponsor 💖
+            </a>
+          </div>
+        </div>
+      </div>
+    </template>
+    
+    <template id="grid-page-template">
+      <h1 class="page-title"></h1>
+      <section class="components-grid">
+      </section>
+    </template>
     
     <!-- SVG Filters for Squigglevision (Wiggly Sketch Effect) -->
     <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">

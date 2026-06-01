@@ -1,0 +1,102 @@
+/* Preloader CSS */
+:root {
+  --preloader-bg: #FAFAF9;
+}
+
+.split-hero-container {
+  position: absolute;
+  inset: 0;
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--preloader-bg);
+  overflow: hidden;
+  visibility: hidden; /* Prevent FOUC, GSAP will make it visible */
+}
+
+/* Montage Images Layer */
+.montage-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.montage-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  border-radius: 2rem;
+  will-change: transform, width, height, border-radius;
+  z-index: -1;
+  width: 0vw;
+  height: 0vh;
+  opacity: 0;
+}
+
+.montage-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+}
+
+.montage-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
+}
+
+/* Split Text Layer */
+.preloader-text-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  color: white;
+}
+
+.text-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-ITOM {
+  position: absolute;
+  font-size: 20vw;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  will-change: transform, opacity;
+  margin: 0;
+}
+
+.split-word-full {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.split-word-top {
+  clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.split-word-bottom {
+  clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+  opacity: 0;
+  transform: scale(0.9);
+}

@@ -1,7 +1,7 @@
 import { gsap } from 'gsap';
-import htmlCode from './preview.html?raw';
-import cssCode from './style.css?raw';
-import jsCode from './main.js?raw';
+import htmlCode from './src/button.html?raw';
+import cssCode from './src/style.css?raw';
+import jsCode from './src/main.js?raw';
 
 export function init() {
   const files = {
@@ -20,10 +20,7 @@ function getModifiedCode(tab) {
   const bgColor = colorBg.value;
   const textColor = colorText.value;
   const hoverColor = colorHover.value;
-  if (tab === 'html') {
-    const bodyMatch = content.match(/<body>([\s\S]*?)<script/);
-    if (bodyMatch) content = bodyMatch[1].trim();
-  } else if (tab === 'css') {
+  if (tab === 'css') {
     content = content.replace(/--t-btn-bg:\s*[^;]+;/, `--t-btn-bg: ${bgColor};`);
     content = content.replace(/--t-btn-color:\s*[^;]+;/, `--t-btn-color: ${textColor};`);
     content = content.replace(/--t-btn-hover-bg:\s*[^;]+;/, `--t-btn-hover-bg: ${hoverColor};`);
