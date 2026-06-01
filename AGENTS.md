@@ -4,14 +4,15 @@ Welcome to the `ui-components` repository. If you are an AI coding assistant, au
 
 ## 1. Architectural Mandates
 - **No Frameworks:** Do NOT introduce React, Vue, Svelte, Next.js, or any other heavy framework. This repository is strictly **Vanilla JavaScript, HTML, and CSS**.
-- **Animation Engine:** All animations MUST be powered by `GSAP` (GreenSock). Do not use Framer Motion, Anime.js, or raw CSS animations for complex sequences.
+- **Animation Engine:** The primary animation engine is `GSAP` (GreenSock). However, you are ENCOURAGED to use other awesome visual libraries like `Three.js`, `Lenis`, `WebGL` or `Canvas API` for impressive visual effects. Do not use UI frameworks (React/Vue/etc.) for DOM manipulation.
 - **Copy-Paste Philosophy:** The primary goal of these components is to be copy-pasteable. Keep the HTML, CSS, and JS logic separated but extremely easy to extract. Do not create convoluted build processes for individual components.
 
 ## 2. Directory Structure
-- `/components/[name]/preview.html` - The raw HTML of the component.
-- `/components/[name]/style.css` - The CSS specific to the component (use CSS variables).
-- `/components/[name]/main.js` - The GSAP animation logic.
-- `/components/[name]/index.html` - The Code Viewer wrapper. **Do not modify this unless changing the viewer infrastructure.**
+- `/components/[name]/src/[name].html` - The raw HTML of the component.
+- `/components/[name]/src/[name].css` - The CSS specific to the component (use CSS variables).
+- `/components/[name]/src/[name].js` - The animation/logic.
+- `/components/[name]/preview.html` - The isolated live preview of the component.
+- `/components/[name]/index.html` - The Code Viewer wrapper for the Sketchbook UI. **Do not modify this unless changing the viewer infrastructure.**
 
 ## 3. Styling Guidelines
 - Use modern CSS variables (e.g., `--bg-color`) defined in `:root`.

@@ -1,35 +1,58 @@
 <div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=timeGradient&height=200&section=header&text=Creative%20UI%20Components&fontSize=50&fontColor=ffffff" width="100%" />
-
-  <h1>✨ High-End UI Components</h1>
-  <p><strong>Awwwards-winning level components, rebuilt for the Open Web.</strong></p>
-
-  <p>
-    <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
-    <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
-    <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" />
-    <img src="https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=white" />
-    <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" />
-  </p>
-
+  <img src="./avatar.jpg" alt="ITom Avatar" width="120" style="border-radius: 50%; border: 4px solid #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.2);" />
   <br/>
-  
-  <a href="https://ITomPoland.github.io/ui-components/">
-    <img src="https://img.shields.io/badge/Browse_Components_🚀-ea4aaa?style=for-the-badge&logo=vercel&logoColor=white&padding=10" height="45" />
-  </a>
-  &nbsp;&nbsp;
-  <a href="https://github.com/sponsors/ITomPoland">
-    <img src="https://img.shields.io/badge/Sponsor_Project_💖-ea4aaa?style=for-the-badge&logo=github&logoColor=white&padding=10" height="45" />
-  </a>
+  <h1 style="font-family: 'Comic Sans MS', cursive, sans-serif;">ITOM UI : Sketchbook Vol. 1</h1>
+  <p><strong>A beautifully interactive, copy-pasteable UI component library built without frameworks.</strong></p>
+  <p>
+    <a href="https://ITomPoland.github.io/ui-components/">View Live Notebook</a> • 
+    <a href="#-components">Explore Components</a> • 
+    <a href="#-architectural-mandates">Read Mandates</a>
+  </p>
 </div>
 
-<br/><br/>
+---
 
-## 🗓️ One Component. Every Wednesday.
-I'm a Computer Science student and Creative Developer from Poland. I believe high-end, 60fps, buttery-smooth interactions shouldn't be locked behind heavy frameworks. 
+## 📖 What is this?
+Welcome to my interactive sketchbook! This repository is a collection of high-quality, modern UI components and micro-interactions built entirely from scratch using **Vanilla JavaScript, HTML, CSS, and GSAP**.
 
-My mission? To release one **free, highly polished, fully animated UI component every single Wednesday.** No React. No Next.js. Just pure Vanilla JS, CSS, and GSAP. Maximum performance, framework-agnostic.
+> [!NOTE]
+> **No React. No Vue. No Heavy Frameworks.** Just pure, easily extractable front-end code that you can drop into any project.
 
-> **Note:** To ensure the best Developer Experience (DX), all documentation, live interactive previews, and "Copy Code" functionalities have been moved directly to our dedicated web platform.
+## 🚀 Quick Start
+To run the interactive notebook locally:
 
-### 👉 [Go to the Live Platform](https://ITomPoland.github.io/ui-components/) to browse and copy components!
+```bash
+npm install
+npm run dev
+```
+
+## 🎨 Components
+The components are designed to be extremely modular. Here are some of the sketches inside:
+
+| Component | Description | Technologies |
+| :--- | :--- | :--- |
+| **Split Text Preloader** | A cinematic text-splitting preloader with an image montage transition. | GSAP, Vanilla JS |
+| **Magnetic Button** | A physics-based button that pulls towards the user's cursor. | GSAP, Vanilla JS |
+| *...more coming soon!* | | |
+
+## 🏗 Directory Structure
+The root folder is kept completely minimal and clean. All the magic happens inside `components/`!
+
+```text
+📁 ui-components/
+├── 📁 components/        # The actual UI components
+│   ├── 📁 magnetic-button/
+│   └── 📁 split-text-preloader/
+├── 📁 src/               # The interactive Notebook Viewer engine
+├── 📄 index.html         # Main entry point for the Sketchbook
+├── 📄 vite.config.js     # Bundler configuration
+└── 📄 AGENTS.md          # Strict rules for AI assistants!
+```
+
+## 🤖 Architectural Mandates
+If you are an AI assistant or human contributing to this repo, please read `AGENTS.md`. We strictly enforce the "Copy-Paste Philosophy". Everything must be cleanly separated into `src/*.html`, `src/*.css`, and `src/*.js`.
+
+---
+<div align="center">
+  <i>"Copy, paste, experiment, and let's learn together! 🚀"</i>
+</div>
