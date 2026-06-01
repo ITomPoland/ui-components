@@ -7,7 +7,7 @@
   
   # ✏️ ITOM UI : Sketchbook Vol. 1
   
-  **A massive, open-source library of 100+ interactive, copy-pasteable UI components.**
+  **A humble collection of hand-crafted, copy-pasteable UI components built for learning and experimenting.**
   
   [![Live Notebook](https://img.shields.io/badge/📖_Open_Sketchbook-View_Live-black?style=for-the-badge&logoColor=white)](https://ITomPoland.github.io/ui-components/)
   [![Vanilla JS](https://img.shields.io/badge/JavaScript-Vanilla-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://ITomPoland.github.io/ui-components/)
