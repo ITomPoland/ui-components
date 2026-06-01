@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 250" width="100%" height="100%">
+  <defs>
+    <!-- Hand-drawn wobble filter -->
+    <filter id="sketch-effect" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+    </filter>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&amp;display=swap');
+      .title { font-family: 'Caveat', cursive, sans-serif; font-size: 72px; fill: #111111; font-weight: bold; }
+      .subtitle { font-family: 'Caveat', cursive, sans-serif; font-size: 32px; fill: #444444; }
+      .sketch-line { stroke: #111111; stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; filter: url(#sketch-effect); }
+      .sketch-fill { fill: #fcfcf9; stroke: #111111; stroke-width: 3; filter: url(#sketch-effect); }
+      .highlight { fill: #FFD700; opacity: 0.3; filter: url(#sketch-effect); }
+    </style>
+  </defs>
+
+  <!-- Background Paper -->
+  <rect width="100%" height="100%" fill="#fafaf9" />
+
+  <!-- Sketchy Box behind Text -->
+  <rect x="50" y="40" width="700" height="150" class="sketch-fill" rx="15" />
+  
+  <!-- Highlight stroke under title -->
+  <path d="M 180,140 Q 400,160 620,135" class="highlight" stroke="#FFD700" stroke-width="20" stroke-linecap="round" />
+
+  <!-- Main Text -->
+  <text x="400" y="125" class="title" text-anchor="middle" filter="url(#sketch-effect)">ITOM UI Sketchbook</text>
+  <text x="400" y="170" class="subtitle" text-anchor="middle" filter="url(#sketch-effect)">100+ Hand-Crafted UI Components</text>
+
+  <!-- Decorative Doodles -->
+  <!-- Star -->
+  <path d="M 90,80 L 105,115 L 140,120 L 115,145 L 125,180 L 90,165 L 55,180 L 65,145 L 40,120 L 75,115 Z" class="sketch-line" fill="#FFD700" />
+  
+  <!-- Curly Arrow -->
+  <path d="M 680,160 C 720,190 760,130 730,90 C 710,60 670,80 660,110 L 650,90 M 660,110 L 685,115" class="sketch-line" />
+  
+  <!-- Scribble -->
+  <path d="M 660,180 Q 680,160 700,185 T 740,175" class="sketch-line" stroke-width="2" />
+</svg>

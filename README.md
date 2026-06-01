@@ -1,58 +1,64 @@
 <div align="center">
-  <img src="./avatar.jpg" alt="ITom Avatar" width="120" style="border-radius: 50%; border: 4px solid #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.2);" />
+  
+  <!-- Sketchy SVG Title -->
+  <picture>
+    <img src="https://raw.githubusercontent.com/ITomPoland/ui-components/master/public/banner.svg" alt="ITom Sketchbook" width="100%" />
+  </picture>
+  
+  # ✏️ ITOM UI : Sketchbook Vol. 1
+  
+  **A massive, open-source library of 100+ interactive, copy-pasteable UI components.**
+  
+  [![Live Notebook](https://img.shields.io/badge/📖_Open_Sketchbook-View_Live-black?style=for-the-badge&logoColor=white)](https://ITomPoland.github.io/ui-components/)
+  [![Vanilla JS](https://img.shields.io/badge/JavaScript-Vanilla-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://ITomPoland.github.io/ui-components/)
+  [![GSAP](https://img.shields.io/badge/GSAP-Animation-88CE02?style=for-the-badge&logo=greensock&logoColor=white)](https://greensock.com/)
   <br/>
-  <h1 style="font-family: 'Comic Sans MS', cursive, sans-serif;">ITOM UI : Sketchbook Vol. 1</h1>
-  <p><strong>A beautifully interactive, copy-pasteable UI component library built without frameworks.</strong></p>
-  <p>
-    <a href="https://ITomPoland.github.io/ui-components/">View Live Notebook</a> • 
-    <a href="#-components">Explore Components</a> • 
-    <a href="#-architectural-mandates">Read Mandates</a>
-  </p>
+  [![Sponsor ITomPoland](https://img.shields.io/badge/Sponsor_Me-💖-ea4aaa?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/ITomPoland)
+
+  <br />
 </div>
+
+## 📓 What is the Sketchbook?
+
+Most UI libraries give you an `npm install` package that acts like a black box. **This is different.**
+
+This repository is literally a sketchbook of UI interactions, animations, and components built with Vanilla JavaScript, HTML, CSS, GSAP (and sometimes WebGL/Three.js). 
+
+There is **no lock-in**, **no React**, and **no bloated framework**. Just pure, highly-optimized frontend code that you can copy, paste, and tweak for your own projects.
 
 ---
 
-## 📖 What is this?
-Welcome to my interactive sketchbook! This repository is a collection of high-quality, modern UI components and micro-interactions built entirely from scratch using **Vanilla JavaScript, HTML, CSS, and GSAP**.
+## ✂️ How to use
 
-> [!NOTE]
-> **No React. No Vue. No Heavy Frameworks.** Just pure, easily extractable front-end code that you can drop into any project.
+1. **Browse:** Open the [Live Sketchbook 📖](https://ITomPoland.github.io/ui-components/)
+2. **Find:** Click through the categories (Buttons, Preloaders, etc.)
+3. **Copy:** Every component has a "Code" view. Just copy the HTML, CSS, and JS directly into your project!
 
-## 🚀 Quick Start
-To run the interactive notebook locally:
+---
+
+## 📐 Local Development
+
+Want to run the sketchbook locally and see how the components are built?
 
 ```bash
+# 1. Clone the repo
+git clone https://github.com/ITomPoland/ui-components.git
+
+# 2. Install dependencies (for the Vite dev server)
 npm install
+
+# 3. Start drawing!
 npm run dev
 ```
 
-## 🎨 Components
-The components are designed to be extremely modular. Here are some of the sketches inside:
+### 📁 Where is the code?
+The root folder is kept intentionally minimal. All components live in the `components/` directory. Each component has its own `src/` folder containing the pure HTML, CSS, and JS. 
 
-| Component | Description | Technologies |
-| :--- | :--- | :--- |
-| **Split Text Preloader** | A cinematic text-splitting preloader with an image montage transition. | GSAP, Vanilla JS |
-| **Magnetic Button** | A physics-based button that pulls towards the user's cursor. | GSAP, Vanilla JS |
-| *...more coming soon!* | | |
-
-## 🏗 Directory Structure
-The root folder is kept completely minimal and clean. All the magic happens inside `components/`!
-
-```text
-📁 ui-components/
-├── 📁 components/        # The actual UI components
-│   ├── 📁 magnetic-button/
-│   └── 📁 split-text-preloader/
-├── 📁 src/               # The interactive Notebook Viewer engine
-├── 📄 index.html         # Main entry point for the Sketchbook
-├── 📄 vite.config.js     # Bundler configuration
-└── 📄 AGENTS.md          # Strict rules for AI assistants!
-```
-
-## 🤖 Architectural Mandates
-If you are an AI assistant or human contributing to this repo, please read `AGENTS.md`. We strictly enforce the "Copy-Paste Philosophy". Everything must be cleanly separated into `src/*.html`, `src/*.css`, and `src/*.js`.
+> **Note:** The `index.html` inside each component folder is just a wrapper for the Sketchbook UI. The actual component code is always cleanly isolated in `src/`.
 
 ---
+
 <div align="center">
-  <i>"Copy, paste, experiment, and let's learn together! 🚀"</i>
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=111111&height=100&section=footer" width="100%" />
+  <p><i>Copy, paste, experiment, and let's learn together! 🚀</i></p>
 </div>
