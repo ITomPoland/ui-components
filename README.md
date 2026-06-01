@@ -17,6 +17,11 @@
 
 <div align="center">
   <br />
+  
+  > **☕ Support a Student Developer!** <br/>
+  > If you find this Sketchbook useful and want to see me build all 100+ components, consider leaving a small tip or becoming a sponsor. It genuinely helps cover my student expenses and gives me the motivation to keep releasing high-quality, open-source animations! 💖
+  
+  <br/>
   <a href="https://github.com/sponsors/ITomPoland">
     <img src="https://img.shields.io/badge/💖_Sponsor_This_Project-ea4aaa?style=for-the-badge&logo=githubsponsors&logoColor=white&scale=1.5" width="300" alt="Sponsor" />
   </a>
