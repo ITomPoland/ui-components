@@ -48,8 +48,11 @@ export function initAnimations() {
     const card = e.target.closest('.component-card');
     if (!card) return;
     e.preventDefault();
+    card.classList.add('is-clicked');
     const componentPath = card.getAttribute('href');
-    flipToComponent(componentPath);
+    flipToComponent(componentPath).then(() => {
+      card.classList.remove('is-clicked');
+    });
   });
 
   document.getElementById('btnBackToGrid').addEventListener('click', () => {
@@ -81,7 +84,7 @@ export function initAnimations() {
   });
 }
 
-export function turnPage(newLeftHTML, newRightHTML, forward = true, isLeftCover = false) {
+export function turnPage(newLeftHTML, newRightHTML, forward = true, isLeftCover = false, stayFlipped = false) {
   return new Promise(resolve => {
     playPencilScratch(900, 0.4, 0.05);
 
@@ -92,12 +95,17 @@ export function turnPage(newLeftHTML, newRightHTML, forward = true, isLeftCover 
     const flipBack = document.getElementById('flipBackContainer');
     const baseLeftPage = document.querySelector('.base-left-page');
     const flipBackFace = document.querySelector('.flip-page .back');
-    
+    const wasAlreadyFlipped = flipPage.style.display !== 'none';
+
     flipPage.style.display = 'block';
     flipPage.style.pointerEvents = 'none';
 
     if (forward) {
-      flipFront.innerHTML = rightContainer.innerHTML;
+      const rightScrollTop = rightContainer.scrollTop;
+      flipFront.innerHTML = '';
+      while(rightContainer.firstChild) flipFront.appendChild(rightContainer.firstChild);
+      flipFront.scrollTop = rightScrollTop;
+
       flipBack.innerHTML = newLeftHTML;
       rightContainer.innerHTML = newRightHTML; 
       
@@ -115,10 +123,15 @@ export function turnPage(newLeftHTML, newRightHTML, forward = true, isLeftCover 
             if (isLeftCover) baseLeftPage.classList.add('is-cover-back');
             else baseLeftPage.classList.remove('is-cover-back');
             
-            leftContainer.innerHTML = newLeftHTML;
-            flipPage.style.display = 'none';
-            flipFront.innerHTML = '';
-            flipBack.innerHTML = '';
+            if (!stayFlipped) {
+              leftContainer.innerHTML = '';
+              while(flipBack.firstChild) leftContainer.appendChild(flipBack.firstChild);
+              flipPage.style.display = 'none';
+              flipFront.innerHTML = '';
+            } else {
+              flipFront.innerHTML = '';
+              flipPage.style.pointerEvents = 'auto';
+            }
             resolve();
           }
         }
@@ -129,8 +142,16 @@ export function turnPage(newLeftHTML, newRightHTML, forward = true, isLeftCover 
       if (currentIsCover) flipBackFace.classList.add('is-cover-back');
       else flipBackFace.classList.remove('is-cover-back');
       
+      if (wasAlreadyFlipped) {
+        // flipBack already contains the component preview! No need to move anything.
+      } else {
+        const leftScrollTop = leftContainer.scrollTop;
+        flipBack.innerHTML = '';
+        while(leftContainer.firstChild) flipBack.appendChild(leftContainer.firstChild);
+        flipBack.scrollTop = leftScrollTop;
+      }
+
       flipFront.innerHTML = newRightHTML;
-      flipBack.innerHTML = leftContainer.innerHTML;
       
       // We are updating the left container to the NEW left page immediately
       if (isLeftCover) baseLeftPage.classList.add('is-cover-back');
@@ -145,10 +166,12 @@ export function turnPage(newLeftHTML, newRightHTML, forward = true, isLeftCover 
           duration: 1.5, 
           ease: "power3.inOut",
           onComplete: () => {
-            rightContainer.innerHTML = newRightHTML;
-            flipPage.style.display = 'none';
-            flipFront.innerHTML = '';
-            flipBack.innerHTML = '';
+            if (!stayFlipped) {
+              rightContainer.innerHTML = '';
+              while(flipFront.firstChild) rightContainer.appendChild(flipFront.firstChild);
+              flipPage.style.display = 'none';
+              flipBack.innerHTML = '';
+            }
             resolve();
           }
         }
@@ -203,10 +226,10 @@ export async function flipToComponent(path) {
       }
     });
 
-    await turnPage(leftHTML, rightHTML, true);
+    const turnPromise = turnPage(leftHTML, rightHTML, true, false, true);
     
     // Bind iframe scroll AFTER it is in DOM
-    const iframe = document.querySelector('.base-left-page iframe');
+    const iframe = document.querySelector('iframe.preview-iframe') || document.querySelector('.base-left-page iframe');
     if (iframe) {
       iframe.onload = () => {
         try {
@@ -232,6 +255,8 @@ export async function flipToComponent(path) {
     } catch (err) {
       console.warn("No viewer.js found or failed to load:", err);
     }
+
+    await turnPromise;
 
   } catch(e) {
     console.error("Failed to load component:", e);

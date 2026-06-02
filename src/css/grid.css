@@ -44,11 +44,11 @@
   transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.4s ease;
   backdrop-filter: blur(2px);
 }
-.component-card:hover {
+.component-card:hover, .component-card.is-clicked {
   transform: rotate(-1.5deg) scale(1.02);
   box-shadow: 8px 10px 0px rgba(0,0,0,0.85);
 }
-.component-card:hover::after {
+.component-card:hover::after, .component-card.is-clicked::after {
   transform: translateX(-50%) rotate(-1deg) scale(1.05);
   background-color: rgba(255, 255, 240, 0.85);
 }
@@ -77,7 +77,10 @@
 }
 .component-card:hover .card-preview iframe,
 .component-card:hover .card-preview video,
-.component-card:hover .card-preview img {
+.component-card:hover .card-preview img,
+.component-card.is-clicked .card-preview iframe,
+.component-card.is-clicked .card-preview video,
+.component-card.is-clicked .card-preview img {
   transform: scale(1.04);
 }
 
