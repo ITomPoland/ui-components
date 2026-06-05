@@ -1,0 +1,86 @@
+:root {
+  --t-btn-bg: transparent;
+  --t-btn-border-color: #111111;
+  --t-btn-color: #111111;
+  --t-hover-bg: #ea4aaa;
+  --t-hover-color: #ffffff;
+  --t-btn-radius: 50px;
+  --t-btn-font: 'Inter', sans-serif;
+}
+
+.t-kinetic-btn {
+  position: relative;
+  padding: 1.25rem 2.75rem;
+  font-family: var(--t-btn-font);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--t-btn-color);
+  background: var(--t-btn-bg);
+  border: 2px solid var(--t-btn-border-color);
+  border-radius: var(--t-btn-radius);
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+  z-index: 1;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: border-color 0.4s cubic-bezier(0.76, 0, 0.24, 1), color 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* Bottom-up sliding background reveal */
+.t-kinetic-btn::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background: var(--t-hover-bg);
+  transition: height 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+  z-index: 0;
+}
+
+.t-kinetic-btn:hover {
+  border-color: var(--t-hover-bg);
+  color: var(--t-hover-color);
+}
+
+.t-kinetic-btn:hover::before {
+  height: 100%;
+}
+
+/* Kinetic Character Layout Styles */
+.t-char-wrapper {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+  display: flex;
+}
+
+.t-char {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  line-height: 1.2;
+}
+
+/* Support spacing for words */
+.t-char-space {
+  width: 0.28em;
+  display: inline-block;
+}
+
+.t-char-primary {
+  display: inline-block;
+  will-change: transform;
+}
+
+.t-char-secondary {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: inline-block;
+  transform: translateY(100%);
+  will-change: transform;
+}

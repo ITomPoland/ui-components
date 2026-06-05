@@ -4,17 +4,30 @@ import { playPencilScratch } from './audio.js';
 let bookOpened = false;
 const componentCache = new Map();
 
+// Global animation lock — prevents overlapping page-flip animations
+let isAnimating = false;
+export function getIsAnimating() { return isAnimating; }
+
+// Pre-scan all viewer.js modules so Vite can bundle them for dynamic loading
+const viewerModules = import.meta.glob('../../components/**/viewer.js');
+
+// Reference to the current flip-page GSAP tween so we can kill it if needed
+let currentFlipTween = null;
+
 export function initAnimations() {
   const cover = document.querySelector('.cover');
   const book = document.querySelector('.book');
 
   cover.addEventListener('click', () => {
-    if (bookOpened) return;
+    if (bookOpened || isAnimating) return;
     bookOpened = true;
+    isAnimating = true;
     
     playPencilScratch(800, 0.4, 0.05);
 
-    const tl = gsap.timeline();
+    const tl = gsap.timeline({
+      onComplete: () => { isAnimating = false; }
+    });
     
     tl.to(cover, {
       rotateY: -180,
@@ -31,10 +44,6 @@ export function initAnimations() {
       duration: 1.5,
       ease: "power3.inOut"
     }, 0)
-    .to('.cover-content', {
-      opacity: 0,
-      duration: 0.5
-    }, 0.2)
     .to('#gridBookmarks .bookmark', {
       y: 0,
       opacity: 1,
@@ -48,6 +57,7 @@ export function initAnimations() {
     const card = e.target.closest('.component-card');
     if (!card) return;
     e.preventDefault();
+    if (isAnimating) return; // Block if animation in progress
     card.classList.add('is-clicked');
     const componentPath = card.getAttribute('href');
     flipToComponent(componentPath).then(() => {
@@ -56,8 +66,8 @@ export function initAnimations() {
   });
 
   document.getElementById('btnBackToGrid').addEventListener('click', () => {
-    // Back to grid -> trigger searchInput reload or loadCategory
-    // which handles the backward flip
+    if (isAnimating) return; // Block if animation in progress
+
     const activeBtn = document.querySelector('#gridBookmarks .bookmark.active');
     const currentFilter = activeBtn ? activeBtn.dataset.filter : 'all';
     
@@ -75,17 +85,33 @@ export function initAnimations() {
       }
     });
 
-    // Instead of relying on a global loadCategory, we can just trigger a click on the active tab 
-    // to reload it and flip backward. But wait, we need a generic backward flip.
-    // Let's import loadCategory and call it.
     import('./grid.js').then(module => {
       module.loadCategory(currentFilter, false, true);
     });
   });
 }
 
+// Stop and remove all playing media (videos/iframes) inside a container
+function stopAllMedia(container) {
+  container.querySelectorAll('video').forEach(v => {
+    v.pause();
+    v.removeAttribute('src');
+    v.load(); // release the media resource
+  });
+  container.querySelectorAll('iframe').forEach(f => {
+    f.removeAttribute('src');
+  });
+}
+
 export function turnPage(newLeftHTML, newRightHTML, forward = true, isLeftCover = false, stayFlipped = false) {
   return new Promise(resolve => {
+    // Kill any in-progress flip animation to prevent overlap
+    if (currentFlipTween) {
+      currentFlipTween.progress(1); // Jump to end to finalize DOM state
+      currentFlipTween = null;
+    }
+
+    isAnimating = true;
     playPencilScratch(900, 0.4, 0.05);
 
     const leftContainer = document.getElementById('leftPageContainer');
@@ -113,13 +139,14 @@ export function turnPage(newLeftHTML, newRightHTML, forward = true, isLeftCover 
       if (isLeftCover) flipBackFace.classList.add('is-cover-back');
       else flipBackFace.classList.remove('is-cover-back');
       
-      gsap.fromTo(flipPage, 
+      currentFlipTween = gsap.fromTo(flipPage, 
         { rotateY: 0 }, 
         { 
           rotateY: -180, 
           duration: 1.5, 
           ease: "power3.inOut",
           onComplete: () => {
+            currentFlipTween = null;
             if (isLeftCover) baseLeftPage.classList.add('is-cover-back');
             else baseLeftPage.classList.remove('is-cover-back');
             
@@ -129,9 +156,14 @@ export function turnPage(newLeftHTML, newRightHTML, forward = true, isLeftCover 
               flipPage.style.display = 'none';
               flipFront.innerHTML = '';
             } else {
+              // Stop all media in the old grid content before clearing
+              stopAllMedia(flipFront);
+              stopAllMedia(leftContainer);
               flipFront.innerHTML = '';
+              leftContainer.innerHTML = '';
               flipPage.style.pointerEvents = 'auto';
             }
+            isAnimating = false;
             resolve();
           }
         }
@@ -159,19 +191,21 @@ export function turnPage(newLeftHTML, newRightHTML, forward = true, isLeftCover 
       
       leftContainer.innerHTML = newLeftHTML;
       
-      gsap.fromTo(flipPage, 
+      currentFlipTween = gsap.fromTo(flipPage, 
         { rotateY: -180 }, 
         { 
           rotateY: 0, 
           duration: 1.5, 
           ease: "power3.inOut",
           onComplete: () => {
+            currentFlipTween = null;
             if (!stayFlipped) {
               rightContainer.innerHTML = '';
               while(flipFront.firstChild) rightContainer.appendChild(flipFront.firstChild);
               flipPage.style.display = 'none';
               flipBack.innerHTML = '';
             }
+            isAnimating = false;
             resolve();
           }
         }
@@ -181,6 +215,7 @@ export function turnPage(newLeftHTML, newRightHTML, forward = true, isLeftCover 
 }
 
 export async function flipToComponent(path) {
+  if (isAnimating) return; // Block if animation in progress
   try {
     let html;
     if (componentCache.has(path)) {
@@ -236,10 +271,27 @@ export async function flipToComponent(path) {
           iframe.contentDocument.documentElement.style.overflow = 'hidden';
           iframe.contentDocument.body.style.overflow = 'hidden';
           const scrollContainer = document.getElementById('leftPageContainer');
+          
           iframe.contentWindow.addEventListener('wheel', (e) => {
             e.preventDefault();
-            scrollContainer.scrollTop += e.deltaY;
+            // Handle different scroll modes (pixels vs lines)
+            const multiplier = e.deltaMode === 1 ? 16 : 1;
+            scrollContainer.scrollBy({ top: e.deltaY * multiplier, behavior: 'auto' });
           }, { passive: false });
+
+          // Forward touch events for mobile scrolling
+          let lastTouchY = 0;
+          iframe.contentWindow.addEventListener('touchstart', (e) => {
+            lastTouchY = e.touches[0].clientY;
+          }, { passive: true });
+          
+          iframe.contentWindow.addEventListener('touchmove', (e) => {
+            const currentY = e.touches[0].clientY;
+            const deltaY = lastTouchY - currentY;
+            lastTouchY = currentY;
+            scrollContainer.scrollBy({ top: deltaY, behavior: 'auto' });
+          }, { passive: true });
+          
         } catch(err) {
           console.warn("Could not bind iframe scroll:", err);
         }
@@ -247,10 +299,17 @@ export async function flipToComponent(path) {
     }
 
     try {
-      const compId = path.split('/').filter(Boolean).pop();
-      const mod = await import(`../../components/${compId}/viewer.js`);
-      if (mod && mod.init) {
-        mod.init();
+      // Build the glob key from the component path (e.g. './components/buttons/kinetic-text-button/')
+      const componentsIndex = path.indexOf('components/');
+      const relativePath = componentsIndex !== -1
+        ? path.substring(componentsIndex + 'components/'.length).replace(/\/$/, '')
+        : path.split('/').filter(Boolean).pop();
+      const globKey = `../../components/${relativePath}/viewer.js`;
+      if (viewerModules[globKey]) {
+        const mod = await viewerModules[globKey]();
+        if (mod && mod.init) {
+          mod.init();
+        }
       }
     } catch (err) {
       console.warn("No viewer.js found or failed to load:", err);

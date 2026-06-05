@@ -159,5 +159,7 @@ renderCode();
   }
 }
 
-// Auto-run for standalone viewer page
-init();
+// Auto-init only for standalone viewer page (book view calls init() explicitly)
+if (!document.querySelector('.book')) {
+  init();
+}

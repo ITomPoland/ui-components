@@ -27,6 +27,8 @@
   transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   overflow: hidden;
   position: relative;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 .component-card::after {
   content: '';
@@ -45,7 +47,7 @@
   backdrop-filter: blur(2px);
 }
 .component-card:hover, .component-card.is-clicked {
-  transform: rotate(-1.5deg) scale(1.02);
+  transform: rotate(-1.5deg) scale(1.02) translateZ(0);
   box-shadow: 8px 10px 0px rgba(0,0,0,0.85);
 }
 .component-card:hover::after, .component-card.is-clicked::after {
@@ -66,14 +68,28 @@
   justify-content: center;
   position: relative;
   overflow: hidden;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 .card-preview iframe, .card-preview video, .card-preview img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   border: none;
   pointer-events: none;
-  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease;
   object-fit: cover;
+  object-position: center;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+  transform: scale(1.02) translateZ(0);
+  opacity: 0;
+}
+.card-preview.is-loaded iframe, .card-preview.is-loaded video, .card-preview.is-loaded img {
+  opacity: 1;
+  transform: scale(1) translateZ(0);
 }
 .component-card:hover .card-preview iframe,
 .component-card:hover .card-preview video,
@@ -81,7 +97,7 @@
 .component-card.is-clicked .card-preview iframe,
 .component-card.is-clicked .card-preview video,
 .component-card.is-clicked .card-preview img {
-  transform: scale(1.04);
+  transform: scale(1.04) translateZ(0);
 }
 
 .card-info {

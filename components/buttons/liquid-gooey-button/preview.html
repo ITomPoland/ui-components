@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Liquid Gooey Button | UI Components</title>
+  <link rel="stylesheet" href="./src/style.css" />
+  <style>
+    body { 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      min-height: 100vh; 
+      background: transparent; 
+      margin: 0; 
+      font-family: 'Inter', sans-serif; 
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================== -->
+  <!-- ✂️ COPY FROM HERE (COMPONENT MARKUP)       -->
+  <!-- ========================================== -->
+  <button class="t-liquid-btn">
+    <span class="t-text">Hover Liquid</span>
+    <span class="t-blob-container">
+      <span class="t-blob t-blob-base"></span>
+      <span class="t-blob t-blob-1"></span>
+      <span class="t-blob t-blob-2"></span>
+      <span class="t-blob t-blob-3"></span>
+      <span class="t-blob t-blob-4"></span>
+    </span>
+  </button>
+
+  <!-- SVG Gooey Filter (Required for the liquid effect) -->
+  <svg class="t-gooey-svg" xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <defs>
+      <filter id="t-gooey-effect">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+        <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+      </filter>
+    </defs>
+  </svg>
+  <!-- ========================================== -->
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

@@ -249,6 +249,40 @@
   font-weight: bold;
   color: var(--text-light-ink);
 }
+
+/* Styled Checkbox */
+.color-picker-item input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  border: var(--stroke-width) solid var(--text-ink);
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.15s, background-color 0.15s;
+  box-shadow: 2px 2px 0px var(--text-ink);
+  margin: 0;
+  vertical-align: middle;
+}
+.color-picker-item input[type="checkbox"]:hover {
+  transform: rotate(-3deg) scale(1.05);
+}
+.color-picker-item input[type="checkbox"]:checked {
+  background: #fef08a;
+}
+.color-picker-item input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-sketch);
+  color: var(--text-ink);
+  font-size: 1.1rem;
+  font-weight: bold;
+}
 .color-picker-item input[type="color"] {
   -webkit-appearance: none;
   -moz-appearance: none;

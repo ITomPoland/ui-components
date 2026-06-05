@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Magnetic Glass Button | ITOM Sketchbook</title>
+  <link rel="stylesheet" href="../../../src/css/style.css" />
+  <!-- PrismJS for Syntax Highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="app">
+    <a href="../../../" class="back-btn">← Back to Notebook</a>
+    
+    <div class="viewer-layout">
+      <!-- Live Preview -->
+      <div class="preview-section">
+        <div class="preview-header">
+          <h2>Live Preview</h2>
+        </div>
+        <iframe class="preview-iframe" src="./preview.html"></iframe>
+        
+        <!-- Dynamic Settings Controls -->
+        <div class="preview-controls">
+          <div class="control-group">
+            <label>Magnet Pull: <span id="valMagnet">0.45</span></label>
+            <input type="range" id="slideMagnet" min="0.1" max="1.5" step="0.05" value="0.45">
+          </div>
+          <div class="control-group">
+            <label>Text Parallax: <span id="valText">0.20</span></label>
+            <input type="range" id="slideText" min="0.05" max="0.8" step="0.05" value="0.20">
+          </div>
+          <div class="control-group">
+            <label>Border Radius: <span id="valRadius">24px</span></label>
+            <input type="range" id="slideRadius" min="0" max="40" step="1" value="24">
+          </div>
+          <div class="control-group">
+            <label>Theme Preset</label>
+            <div class="theme-toggles">
+              <button class="theme-toggle-btn active" data-theme="dark">Dark</button>
+              <button class="theme-toggle-btn" data-theme="light">Light</button>
+              <button class="theme-toggle-btn" data-theme="accent">Accent</button>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Custom Colors</label>
+            <div class="color-pickers">
+              <div class="color-picker-item">
+                <span class="color-label">Glass BG</span>
+                <input type="color" id="colorBg" value="#111111">
+              </div>
+              <div class="color-picker-item">
+                <span class="color-label">Text</span>
+                <input type="color" id="colorText" value="#ffffff">
+              </div>
+              <div class="color-picker-item">
+                <span class="color-label">Neon Glow</span>
+                <input type="color" id="colorGlow" value="#ea4aaa">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Code Viewer -->
+      <div class="code-section">
+        <div class="code-tabs">
+          <div class="code-tab active" data-target="html">HTML</div>
+          <div class="code-tab" data-target="css">CSS</div>
+          <div class="code-tab" data-target="js">JS</div>
+          <div style="flex:1"></div>
+          <button class="copy-btn" id="copyBtn">Copy Code</button>
+        </div>
+        <pre class="code-content"><code id="codeBlock" class="language-html">Loading...</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script type="module" src="./viewer.js"></script>
+</body>
+</html>

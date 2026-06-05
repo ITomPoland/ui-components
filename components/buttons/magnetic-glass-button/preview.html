@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Magnetic Glass Button | UI Components</title>
+  <link rel="stylesheet" href="./src/style.css" />
+  <style>
+    body { 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      min-height: 100vh; 
+      background: transparent; 
+      margin: 0; 
+      font-family: 'Inter', sans-serif; 
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================== -->
+  <!-- ✂️ COPY FROM HERE (COMPONENT MARKUP)       -->
+  <!-- ========================================== -->
+  <button class="t-glass-btn">
+    <span class="t-glow"></span>
+    <span class="t-text">Hover Glass</span>
+    
+    <!-- SVG Border Drawing Overlay -->
+    <svg class="t-border-svg" width="100%" height="100%">
+      <rect class="t-border-rect" x="0" y="0" width="100%" height="100%" rx="24" ry="24" vector-effect="non-scaling-stroke" />
+    </svg>
+  </button>
+  <!-- ========================================== -->
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

@@ -62,8 +62,9 @@
   border: 4px solid #fff;
   padding: 4rem;
   border-radius: 2px 255px 3px 225px / 255px 5px 225px 3px;
-  transform: rotate(-2deg);
+  transform: rotate(-2deg) translateZ(2px);
   background: rgba(0,0,0,0.2);
+  backface-visibility: hidden;
 }
 
 .cover-title {

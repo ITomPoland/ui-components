@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Magnetic Button | ITOM Sketchbook</title>
-  <link rel="stylesheet" href="../../src/css/style.css" />
+  <title>Kinetic Text Button | ITOM Sketchbook</title>
+  <link rel="stylesheet" href="../../../src/css/style.css" />
   <!-- PrismJS for Syntax Highlighting -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
 </head>
 <body>
   <div id="app">
-    <a href="../../" class="back-btn">← Back to Notebook</a>
+    <a href="../../../" class="back-btn">← Back to Notebook</a>
     
     <div class="viewer-layout">
       <!-- Live Preview -->
@@ -23,16 +23,16 @@
         <!-- Dynamic Settings Controls -->
         <div class="preview-controls">
           <div class="control-group">
-            <label>Magnet Pull: <span id="valMagnet">0.5</span></label>
-            <input type="range" id="slideMagnet" min="0" max="1.5" step="0.05" value="0.5">
+            <label>Stagger Delay: <span id="valStagger">0.02s</span></label>
+            <input type="range" id="slideStagger" min="0.005" max="0.1" step="0.005" value="0.02">
           </div>
           <div class="control-group">
-            <label>Text Parallax: <span id="valText">0.2</span></label>
-            <input type="range" id="slideText" min="0" max="1" step="0.05" value="0.2">
+            <label>Roll Duration: <span id="valDuration">0.45s</span></label>
+            <input type="range" id="slideDuration" min="0.2" max="1.5" step="0.05" value="0.45">
           </div>
           <div class="control-group">
-            <label>Border Radius: <span id="valRadius">99px</span></label>
-            <input type="range" id="slideRadius" min="0" max="99" step="1" value="99">
+            <label>Border Radius: <span id="valRadius">50px</span></label>
+            <input type="range" id="slideRadius" min="0" max="50" step="1" value="50">
           </div>
           <div class="control-group">
             <label>Theme Preset</label>
@@ -47,15 +47,24 @@
             <div class="color-pickers">
               <div class="color-picker-item">
                 <span class="color-label">Button BG</span>
-                <input type="color" id="colorBg" value="#111111">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <input type="color" id="colorBg" value="#ffffff">
+                  <label style="font-size: 0.75rem; display: flex; align-items: center; gap: 2px; cursor: pointer; white-space: nowrap;">
+                    <input type="checkbox" id="checkTransparentBg" checked> Transp.
+                  </label>
+                </div>
               </div>
               <div class="color-picker-item">
                 <span class="color-label">Text</span>
-                <input type="color" id="colorText" value="#ffffff">
+                <input type="color" id="colorText" value="#111111">
               </div>
               <div class="color-picker-item">
-                <span class="color-label">Hover Ripple</span>
-                <input type="color" id="colorHover" value="#ea4aaa">
+                <span class="color-label">Border</span>
+                <input type="color" id="colorBorder" value="#111111">
+              </div>
+              <div class="color-picker-item">
+                <span class="color-label">Hover BG</span>
+                <input type="color" id="colorHoverBg" value="#ea4aaa">
               </div>
             </div>
           </div>

@@ -160,3 +160,8 @@ export function init() {
   // Initial render
   renderCode();
 }
+
+// Auto-init only for standalone viewer page (book view calls init() explicitly)
+if (!document.querySelector('.book')) {
+  init();
+}

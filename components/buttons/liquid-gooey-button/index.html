@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Liquid Gooey Button | ITOM Sketchbook</title>
+  <link rel="stylesheet" href="../../../src/css/style.css" />
+  <!-- PrismJS for Syntax Highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="app">
+    <a href="../../../" class="back-btn">← Back to Notebook</a>
+    
+    <div class="viewer-layout">
+      <!-- Live Preview -->
+      <div class="preview-section">
+        <div class="preview-header">
+          <h2>Live Preview</h2>
+        </div>
+        <iframe class="preview-iframe" src="./preview.html"></iframe>
+        
+        <!-- Dynamic Settings Controls -->
+        <div class="preview-controls">
+          <div class="control-group">
+            <label>Gooey Blur: <span id="valBlur">10</span></label>
+            <input type="range" id="slideBlur" min="2" max="20" step="1" value="10">
+          </div>
+          <div class="control-group">
+            <label>Animation Speed: <span id="valSpeed">0.50s</span></label>
+            <input type="range" id="slideSpeed" min="0.2" max="1.5" step="0.05" value="0.5">
+          </div>
+          <div class="control-group">
+            <label>Border Radius: <span id="valRadius">50px</span></label>
+            <input type="range" id="slideRadius" min="0" max="50" step="1" value="50">
+          </div>
+          <div class="control-group">
+            <label>Theme Preset</label>
+            <div class="theme-toggles">
+              <button class="theme-toggle-btn active" data-theme="dark">Dark</button>
+              <button class="theme-toggle-btn" data-theme="light">Light</button>
+              <button class="theme-toggle-btn" data-theme="accent">Accent</button>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Custom Colors</label>
+            <div class="color-pickers">
+              <div class="color-picker-item">
+                <span class="color-label">Button BG</span>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <input type="color" id="colorBg" value="#ffffff">
+                  <label style="font-size: 0.75rem; display: flex; align-items: center; gap: 2px; cursor: pointer; white-space: nowrap;">
+                    <input type="checkbox" id="checkTransparentBg" checked> Transp.
+                  </label>
+                </div>
+              </div>
+              <div class="color-picker-item">
+                <span class="color-label">Border</span>
+                <input type="color" id="colorBorder" value="#111111">
+              </div>
+              <div class="color-picker-item">
+                <span class="color-label">Text</span>
+                <input type="color" id="colorText" value="#111111">
+              </div>
+              <div class="color-picker-item">
+                <span class="color-label">Liquid Blob</span>
+                <input type="color" id="colorBlob" value="#ea4aaa">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Code Viewer -->
+      <div class="code-section">
+        <div class="code-tabs">
+          <div class="code-tab active" data-target="html">HTML</div>
+          <div class="code-tab" data-target="css">CSS</div>
+          <div class="code-tab" data-target="js">JS</div>
+          <div style="flex:1"></div>
+          <button class="copy-btn" id="copyBtn">Copy Code</button>
+        </div>
+        <pre class="code-content"><code id="codeBlock" class="language-html">Loading...</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script type="module" src="./viewer.js"></script>
+</body>
+</html>

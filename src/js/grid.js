@@ -1,7 +1,7 @@
 import { gsap } from 'gsap';
 import { components } from '../data/components.js';
 import { attachAudioHoverListeners } from './audio.js';
-import { turnPage } from './animations.js';
+import { turnPage, getIsAnimating } from './animations.js';
 
 let currentFilter = 'all';
 let isFirstLoad = true;
@@ -26,15 +26,25 @@ const lazyLoadObserver = new IntersectionObserver((entries) => {
       if (!mediaContainer.dataset.loaded) {
         mediaContainer.dataset.loaded = 'true';
         if (type === 'video') {
-          mediaContainer.innerHTML = `<video src="${src}" autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;"></video>`;
+          mediaContainer.innerHTML = `<video src="${src}" autoplay loop muted playsinline></video>`;
         } else if (type === 'iframe') {
           mediaContainer.innerHTML = `<iframe src="${src}" scrolling="no" tabindex="-1" loading="lazy"></iframe>`;
         }
+        
+        // Add class for smooth fade-in without keyframes
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            mediaContainer.classList.add('is-loaded');
+          });
+        });
+      } else {
+        const video = mediaContainer.querySelector('video');
+        if (video) video.play().catch(e => console.warn("Auto-play prevented", e));
       }
     } else {
       if (mediaContainer.dataset.loaded) {
-        delete mediaContainer.dataset.loaded;
-        mediaContainer.innerHTML = `<div style="font-family: var(--font-sketch); color: var(--text-light-ink); font-size: 1.2rem; animation: squiggle 0.3s infinite linear;">Loading Preview...</div>`;
+        const video = mediaContainer.querySelector('video');
+        if (video) video.pause();
       }
     }
   });
@@ -137,6 +147,7 @@ export function loadCategory(filter, forward = true) {
     document.querySelectorAll('.component-card').forEach(c => lazyLoadObserver.observe(c));
     attachAudioHoverListeners();
   } else {
+    if (getIsAnimating()) return; // Skip if a page turn is already in progress
     turnPage(leftContent.innerHTML, rightContent.innerHTML, forward, isHome).then(() => {
       document.querySelectorAll('.component-card').forEach(c => lazyLoadObserver.observe(c));
       attachAudioHoverListeners();
@@ -154,7 +165,7 @@ export function initGridFilters() {
   
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      if (btn.classList.contains('active')) return;
+      if (btn.classList.contains('active') || getIsAnimating()) return;
       const activeBtn = document.querySelector('#gridBookmarks .bookmark.active');
       const oldFilter = activeBtn ? activeBtn.dataset.filter : 'all';
       
