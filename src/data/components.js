@@ -1,3 +1,4 @@
+import trainFlowPreloaderDemo from '../../components/preloaders/train-flow-preloader/demo.mp4';
 import magneticButtonDemo from '../../components/buttons/magnetic-button/demo.mp4';
 import splitTextPreloaderDemo from '../../components/preloaders/split-text-preloader/demo.mp4';
 import liquidGooeyButtonDemo from '../../components/buttons/liquid-gooey-button/demo.mp4';
@@ -5,6 +6,14 @@ import kineticTextButtonDemo from '../../components/buttons/kinetic-text-button/
 import magneticGlassButtonDemo from '../../components/buttons/magnetic-glass-button/demo.mp4';
 
 export const components = [
+  {
+    id: 'train-flow-preloader',
+    name: 'Train Flow Preloader',
+    description: 'A cinema-inspired preloader with running marquee text and a trailing train of images that decelerate and zoom into the hero view.',
+    tags: ['hero', 'animation', 'preloader'],
+    path: './components/preloaders/train-flow-preloader/',
+    demo: trainFlowPreloaderDemo
+  },
   {
     id: 'split-text-preloader',
     name: 'Split Text Preloader',

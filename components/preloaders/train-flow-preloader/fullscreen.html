@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Train Flow Preloader — Fullscreen Preview</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Syne:wght@400..800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background-color: #0B0B0B; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; }
+
+    /* Replay button — bottom-right corner, minimal */
+    .fullscreen-replay-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 50px;
+      color: rgba(255, 255, 255, 0.7);
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease, background 0.2s ease, color 0.2s ease;
+    }
+    .fullscreen-replay-btn.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fullscreen-replay-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.95);
+    }
+    .fullscreen-replay-btn svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+  </style>
+  <link rel="stylesheet" href="src/preloader.css">
+  <link rel="stylesheet" href="src/hero.css">
+  <!-- Always replay on load — clear the session flag before scripts run -->
+  <script>sessionStorage.removeItem('trainFlowPreloaderHasRun');</script>
+</head>
+<body>
+
+  <!-- Preloader Component -->
+  <section class="train-preloader-container">
+    <!-- Prevent flash of black screen on reload -->
+    <script>
+      if (sessionStorage.getItem('trainFlowPreloaderHasRun')) {
+        document.currentScript.parentElement.style.display = 'none';
+      }
+    </script>
+    <div class="train-marquee-wrapper">
+      <div class="train-marquee-content">
+        <span class="train-marquee-text">ITOM</span>
+      </div>
+    </div>
+
+    <div class="train-images-wrapper">
+      <div class="train-images-container">
+        <img class="train-img train-img-0" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop" alt="Abstract 1">
+        <img class="train-img train-img-1" src="https://images.unsplash.com/photo-1604871000636-074fa5117945?q=80&w=1000&auto=format&fit=crop" alt="Abstract 2">
+        <img class="train-img train-img-2" src="https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=1000&auto=format&fit=crop" alt="Abstract 3">
+        <img class="train-img train-img-3" src="https://images.unsplash.com/photo-1574169208507-84376144848b?q=80&w=1000&auto=format&fit=crop" alt="Abstract 4">
+        <img class="train-img train-img-4" src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=1000&auto=format&fit=crop" alt="Abstract 5">
+        <img class="train-img train-img-5" data-hero src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000&auto=format&fit=crop" alt="Hero Image">
+        <img class="train-img train-img-6" src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=1000&auto=format&fit=crop" alt="Abstract 6">
+        <img class="train-img train-img-7" src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=1000&auto=format&fit=crop" alt="Abstract 7">
+        <img class="train-img train-img-8" src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=1000&auto=format&fit=crop" alt="Abstract 8">
+      </div>
+    </div>
+  </section>
+
+  <!-- Hero Section (underneath the preloader) -->
+  <main class="hero-section">
+    <div class="hero-bg-wrapper">
+      <img class="hero-bg-img" src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000&auto=format&fit=crop" alt="Hero Background">
+    </div>
+
+    <div class="hero-container">
+      <h1 class="hero-title">
+        <span class="hero-title-line"><span class="hero-title-inner">HERO</span></span>
+      </h1>
+    </div>
+  </main>
+
+  <!-- Replay button -->
+  <button class="fullscreen-replay-btn" id="replayBtn" title="Replay animation">
+    <svg viewBox="0 0 24 24"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+    Replay
+  </button>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <!-- Component Scripts -->
+  <script type="module" src="./src/preloader.js"></script>
+  <script type="module" src="./src/hero.js"></script>
+
+  <script>
+    // Show replay button after preloader completes
+    document.addEventListener('preloaderComplete', () => {
+      setTimeout(() => {
+        document.getElementById('replayBtn').classList.add('visible');
+      }, 800);
+    });
+
+    // Replay handler
+    document.getElementById('replayBtn').addEventListener('click', () => {
+      const btn = document.getElementById('replayBtn');
+      btn.classList.remove('visible');
+
+      // Reset all GSAP and inline styles
+      gsap.killTweensOf('*');
+      gsap.set('.train-preloader-container, .train-marquee-content, .train-img, .hero-title, .hero-title-inner', { clearProps: 'all' });
+
+      const container = document.querySelector('.train-preloader-container');
+      if (container) {
+        container.style.visibility = 'visible';
+        container.style.zIndex = '100';
+        container.style.backgroundColor = '';
+      }
+
+      sessionStorage.removeItem('trainFlowPreloaderHasRun');
+      if (window.runPreloaderAnimation) {
+        window.runPreloaderAnimation();
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -22,16 +22,54 @@
           </div>
         </div>
 
+        <!-- Left Bookmarks (Anchor for Home) -->
+        <div class="bookmarks-container" id="leftBookmarks" style="left: 10%;">
+          <button class="bookmark active" data-filter="all" id="bookmark-home">Home</button>
+        </div>
+
         <!-- Back to Grid Bookmark (Hidden initially) -->
         <div class="bookmarks-container" id="componentBookmarks" style="display: none; left: 10%;">
           <button class="bookmark active" id="btnBackToGrid">← Back to Notebook</button>
         </div>
 
-        <!-- Bookmarks (Top Tabs) -->
-        <div class="bookmarks-container" id="gridBookmarks">
-          <button class="bookmark active" data-filter="all">Home</button>
-          <button class="bookmark" data-filter="button">Buttons</button>
-          <button class="bookmark" data-filter="preloader">Preloaders</button>
+        <!-- Right Bookmarks (Slider) -->
+        <div class="bookmarks-container slider-mode" id="gridBookmarks">
+          <button class="bookmark slider-arrow prev-arrow" id="btnPrevCategory" disabled>←</button>
+          
+          <div class="bookmarks-window">
+            <div class="bookmarks-track" id="bookmarksTrack">
+              <!-- Page 1 of categories -->
+              <div class="bookmarks-page active-page" data-page="0">
+                <button class="bookmark" data-filter="button">Buttons</button>
+                <button class="bookmark" data-filter="preloader">Preloaders</button>
+                <button class="bookmark" data-filter="page-transition">Page Transitions</button>
+              </div>
+              <!-- Page 2 of categories -->
+              <div class="bookmarks-page" data-page="1">
+                <button class="bookmark" data-filter="scroll-transition">Scroll Transitions</button>
+                <button class="bookmark" data-filter="scroll-trigger">Scroll Trigger</button>
+                <button class="bookmark" data-filter="navbar">Navbars</button>
+              </div>
+            </div>
+          </div>
+          
+          <button class="bookmark slider-arrow next-arrow" id="btnNextCategory">→</button>
+        </div>
+
+        <!-- Right Side Sticky Notes (Karteczki Post-it) -->
+        <div class="sticky-notes-container right-side">
+          <button class="sticky-note-tab note-pink" data-action="showcase">
+            <span class="note-text">Showcase</span>
+          </button>
+          <button class="sticky-note-tab note-blue" data-action="submit">
+            <span class="note-text">Submit</span>
+          </button>
+          <a href="https://github.com/ITomPoland/ui-components/discussions" target="_blank" rel="noopener noreferrer" class="sticky-note-tab note-yellow">
+            <span class="note-text">Discuss</span>
+          </a>
+          <a href="https://github.com/ITomPoland/ui-components/issues" target="_blank" rel="noopener noreferrer" class="sticky-note-tab note-green">
+            <span class="note-text">Proposal</span>
+          </a>
         </div>
 
         <!-- Left Base Page -->
@@ -114,6 +152,97 @@
       <section class="components-grid">
       </section>
     </template>
+
+    <template id="showcase-page-template">
+      <h1 class="page-title"></h1>
+      <section class="components-grid showcase-grid">
+      </section>
+    </template>
+    
+    <template id="submit-instructions-template">
+      <div class="submit-instructions-container">
+        <h2 class="brand-title">SUBMIT A SITE</h2>
+        <div class="instructions-card">
+          <h3 class="mission-title">Show off your craft! 🌟</h3>
+          <p class="mission-text">
+            Built something cool with our components? Submit it and get featured in the Showcase! ✨
+          </p>
+        </div>
+      </div>
+    </template>
+
+    <template id="submit-form-template">
+      <div class="submit-form-container">
+        <h2 class="page-title">SUBMISSION FORM</h2>
+        <form id="submitWebsiteForm" class="sketch-form">
+          <!-- Anti-spam Honeypot -->
+          <input type="text" name="_honeypot" id="honeypot" style="display:none" tabindex="-1" autocomplete="off" />
+          
+          <div class="form-group">
+            <label for="siteName">Website Name <span class="required-asterisk">*</span></label>
+            <input type="text" id="siteName" required maxlength="100" placeholder="e.g. My Creative Space" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="siteUrl">Website URL <span class="required-asterisk">*</span></label>
+            <input type="url" id="siteUrl" required maxlength="200" placeholder="https://..." autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="authorName">Author</label>
+            <input type="text" id="authorName" maxlength="100" placeholder="e.g. John Doe" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="authorPortfolio">Portfolio / Agency URL</label>
+            <input type="url" id="authorPortfolio" maxlength="200" placeholder="https://yoursite.com" autocomplete="off" />
+          </div>
+          <div class="form-divider"></div>
+          <div class="form-group-row">
+            <div class="form-group form-group-half">
+              <label for="socialLinkedin">LinkedIn</label>
+              <input type="url" id="socialLinkedin" maxlength="200" placeholder="https://linkedin.com/in/..." autocomplete="off" />
+            </div>
+            <div class="form-group form-group-half">
+              <label for="socialX">X (Twitter)</label>
+              <input type="url" id="socialX" maxlength="200" placeholder="https://x.com/..." autocomplete="off" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="contactEmail">Email <span class="form-optional">(optional)</span></label>
+            <input type="email" id="contactEmail" maxlength="150" placeholder="you@email.com — to hear if you got featured" autocomplete="off" />
+          </div>
+          <div class="form-divider"></div>
+          <div class="form-group">
+            <label>Component Used <span class="required-asterisk">*</span></label>
+            <div class="components-checkboxes">
+              <label class="checkbox-item">
+                <input type="checkbox" name="components" value="Buttons" />
+                <span>Buttons</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="components" value="Preloaders" />
+                <span>Preloaders</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="components" value="Page Transitions" />
+                <span>Page Transitions</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="components" value="Scroll Transitions" />
+                <span>Scroll Transitions</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="components" value="Scroll Trigger" />
+                <span>Scroll Trigger</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="components" value="Navbars" />
+                <span>Navbars</span>
+              </label>
+            </div>
+          </div>
+          <button type="submit" class="submit-sketch-btn">SUBMIT SKETCH 🚀</button>
+        </form>
+      </div>
+    </template>
     
     <!-- SVG Filters for Squigglevision (Wiggly Sketch Effect) -->
     <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
@@ -133,6 +262,13 @@
       </defs>
     </svg>
     
+    <!-- Success Popup -->
+    <div id="successPopup" class="success-popup">
+      <h3>Thank you! 🎉</h3>
+      <p>Your submission has been sent for review. We'll check it as soon as possible! 📝✨</p>
+      <button class="success-close-btn" id="successCloseBtn">Close</button>
+    </div>
+
     <script type="module" src="./src/js/main.js"></script>
   </body>
 </html>

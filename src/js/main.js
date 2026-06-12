@@ -3,7 +3,7 @@ import { renderComponents, initGridFilters } from './grid.js';
 import { initAnimations } from './animations.js';
 
 // Setup GSAP initial states
-gsap.set('#gridBookmarks .bookmark', { y: 20, opacity: 0 });
+gsap.set(['#gridBookmarks .bookmark', '#leftBookmarks .bookmark'], { y: '1.25rem', opacity: 0 });
 
 
 

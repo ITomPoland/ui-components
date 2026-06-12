@@ -5,3 +5,7 @@
 @import './viewer-overrides.css';
 @import './doodle.css';
 @import './viewer.css';
+
+/* Page-Specific Styles */
+@import './pages/showcase.css';
+@import './pages/submit.css';

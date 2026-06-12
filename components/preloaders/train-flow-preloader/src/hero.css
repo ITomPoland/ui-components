@@ -1,0 +1,68 @@
+/* Hero Section CSS */
+.hero-section {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  color: #FFFFFF;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background-color: #0B0B0B;
+}
+
+/* Background — always visible, no animation needed.
+   The preloader's final image expands to cover this exact area. */
+.hero-bg-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.hero-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Center Content Layer */
+.hero-container {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 2rem;
+}
+
+/* Title with Mask Reveal */
+.hero-title {
+  font-family: var(--font-display);
+  font-size: 10vw;
+  font-weight: 900;
+  line-height: 1;
+  margin: 0;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  text-align: center;
+  will-change: letter-spacing;
+}
+
+.hero-title-line {
+  display: block;
+  overflow: hidden; /* This is the mask — hides the inner text below */
+}
+
+.hero-title-inner {
+  display: block;
+  /* GSAP controls translateY for the mask-reveal entrance */
+  will-change: transform;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 14vw;
+  }
+}

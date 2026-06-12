@@ -154,19 +154,13 @@
 
 .page-face.front {
   transform: rotateY(0deg);
-  box-shadow: 
-    inset 10px 0 20px rgba(0,0,0,0.05), 
-    3px 3px 0px rgba(0,0,0,0.85),
-    6px 6px 0px rgba(0,0,0,0.85),
-    9px 9px 0px rgba(0,0,0,0.85),
-    12px 12px 0px rgba(0,0,0,0.85),
-    15px 15px 0px rgba(0,0,0,0.85);
+  box-shadow: inset 10px 0 20px rgba(0,0,0,0.05);
 }
 
 .page-face.back {
   transform: rotateY(180deg);
   border-radius: 15px 4px 4px 15px;
-  box-shadow: inset -10px 0 20px rgba(0,0,0,0.05), 0 15px 0px rgba(0,0,0,0.85);
+  box-shadow: inset -10px 0 20px rgba(0,0,0,0.05);
 }
 
 /* Spine shadow for right pages (hinge on left) */
@@ -210,6 +204,8 @@
   overflow-y: auto;
   scrollbar-color: rgba(17, 17, 17, 0.4) transparent;
   scrollbar-width: thin;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* Custom scrollbar */

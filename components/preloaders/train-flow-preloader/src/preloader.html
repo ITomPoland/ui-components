@@ -1,0 +1,31 @@
+<section class="train-preloader-container">
+  <!-- Prevent flash of black screen on reload -->
+  <script>
+    if (sessionStorage.getItem('trainFlowPreloaderHasRun')) {
+      document.currentScript.parentElement.style.display = 'none';
+    }
+  </script>
+  <!-- Single Text Element -->
+  <div class="train-marquee-wrapper">
+    <div class="train-marquee-content">
+      <span class="train-marquee-text">ITOM</span>
+    </div>
+  </div>
+
+  <!-- Image Train -->
+  <div class="train-images-wrapper">
+    <div class="train-images-container">
+      <img class="train-img train-img-0" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop" alt="Abstract 1">
+      <img class="train-img train-img-1" src="https://images.unsplash.com/photo-1604871000636-074fa5117945?q=80&w=1000&auto=format&fit=crop" alt="Abstract 2">
+      <img class="train-img train-img-2" src="https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=1000&auto=format&fit=crop" alt="Abstract 3">
+      <img class="train-img train-img-3" src="https://images.unsplash.com/photo-1574169208507-84376144848b?q=80&w=1000&auto=format&fit=crop" alt="Abstract 4">
+      <img class="train-img train-img-4" src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=1000&auto=format&fit=crop" alt="Abstract 5">
+      <!-- Hero image — zooms to fullscreen. data-hero marks it as the expand target -->
+      <img class="train-img train-img-5" data-hero src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000&auto=format&fit=crop" alt="Hero Image">
+      <!-- Trailing images — keep the train flowing; covered by hero as it expands -->
+      <img class="train-img train-img-6" src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=1000&auto=format&fit=crop" alt="Abstract 6">
+      <img class="train-img train-img-7" src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=1000&auto=format&fit=crop" alt="Abstract 7">
+      <img class="train-img train-img-8" src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=1000&auto=format&fit=crop" alt="Abstract 8">
+    </div>
+  </div>
+</section>

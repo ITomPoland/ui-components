@@ -4,7 +4,7 @@
   top: -2.375rem;
   left: 52%;
   display: flex;
-  gap: 15px;
+  gap: 0.9375rem;
   z-index: 0;
 }
 
@@ -12,23 +12,23 @@
   background: #fdfdfc;
   border: var(--stroke-width) solid var(--text-ink);
   border-bottom: none;
-  padding: 12px 18px 30px 18px;
-  border-radius: 8px 8px 0 0;
+  padding: 0.5rem 0.8rem 1.875rem 0.8rem;
+  border-radius: 0.5rem 0.5rem 0 0;
   font-family: var(--font-sketch);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--text-ink);
   cursor: pointer;
-  transform: translateY(20px);
+  transform: translateY(0.5rem);
   transition: transform 0.3s ease, background-color 0.3s;
 }
 
 .bookmark:hover {
-  transform: translateY(5px);
+  transform: translateY(0.25rem);
   background: #fef08a;
 }
 
 .bookmark.active {
-  transform: translateY(0px);
+  transform: translateY(0rem);
   background: #fef08a;
   font-weight: bold;
 }
@@ -225,3 +225,180 @@
   text-align: center;
   transform: rotate(0.5deg);
 }
+
+/* Category Slider Styles */
+.bookmarks-container.slider-mode {
+  left: 51%;
+  right: 3%;
+  width: auto;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.bookmarks-window {
+  flex-grow: 1;
+  overflow: hidden;
+  height: 4.2rem;
+  position: relative;
+}
+
+.bookmarks-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  height: 100%;
+  width: 100%;
+}
+
+.bookmarks-page {
+  display: flex;
+  gap: 0.5rem;
+  min-width: 100%;
+  flex-shrink: 0;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.slider-arrow {
+  flex-shrink: 0;
+  padding: 0.5rem 0.8rem 1.875rem 0.8rem;
+  font-weight: bold;
+  user-select: none;
+}
+.slider-arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: #e5e5e5;
+  transform: translateY(0.5rem) !important;
+}
+
+/* Side Sticky Notes (Karteczki Post-it) */
+.sticky-notes-container {
+  position: absolute;
+  left: 100%;
+  right: auto;
+  top: 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.sticky-note-tab {
+  display: block;
+  width: 1.2rem;
+  height: 5.5rem;
+  border: var(--stroke-width) solid var(--text-ink);
+  border-left: none;
+  border-radius: 0 0.5rem 0.5rem 0;
+  box-shadow: 2px 3px 0px rgba(0,0,0,0.85);
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s;
+}
+
+.sticky-note-tab:hover {
+  width: 2.4rem;
+  box-shadow: 4px 5px 0px rgba(0,0,0,0.85);
+}
+
+.sticky-note-tab .note-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(90deg);
+  font-family: var(--font-sketch);
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: var(--text-ink);
+  white-space: nowrap;
+}
+
+.note-pink {
+  background: #fda4af;
+}
+.note-pink:hover {
+  background: #f43f5e;
+}
+.note-pink:hover .note-text {
+  color: white;
+}
+
+.note-blue {
+  background: #bae6fd;
+}
+.note-blue:hover {
+  background: #0ea5e9;
+}
+.note-blue:hover .note-text {
+  color: white;
+}
+
+.note-yellow {
+  background: #fef08a;
+}
+.note-yellow:hover {
+  background: #eab308;
+}
+
+.note-green {
+  background: #bbf7d0;
+}
+.note-green:hover {
+  background: #22c55e;
+}
+.note-green:hover .note-text {
+  color: white;
+}
+
+/* Empty Category state styles */
+.empty-category-message {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  opacity: 0.85;
+}
+
+.empty-doodle {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: floatDoodle 3s ease-in-out infinite;
+}
+
+.empty-category-message h3 {
+  font-family: var(--font-sketch);
+  font-size: 1.8rem;
+  margin: 0 0 0.5rem 0;
+  color: var(--text-ink);
+}
+
+.empty-category-message p {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  color: var(--text-light-ink);
+  max-width: 20rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+@keyframes floatDoodle {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+/* Active State for Side Post-it Tabs */
+.sticky-note-tab.active {
+  width: 2.4rem;
+  box-shadow: 4px 5px 0px rgba(0,0,0,0.85);
+  transform: rotate(0deg) translateX(0rem) !important;
+}
+
+

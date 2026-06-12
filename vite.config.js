@@ -30,6 +30,11 @@ function scanComponents(dir) {
         if (fs.existsSync(previewFile)) {
           input[`${keyBase}-preview`] = previewFile;
         }
+        // Include fullscreen preview pages if they exist
+        const fullscreenFile = join(fullPath, 'fullscreen.html');
+        if (fs.existsSync(fullscreenFile)) {
+          input[`${keyBase}-fullscreen`] = fullscreenFile;
+        }
       } else {
         scanComponents(fullPath);
       }

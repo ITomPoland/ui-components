@@ -44,14 +44,98 @@ export function initAnimations() {
       duration: 1.5,
       ease: "power3.inOut"
     }, 0)
-    .to('#gridBookmarks .bookmark', {
-      y: 0,
+    .to(['#leftBookmarks .bookmark', '#gridBookmarks .slider-arrow', '.bookmarks-page[data-page="0"] .bookmark'], {
+      y: '0rem',
       opacity: 1,
       duration: 0.5,
-      stagger: 0.1,
-      ease: "back.out(1.5)"
-    }, 1.0);
+      stagger: 0.08,
+      ease: "back.out(1.5)",
+      clearProps: "transform"
+    }, 1.0)
+    .set('.sticky-notes-container', {
+      opacity: 1,
+      pointerEvents: 'auto'
+    }, 1.0)
+    .fromTo('.sticky-note-tab', 
+      { x: '-1.25rem', opacity: 0 },
+      {
+        x: '0rem',
+        opacity: 1,
+        duration: 0.5,
+        stagger: 0.08,
+        ease: "back.out(1.5)",
+        clearProps: "transform"
+      }, 1.1);
   });
+
+  // Categories Slider Navigation
+  let currentPage = 0;
+  const totalPages = 2;
+  const track = document.getElementById('bookmarksTrack');
+  const btnPrev = document.getElementById('btnPrevCategory');
+  const btnNext = document.getElementById('btnNextCategory');
+
+  function updateSliderButtons() {
+    if (btnPrev) btnPrev.disabled = currentPage === 0;
+    if (btnNext) btnNext.disabled = currentPage === totalPages - 1;
+  }
+
+  function slideToPage(targetPage) {
+    if (isAnimating || targetPage < 0 || targetPage >= totalPages) return;
+    isAnimating = true;
+
+    const currentBookmarks = document.querySelectorAll(`.bookmarks-page[data-page="${currentPage}"] .bookmark`);
+    
+    gsap.to(currentBookmarks, {
+      y: '1.25rem',
+      opacity: 0,
+      duration: 0.25,
+      stagger: 0.03,
+      ease: "power2.in",
+      onComplete: () => {
+        document.querySelectorAll('.bookmarks-page').forEach(p => p.classList.remove('active-page'));
+        const targetPageEl = document.querySelector(`.bookmarks-page[data-page="${targetPage}"]`);
+        if (targetPageEl) targetPageEl.classList.add('active-page');
+        
+        if (track) track.style.transform = `translateX(-${targetPage * 100}%)`;
+        
+        currentPage = targetPage;
+        updateSliderButtons();
+
+        const nextBookmarks = document.querySelectorAll(`.bookmarks-page[data-page="${currentPage}"] .bookmark`);
+        
+        nextBookmarks.forEach((btn, index) => {
+          const isTargetActive = btn.classList.contains('active');
+          gsap.fromTo(btn,
+            { y: '1.25rem', opacity: 0 },
+            { 
+              y: isTargetActive ? '0rem' : '0.5rem', 
+              opacity: 1, 
+              duration: 0.35, 
+              delay: index * 0.03,
+              ease: "back.out(1.5)", 
+              clearProps: "transform"
+            }
+          );
+        });
+
+        gsap.delayedCall(0.35 + (nextBookmarks.length * 0.03), () => {
+          isAnimating = false;
+        });
+      }
+    });
+  }
+
+  if (btnPrev && btnNext) {
+    btnPrev.addEventListener('click', (e) => {
+      e.stopPropagation();
+      slideToPage(currentPage - 1);
+    });
+    btnNext.addEventListener('click', (e) => {
+      e.stopPropagation();
+      slideToPage(currentPage + 1);
+    });
+  }
 
   document.addEventListener('click', (e) => {
     const card = e.target.closest('.component-card');
@@ -68,20 +152,46 @@ export function initAnimations() {
   document.getElementById('btnBackToGrid').addEventListener('click', () => {
     if (isAnimating) return; // Block if animation in progress
 
-    const activeBtn = document.querySelector('#gridBookmarks .bookmark.active');
+    const activeBtn = document.querySelector('.bookmark.active:not(#btnBackToGrid)');
     const currentFilter = activeBtn ? activeBtn.dataset.filter : 'all';
     
     gsap.to('#componentBookmarks .bookmark', {
-      y: 20,
+      y: '1.25rem',
       opacity: 0,
       duration: 0.3,
       onComplete: () => {
         document.getElementById('componentBookmarks').style.display = 'none';
         document.getElementById('gridBookmarks').style.display = 'flex';
-        gsap.fromTo('#gridBookmarks .bookmark', 
-          {y: 20, opacity: 0}, 
-          {y: 0, opacity: 1, duration: 0.5, stagger: 0.05, ease: "back.out(1.5)"}
+        document.getElementById('leftBookmarks').style.display = 'flex';
+        
+        gsap.to('.sticky-notes-container', {
+          opacity: 1,
+          pointerEvents: 'auto',
+          duration: 0.5
+        });
+
+        gsap.fromTo('#leftBookmarks .bookmark',
+          { y: '1.25rem', opacity: 0 },
+          { y: '0rem', opacity: 1, duration: 0.5, ease: "back.out(1.5)", clearProps: "transform" }
         );
+
+        const activePageNum = currentPage;
+        const visibleBookmarks = document.querySelectorAll(`.bookmarks-page[data-page="${activePageNum}"] .bookmark, #gridBookmarks .slider-arrow`);
+        
+        visibleBookmarks.forEach((btn, index) => {
+          const isTargetActive = btn.classList.contains('active');
+          gsap.fromTo(btn, 
+            { y: '1.25rem', opacity: 0 }, 
+            { 
+              y: isTargetActive ? '0rem' : '0.5rem', 
+              opacity: 1, 
+              duration: 0.5, 
+              delay: index * 0.04, 
+              ease: "back.out(1.5)", 
+              clearProps: "transform" 
+            }
+          );
+        });
       }
     });
 
@@ -89,6 +199,14 @@ export function initAnimations() {
       module.loadCategory(currentFilter, false, true);
     });
   });
+
+  const successPopup = document.getElementById('successPopup');
+  const successCloseBtn = document.getElementById('successCloseBtn');
+  if (successCloseBtn && successPopup) {
+    successCloseBtn.addEventListener('click', () => {
+      successPopup.classList.remove('show');
+    });
+  }
 }
 
 // Stop and remove all playing media (videos/iframes) inside a container
@@ -246,17 +364,28 @@ export async function flipToComponent(path) {
       }
     }
 
-    gsap.to('#gridBookmarks .bookmark', {
-      y: 20, 
+    gsap.to(['#gridBookmarks .bookmark', '#leftBookmarks .bookmark'], {
+      y: '1.25rem', 
       opacity: 0, 
       duration: 0.3, 
-      stagger: 0.05,
+      stagger: 0.02
+    });
+    
+    gsap.to('.sticky-notes-container', {
+      opacity: 0,
+      pointerEvents: 'none',
+      duration: 0.3
+    });
+
+    gsap.to('#gridBookmarks .bookmark', {
+      duration: 0.3,
       onComplete: () => {
         document.getElementById('gridBookmarks').style.display = 'none';
+        document.getElementById('leftBookmarks').style.display = 'none';
         document.getElementById('componentBookmarks').style.display = 'flex';
         gsap.fromTo('#componentBookmarks .bookmark', 
-          {y: 20, opacity: 0}, 
-          {y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.5)"}
+          {y: '1.25rem', opacity: 0}, 
+          {y: '0rem', opacity: 1, duration: 0.5, ease: "back.out(1.5)", clearProps: "transform"}
         );
       }
     });
@@ -319,5 +448,16 @@ export async function flipToComponent(path) {
 
   } catch(e) {
     console.error("Failed to load component:", e);
+  }
+}
+
+export function triggerSubmitSuccess() {
+  // Odtwórz dźwięk ołówka
+  playPencilScratch(600, 0.4, 0.05);
+  
+  // Pokaż popup
+  const successPopup = document.getElementById('successPopup');
+  if (successPopup) {
+    successPopup.classList.add('show');
   }
 }

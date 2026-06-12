@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Train Flow Preloader Preview</title>
+  <!-- Google Fonts for premium typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Syne:wght@400..800&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background-color: #0B0B0B;
+    }
+  </style>
+  <link rel="stylesheet" href="src/preloader.css">
+  <link rel="stylesheet" href="src/hero.css">
+</head>
+<body class="overflow-hidden">
+  
+  <!-- Preloader Component -->
+  <section class="train-preloader-container">
+    <!-- Prevent flash of black screen on reload -->
+    <script>
+      if (sessionStorage.getItem('trainFlowPreloaderHasRun')) {
+        document.currentScript.parentElement.style.display = 'none';
+      }
+    </script>
+    <!-- Single Text Element -->
+    <div class="train-marquee-wrapper">
+      <div class="train-marquee-content">
+        <span class="train-marquee-text">ITOM</span>
+      </div>
+    </div>
+
+    <!-- Image Train -->
+    <div class="train-images-wrapper">
+      <div class="train-images-container">
+        <img class="train-img train-img-0" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop" alt="Abstract 1">
+        <img class="train-img train-img-1" src="https://images.unsplash.com/photo-1604871000636-074fa5117945?q=80&w=1000&auto=format&fit=crop" alt="Abstract 2">
+        <img class="train-img train-img-2" src="https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=1000&auto=format&fit=crop" alt="Abstract 3">
+        <img class="train-img train-img-3" src="https://images.unsplash.com/photo-1574169208507-84376144848b?q=80&w=1000&auto=format&fit=crop" alt="Abstract 4">
+        <img class="train-img train-img-4" src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=1000&auto=format&fit=crop" alt="Abstract 5">
+        <!-- Hero image — zooms to fullscreen. data-hero marks it as the expand target -->
+        <img class="train-img train-img-5" data-hero src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000&auto=format&fit=crop" alt="Hero Image">
+        <!-- Trailing images — keep the train flowing; covered by hero as it expands -->
+        <img class="train-img train-img-6" src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=1000&auto=format&fit=crop" alt="Abstract 6">
+        <img class="train-img train-img-7" src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=1000&auto=format&fit=crop" alt="Abstract 7">
+        <img class="train-img train-img-8" src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=1000&auto=format&fit=crop" alt="Abstract 8">
+      </div>
+    </div>
+  </section>
+
+  <!-- Hero Component / Page Underneath -->
+  <main class="hero-section">
+    <div class="hero-bg-wrapper">
+      <img class="hero-bg-img" src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000&auto=format&fit=crop" alt="Hero Background">
+    </div>
+
+    <div class="hero-container">
+      <h1 class="hero-title">
+        <span class="hero-title-line"><span class="hero-title-inner">HERO</span></span>
+      </h1>
+    </div>
+  </main>
+
+  <!-- Load GSAP Core -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <!-- Load Modular Scripts -->
+  <script type="module" src="./src/preloader.js"></script>
+  <script type="module" src="./src/hero.js"></script>
+  
+  <script>
+    // Communication with Code Editor Panel
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.type === 'update-config') {
+        const config = e.data.config;
+        
+        // 1. Update Preloader Text Marquee
+        const marqueeTexts = document.querySelectorAll('.train-marquee-text');
+        marqueeTexts.forEach(el => {
+          el.textContent = config.preloaderText;
+        });
+        
+        // 2. Update Hero Text (single centered heading)
+        const heroTitleInner = document.querySelector('.hero-title-inner');
+        if (heroTitleInner) {
+          heroTitleInner.textContent = config.heroText;
+        }
+        
+        // 3. Update CSS Variables (background color and responsive font size)
+        document.documentElement.style.setProperty('--preloader-bg', config.bgColor);
+        
+        const length = config.preloaderText.length;
+        let fontSize = 14;
+        if (length > 4) {
+          fontSize = Math.max(4, 56 / length);
+          fontSize = Math.round(fontSize * 10) / 10;
+        }
+        document.documentElement.style.setProperty('--preloader-font-size', `${fontSize}vw`);
+
+        // Kill all tweens and reset inline styles before restarting
+        gsap.killTweensOf('*');
+        gsap.set('.train-preloader-container, .train-marquee-content, .train-img, .hero-title, .hero-title-inner', { clearProps: 'all' });
+        
+        // Force the preloader container to display
+        const container = document.querySelector('.train-preloader-container');
+        if (container) {
+          container.style.backgroundColor = config.bgColor;
+          container.style.zIndex = '100';
+          container.style.visibility = 'visible';
+        }
+
+        // Update Image Count — hero image and trailing images are always visible
+        const images = Array.from(document.querySelectorAll('.train-img'));
+        const heroIndex = images.findIndex(img => img.hasAttribute('data-hero'));
+        
+        images.forEach((img, idx) => {
+          if (idx >= heroIndex) {
+            img.style.display = 'block'; // Hero and trailing images are always visible
+          } else {
+            // Slider value 1-6 means 0-5 images before the hero
+            const numImagesBeforeHero = config.imagesCount - 1;
+            img.style.display = idx < numImagesBeforeHero ? 'block' : 'none';
+          }
+        });
+
+        // Trigger animation replay — preloaderComplete is dispatched from inside the timeline
+        sessionStorage.removeItem('trainFlowPreloaderHasRun');
+        if (window.runPreloaderAnimation) {
+          window.runPreloaderAnimation();
+        }
+      }
+    });
+  </script>
+</body>
+</html>
