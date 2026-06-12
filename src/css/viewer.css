@@ -74,29 +74,36 @@
 }
 .code-tabs {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
   background: white;
   border-bottom: var(--stroke-width) solid var(--text-ink);
 }
 .code-tab {
-  padding: 1rem 2rem;
+  padding: 0.4rem 0.8rem;
   color: var(--text-light-ink);
   cursor: pointer;
-  border-right: var(--stroke-width) solid transparent;
-  border-bottom: var(--stroke-width) solid transparent;
+  border: var(--stroke-width) dashed transparent;
+  border-radius: 6px;
   font-family: var(--font-sketch);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: bold;
   user-select: none;
   transition: all 0.2s;
+  background: transparent;
+}
+.code-tab:hover {
+  border-color: rgba(17,17,17,0.2);
+  color: var(--text-ink);
 }
 .code-tab.active {
   color: var(--text-ink);
-  background: #f4f4f0;
-  border-right: var(--stroke-width) solid var(--text-ink);
-  border-bottom: var(--stroke-width) solid var(--text-ink);
-}
-.code-tab:hover:not(.active) {
-  color: var(--text-ink);
+  background: #fef08a;
+  border: var(--stroke-width) solid var(--text-ink);
+  box-shadow: 2px 2px 0px var(--text-ink);
+  transform: rotate(-1deg);
 }
 .code-content {
   flex: 1;
@@ -123,6 +130,28 @@
 .copy-btn:active {
   transform: translate(3px, 3px);
   box-shadow: 0px 0px 0px var(--text-ink);
+}
+.github-repo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: var(--text-ink);
+  border: var(--stroke-width) solid var(--text-ink);
+  box-shadow: 3px 3px 0px var(--text-ink);
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  margin: 0.5rem 1rem 0.5rem 0;
+  transition: transform 0.1s, box-shadow 0.1s;
+  cursor: pointer;
+}
+.github-repo-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0px 0px 0px var(--text-ink);
+}
+.github-repo-btn:hover {
+  background: var(--bg-paper);
 }
 .back-btn {
   color: var(--text-ink);

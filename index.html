@@ -187,6 +187,13 @@
             <input type="url" id="siteUrl" required maxlength="200" placeholder="https://..." autocomplete="off" />
           </div>
           <div class="form-group">
+            <label for="siteScreenshot">Screenshot <span class="required-asterisk">*</span></label>
+            <p style="font-size: 0.8rem; color: var(--text-light-ink); margin-top: -0.3rem; margin-bottom: 0.5rem; font-family: var(--font-body);">
+              Must be exactly 16:10 ratio (e.g. 1600x1000px) and under 5MB. This matches the Showcase card perfectly!
+            </p>
+            <input type="file" id="siteScreenshot" accept="image/png, image/jpeg, image/webp" required style="font-family: var(--font-body); font-size: 0.9rem;" />
+          </div>
+          <div class="form-group">
             <label for="authorName">Author</label>
             <input type="text" id="authorName" maxlength="100" placeholder="e.g. John Doe" autocomplete="off" />
           </div>

@@ -126,6 +126,43 @@ function bindSubmitForm() {
     submitBtn.disabled = true;
 
     try {
+      // Process Screenshot Upload
+      const screenshotInput = document.getElementById('siteScreenshot');
+      let screenshotData = null;
+      
+      if (screenshotInput.files && screenshotInput.files[0]) {
+        const file = screenshotInput.files[0];
+        
+        // Size validation (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+          alert('The screenshot is too large. Please upload an image under 5MB.');
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+          return;
+        }
+        
+        try {
+          const base64String = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+          });
+          
+          screenshotData = {
+            base64: base64String,
+            filename: file.name,
+            mimeType: file.type
+          };
+        } catch (e) {
+          console.error('Error reading screenshot:', e);
+          alert('Could not process the image file.');
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+          return;
+        }
+      }
+
       // Gather form data
       const formData = {
         siteName: form.querySelector('#siteName').value.trim(),
@@ -135,7 +172,8 @@ function bindSubmitForm() {
         socialLinkedin: form.querySelector('#socialLinkedin').value.trim(),
         socialX: form.querySelector('#socialX').value.trim(),
         contactEmail: form.querySelector('#contactEmail').value.trim(),
-        componentsUsed: checkedComponents
+        componentsUsed: checkedComponents,
+        screenshot: screenshotData
       };
 
       // Send to Vercel Serverless Function

@@ -1,5 +1,13 @@
 import { createClient } from '@sanity/client';
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '10mb',
+    },
+  },
+};
+
 export default async function handler(req, res) {
   // Only accept POST requests
   if (req.method !== 'POST') {
@@ -47,6 +55,28 @@ export default async function handler(req, res) {
       socialsArray.push({ _key: 'linkedin_social', platform: 'linkedin', url: data.socialLinkedin });
     }
 
+    // Handle Image Upload if provided
+    let imageAssetId = null;
+    if (data.screenshot && data.screenshot.base64) {
+      try {
+        // base64 format from FileReader is "data:image/png;base64,iVBORw0KGgo..."
+        const base64Data = data.screenshot.base64.split(',')[1];
+        if (base64Data) {
+          const buffer = Buffer.from(base64Data, 'base64');
+          
+          const imageAsset = await client.assets.upload('image', buffer, {
+            filename: data.screenshot.filename,
+            contentType: data.screenshot.mimeType
+          });
+          
+          imageAssetId = imageAsset._id;
+        }
+      } catch (err) {
+        console.error('Error uploading image to Sanity:', err);
+        return res.status(500).json({ error: 'Failed to upload screenshot image' });
+      }
+    }
+
     // Build the Document Object
     const doc = {
       _type: 'showcaseProject',
@@ -57,8 +87,13 @@ export default async function handler(req, res) {
       contactEmail: data.contactEmail || undefined,
       tags: data.componentsUsed,
       socials: socialsArray.length > 0 ? socialsArray : undefined,
-      // Note: We leave the 'image' field empty for now. The site owner will upload
-      // the screenshot manually when reviewing the draft in Sanity Studio.
+      image: imageAssetId ? {
+        _type: 'image',
+        asset: {
+          _type: 'reference',
+          _ref: imageAssetId
+        }
+      } : undefined
     };
 
     // Create the document as a DRAFT

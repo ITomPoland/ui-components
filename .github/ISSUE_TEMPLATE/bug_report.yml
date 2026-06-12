@@ -1,0 +1,50 @@
+name: Bug Report
+description: Report a bug to help us improve ITom UI components.
+title: "[BUG]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue! Please provide as much detail as possible to help us reproduce the bug.
+  - type: input
+    id: component_name
+    attributes:
+      label: Which component does this bug affect?
+      placeholder: e.g., Kinetic Text Button, Train Flow Preloader
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+      placeholder: What happened? What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Explain exactly how to reproduce the issue.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser & Device
+      placeholder: e.g., Chrome 115 on Windows 11, Safari on iOS 16
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or CodePen link
+      description: If applicable, add screenshots, video, or a CodePen/CodeSandbox link to help explain your problem.
+    validations:
+      required: false

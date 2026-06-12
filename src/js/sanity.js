@@ -40,6 +40,8 @@ export async function fetchShowcaseProjects() {
 
       return {
         ...site,
+        // Leverage Sanity CDN to automatically convert to webp, compress, and resize
+        image: site.image ? `${site.image}?w=800&fm=webp&q=80` : null,
         componentsUsed: site.tags || [],
         socials: socialsObj,
         rotation: Math.random() * 4 - 2 // Add a slight random tilt like the old polaroids

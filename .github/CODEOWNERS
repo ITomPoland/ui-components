@@ -1,0 +1,15 @@
+# These files are maintained by the core team.
+# This prevents random contributors from merging changes to core engine files without your review.
+
+# The repository owner reviews everything by default
+* @ITomPoland
+
+# The core engine files (Book, Animations, Sanity) require your explicit review
+/src/js/book.js @ITomPoland
+/src/js/animations.js @ITomPoland
+/src/js/grid.js @ITomPoland
+/api/ @ITomPoland
+
+# Anyone can submit PRs to components without blocking other components
+# But you still own the directory
+/components/ @ITomPoland

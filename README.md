@@ -7,19 +7,23 @@
   
   # ✏️ ITOM UI : Sketchbook Vol. 1
   
-  **A humble collection of hand-crafted, copy-pasteable UI components built for learning and experimenting.**
+  **A curated collection of hand-crafted, copy-pasteable Awwwards-level UI components built for learning and experimenting.**
   
   [![Live Notebook](https://img.shields.io/badge/📖_Open_Sketchbook-View_Live-black?style=for-the-badge&logoColor=white)](https://ITomPoland.github.io/ui-components/)
   [![Vanilla JS](https://img.shields.io/badge/JavaScript-Vanilla-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://ITomPoland.github.io/ui-components/)
   [![GSAP](https://img.shields.io/badge/GSAP-Animation-88CE02?style=for-the-badge&logo=greensock&logoColor=white)](https://greensock.com/)
+  [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](#-license)
 
+  ### 🚧 ROAD TO 100 COMPONENTS 🚧
+  We are currently building towards our goal of 100 high-quality, open-source interactions!
+  
 </div>
 
 <div align="center">
   <br />
   
   > **☕ Support a Student Developer!** <br/>
-  > If you find this Sketchbook useful and want to see me build all 100+ components, consider leaving a small tip or becoming a sponsor. It genuinely helps cover my student expenses and gives me the motivation to keep releasing high-quality, open-source animations! 💖
+  > If you find this Sketchbook useful and want to see me hit the 100+ components milestone, consider leaving a small tip or becoming a sponsor. It genuinely helps cover my student expenses and gives me the motivation to keep releasing high-quality, open-source animations! 💖
   
   <br/>
   <a href="https://github.com/sponsors/ITomPoland">
@@ -37,15 +41,45 @@ Most UI libraries give you an `npm install` package that acts like a black box. 
 
 This repository is literally a sketchbook of UI interactions, animations, and components built with Vanilla JavaScript, HTML, CSS, GSAP (and sometimes WebGL/Three.js). 
 
-There is **no lock-in**, **no React**, and **no bloated framework**. Just pure, highly-optimized frontend code that you can copy, paste, and tweak for your own projects.
+### ✨ Core Features
+- **Zero Framework Lock-in**: No React, Vue, or Svelte required. It works everywhere.
+- **Copy-Paste Ready**: Every component is isolated. Just copy the HTML, CSS, and JS.
+- **Awwwards Level**: Focused on highly optimized, premium visual effects.
+- **AI-Friendly**: Fully documented codebase designed for AI Assistants (Devin, Cursor, Copilot).
 
 ---
 
 ## ✂️ How to use
 
 1. **Browse:** Open the [Live Sketchbook 📖](https://itom-ui-components.vercel.app)
-2. **Find:** Click through the categories (Buttons, Preloaders, etc.)
-3. **Copy:** Every component has a "Code" view. Just copy the HTML, CSS, and JS directly into your project!
+2. **Find:** Explore our component categories:
+   - 🔘 **Buttons & Interactions**
+   - ⏳ **Preloaders & Loaders**
+   - 🚀 **Page Transitions**
+   - 📜 **Scroll Animations**
+   - 🗺️ **Navbars & Menus**
+3. **Copy:** Every component has a "Code" view. Just copy the code directly into your project!
+
+---
+
+## 🏆 Community Showcase
+
+Did you build something awesome using one of the components from this Sketchbook? We want to feature you!
+
+1. Open the [Live Sketchbook](https://itom-ui-components.vercel.app).
+2. Click the **Submit** button.
+3. Fill out the form with a screenshot and link to your live site.
+4. If approved, your project will be featured in the official Notebook Showcase for the world to see!
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions from the community! Whether you want to request a component, report a bug, or submit your own animation.
+
+- **Found a bug?** Submit a [Bug Report](../../issues/new?assignees=&labels=bug%2C+triage&projects=&template=bug_report.yml&title=%5BBUG%5D%3A+).
+- **Want a new component?** Submit a [Component Request](../../issues/new?assignees=&labels=enhancement%2C+component-request&projects=&template=component_request.yml&title=%5BREQUEST%5D%3A+).
+- **Want to code?** Please read our [`CONTRIBUTING.md`](./CONTRIBUTING.md) and [`AGENTS.md`](./AGENTS.md) before submitting a Pull Request.
 
 ---
 
@@ -64,12 +98,11 @@ npm install
 npm run dev
 ```
 
-### 📁 Where is the code?
-The root folder is kept intentionally minimal. All components live in the `components/` directory. Each component has its own `src/` folder containing the pure HTML, CSS, and JS. 
-
-> **Note:** The `index.html` inside each component folder is just a wrapper for the Sketchbook UI. The actual component code is always cleanly isolated in `src/`.
-
 ---
+
+## 📄 License
+
+This project is licensed under the [MIT License](./LICENSE). You are free to use these components in personal and commercial projects.
 
 <div align="center">
   <img src="https://capsule-render.vercel.app/api?type=waving&color=111111&height=100&section=footer" width="100%" />

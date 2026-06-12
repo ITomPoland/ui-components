@@ -428,11 +428,18 @@ export async function flipToComponent(path) {
     }
 
     try {
-      // Build the glob key from the component path (e.g. './components/buttons/kinetic-text-button/')
+      // Build the glob key from the component path
       const componentsIndex = path.indexOf('components/');
       const relativePath = componentsIndex !== -1
         ? path.substring(componentsIndex + 'components/'.length).replace(/\/$/, '')
         : path.split('/').filter(Boolean).pop();
+        
+      // Update GitHub Button URL for Book View
+      const gitBtn = document.getElementById('gitRepoBtn');
+      if (gitBtn && relativePath) {
+        gitBtn.href = `https://github.com/ITomPoland/ui-components/blob/master/components/${relativePath}/README.md`;
+      }
+
       const globKey = `../../components/${relativePath}/viewer.js`;
       if (viewerModules[globKey]) {
         const mod = await viewerModules[globKey]();
