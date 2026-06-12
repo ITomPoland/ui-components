@@ -204,3 +204,61 @@
   transform: translate(2px, 2px);
   box-shadow: 0px 0px 0 var(--text-ink);
 }
+
+/* File Drop Zone Styles */
+.file-drop-zone {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 2px dashed rgba(17, 17, 17, 0.3);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: all 0.2s;
+  cursor: pointer;
+  margin-top: 0.2rem;
+}
+.file-drop-zone:hover,
+.file-drop-zone.dragover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: var(--text-ink);
+}
+.file-drop-zone input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 10;
+}
+.drop-zone-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-light-ink);
+  pointer-events: none;
+  transition: color 0.2s;
+}
+.file-drop-zone:hover .drop-zone-content,
+.file-drop-zone.dragover .drop-zone-content {
+  color: var(--text-ink);
+}
+.drop-icon {
+  margin-bottom: 0.2rem;
+}
+.drop-zone-text {
+  font-family: var(--font-sketch);
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+.drop-zone-hint {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  opacity: 0.8;
+}

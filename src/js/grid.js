@@ -102,6 +102,37 @@ function bindSubmitForm() {
   const form = document.getElementById('submitWebsiteForm');
   if (!form) return;
   
+  // File Drop Zone UI handling
+  const fileInput = document.getElementById('siteScreenshot');
+  const dropZone = document.getElementById('screenshotDropZone');
+  
+  if (fileInput && dropZone) {
+    const dropText = dropZone.querySelector('.drop-zone-text');
+    const dropHint = dropZone.querySelector('.drop-zone-hint');
+    
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files && fileInput.files[0]) {
+        dropText.textContent = fileInput.files[0].name;
+        dropHint.textContent = 'Ready to upload! 🚀';
+        dropZone.style.borderColor = 'var(--text-ink)';
+        dropZone.style.background = 'rgba(0,0,0,0.05)';
+      } else {
+        dropText.textContent = 'Click to upload or drag & drop';
+        dropHint.textContent = 'PNG, JPG or WEBP (max. 5MB)';
+        dropZone.style.borderColor = '';
+        dropZone.style.background = '';
+      }
+    });
+
+    // Drag effects
+    ['dragenter', 'dragover'].forEach(eventName => {
+      fileInput.addEventListener(eventName, () => dropZone.classList.add('dragover'), false);
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+      fileInput.addEventListener(eventName, () => dropZone.classList.remove('dragover'), false);
+    });
+  }
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
