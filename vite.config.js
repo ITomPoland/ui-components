@@ -45,7 +45,7 @@ function scanComponents(dir) {
 scanComponents(componentsDir);
 
 export default defineConfig({
-  base: '/ui-components/',
+  base: '/',
   build: {
     rollupOptions: {
       input
