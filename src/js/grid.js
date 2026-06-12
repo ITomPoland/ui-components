@@ -164,8 +164,13 @@ function bindSubmitForm() {
 
 function createCardElement(comp) {
   const card = document.createElement('a');
-  card.href = comp.path;
   card.className = 'component-card';
+  card.style.cursor = 'pointer';
+  
+  // Only add href on desktop to absolutely prevent mobile navigation
+  if (window.innerWidth > 900) {
+    card.href = comp.path;
+  }
   
   const mediaType = comp.demo ? 'video' : 'iframe';
   const mediaSrc = comp.demo ? comp.demo : `${comp.path}preview.html`;
@@ -183,8 +188,17 @@ function createCardElement(comp) {
   card.addEventListener('click', (e) => {
     if (window.innerWidth <= 900) {
       e.preventDefault();
-      // On mobile, clicking a card does nothing, as the preview plays inline.
-      // We rely on the sticky mobile banner to explain they need a desktop for code.
+      e.stopPropagation();
+      const preview = card.querySelector('.card-preview');
+      
+      // Toggle fullscreen view
+      if (preview.classList.contains('fullscreen-mobile')) {
+        preview.classList.remove('fullscreen-mobile');
+      } else {
+        // Close others first
+        document.querySelectorAll('.fullscreen-mobile').forEach(el => el.classList.remove('fullscreen-mobile'));
+        preview.classList.add('fullscreen-mobile');
+      }
     }
   });
 
@@ -219,40 +233,58 @@ export function loadCategory(filter, forward = true) {
     leftGridTemplate.querySelector('.page-title').textContent = 'SHOWCASE';
     rightGridTemplate.querySelector('.page-title').textContent = 'YOUR WEBSITES';
     
-    const rightGrid = rightGridTemplate.querySelector('.components-grid');
-    // Give it a unique ID so we can target it after the DOM is rendered by turnPage
-    rightGrid.id = 'dynamic-showcase-grid';
+    const leftGrid = leftGridTemplate.querySelector('.components-grid');
+    leftGrid.id = 'dynamic-showcase-grid-left';
     
-    // Render loading state synchronously so the animation can start instantly
-    rightGrid.innerHTML = `
+    const rightGrid = rightGridTemplate.querySelector('.components-grid');
+    rightGrid.id = 'dynamic-showcase-grid-right';
+
+    // Show loading state in the left grid
+    leftGrid.innerHTML = `
       <div class="empty-category-message" style="opacity: 0.7;">
         <div class="empty-doodle" style="animation: squiggle 0.3s infinite linear;">🔄</div>
         <h3>Loading projects...</h3>
         <p>Fetching the latest awesomeness from Sanity.</p>
       </div>
     `;
+    rightGrid.innerHTML = '';
     
-    // Asynchronously fetch from Sanity and populate the real DOM grid
+    // turnPage expects HTML strings, not DocumentFragments. Convert them:
+    const tempLeft = document.createElement('div');
+    tempLeft.appendChild(leftGridTemplate);
+    const tempRight = document.createElement('div');
+    tempRight.appendChild(rightGridTemplate);
+    
+    turnPage(tempLeft.innerHTML, tempRight.innerHTML, true);
+    
     fetchShowcaseProjects().then(projects => {
-      const activeGrid = document.getElementById('dynamic-showcase-grid');
-      if (!activeGrid) return; // User navigated away before fetch completed
+      const activeLeftGrid = document.getElementById('dynamic-showcase-grid-left');
+      const activeRightGrid = document.getElementById('dynamic-showcase-grid-right');
+      if (!activeLeftGrid || !activeRightGrid) return;
       
-      activeGrid.innerHTML = ''; // Clear loading state
+      activeLeftGrid.innerHTML = '';
+      activeRightGrid.innerHTML = '';
+
       if (projects && projects.length > 0) {
-        projects.forEach(site => activeGrid.appendChild(createShowcaseCardElement(site)));
+        projects.forEach((site, index) => {
+          if (index % 2 === 0) {
+            activeLeftGrid.appendChild(createShowcaseCardElement(site));
+          } else {
+            activeRightGrid.appendChild(createShowcaseCardElement(site));
+          }
+        });
       } else {
-        activeGrid.innerHTML = `
+        activeLeftGrid.innerHTML = `
           <div class="empty-category-message">
-            <div class="empty-doodle">✏️</div>
-            <h3>Coming soon!</h3>
-            <p>No projects in the showcase yet. Be the first to submit!</p>
+            <div class="empty-doodle">🌱</div>
+            <h3>No websites yet</h3>
+            <p>Be the first to submit a project using our components!</p>
           </div>
         `;
       }
     });
     
-    leftContent.appendChild(leftGridTemplate);
-    rightContent.appendChild(rightGridTemplate);
+    return;
   } else if (filter === 'submit') {
     const instructionsTemplate = document.getElementById('submit-instructions-template');
     leftContent.appendChild(instructionsTemplate.content.cloneNode(true));
@@ -319,7 +351,7 @@ export function loadCategory(filter, forward = true) {
   const baseLeftPage = document.querySelector('.base-left-page');
   const isHome = filter === 'all' && !searchVal;
 
-  if (isFirstLoad) {
+  if (isFirstLoad || window.innerWidth <= 900) {
     if (isHome) baseLeftPage.classList.add('is-cover-back');
     else baseLeftPage.classList.remove('is-cover-back');
 

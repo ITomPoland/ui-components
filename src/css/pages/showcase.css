@@ -3,52 +3,76 @@
   margin-top: 1rem;
 }
 .showcase-card {
-  background: white;
+  background: var(--card-bg, white);
   border: var(--stroke-width) solid var(--text-ink);
-  padding: 0.8rem 0.8rem 1.6rem 0.8rem;
-  box-shadow: 4px 6px 0px rgba(0,0,0,0.85);
+  border-radius: 2px 255px 3px 225px / 255px 5px 225px 3px;
+  box-shadow: 6px 8px 0px rgba(0,0,0,0.85);
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   text-decoration: none;
   color: inherit;
   position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 .showcase-card:hover {
-  transform: scale(1.03) rotate(0deg) !important;
-  box-shadow: 6px 8px 0px rgba(0,0,0,0.85);
+  transform: rotate(-1.5deg) scale(1.02) translateZ(0) !important;
+  box-shadow: 8px 10px 0px rgba(0,0,0,0.85);
 }
-.showcase-card::before {
+.showcase-card::after {
   content: '';
   position: absolute;
-  top: -0.6rem;
-  left: 50%;
-  transform: translateX(-50%) rotate(-3deg);
-  width: 3.5rem;
-  height: 1.2rem;
-  background-color: rgba(254, 240, 138, 0.6);
-  border: 1px dashed rgba(17,17,17,0.2);
-  box-shadow: 1px 1px 2px rgba(0,0,0,0.05);
-  z-index: 2;
+  top: 6px; left: 50%;
+  transform: translateX(-50%) rotate(-4deg);
+  width: 5.625rem; height: 1.75rem;
+  background-color: rgba(255, 255, 240, 0.7);
+  border: 1px solid rgba(17, 17, 17, 0.2);
+  border-left: 1px dashed rgba(17, 17, 17, 0.4);
+  border-right: 1px dashed rgba(17, 17, 17, 0.4);
+  box-shadow: 1px 2px 3px rgba(0,0,0,0.1);
+  z-index: 10;
+  pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.4s ease;
+  backdrop-filter: blur(2px);
 }
+.showcase-card:hover::after {
+  transform: translateX(-50%) rotate(-1deg) scale(1.05);
+  background-color: rgba(255, 255, 240, 0.85);
+}
+
 .showcase-img-container {
   width: 100%;
   aspect-ratio: 16/10;
-  border: 2px solid var(--text-ink);
+  border-bottom: var(--stroke-width) solid var(--text-ink);
   overflow: hidden;
   position: relative;
-  background: #fafaf6;
+  background-color: #fafaf6;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
 }
 .showcase-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
 }
+.showcase-card:hover .showcase-img {
+  transform: scale(1.04) translateZ(0);
+}
+
 .showcase-info {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  padding: 1.5rem;
+  background: white;
+  background-image: linear-gradient(transparent 90%, rgba(0,0,0,0.1) 90%);
+  background-size: 100% 20px;
 }
 .showcase-info h2 {
   font-family: var(--font-sketch);

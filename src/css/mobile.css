@@ -17,164 +17,198 @@
     width: 100%;
     background: var(--primary-accent, #333);
     color: #fff;
-    text-align: center;
-    padding: 15px 20px;
+    padding: 15px 0;
     font-family: var(--font-main, sans-serif);
     font-size: 0.95rem;
     z-index: 10000;
     box-shadow: 0 -4px 15px rgba(0,0,0,0.15);
+    overflow: hidden;
+    white-space: nowrap;
   }
 
-  /* Flatten Book Scene */
-  body {
-    overflow: auto !important; /* Allow body scrolling */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 15s linear infinite;
+  }
+
+  .marquee-text {
+    padding-right: 40px;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Reset body and scene */
+  body, html {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+    background: var(--bg-color) !important;
   }
 
   .book-scene {
     perspective: none !important;
     height: auto !important;
-    overflow: visible !important;
-    padding-bottom: 80px; /* space for banner */
+    min-height: 100vh;
+    overflow: hidden !important;
+    padding-bottom: 80px !important; /* space for banner */
+    display: block !important; 
+    align-items: stretch !important;
+    justify-content: flex-start !important;
   }
 
+  /* Completely destroy the 3D book container */
   .book {
     transform-style: flat !important;
     width: 100% !important;
+    max-width: 100% !important;
     height: auto !important;
-    display: flex;
-    flex-direction: column;
-    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: static !important;
     transform: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    margin: 0 !important;
+    left: 0 !important;
   }
 
-  /* Cover Behavior */
-  .cover {
-    position: relative !important;
-    width: 100% !important;
-    height: 100vh !important;
-    transform: none !important;
-    z-index: 50 !important;
-  }
-  
-  .book.is-open .cover {
-    display: none !important; /* simply hide the cover when open on mobile */
+  /* Hide EVERYTHING EXCEPT THE GRID */
+  .cover, 
+  .flip-page, 
+  .notebook-margin-line,
+  .book::before,
+  .book::after,
+  .page::before,
+  .page::after,
+  #gridBookmarks,
+  #leftBookmarks,
+  #componentBookmarks,
+  .sticky-notes-container,
+  .about-page,
+  .empty-category-message {
+    display: none !important;
   }
 
-  /* Pages */
+  /* Reset Pages so they just act as normal div containers */
   .page {
-    position: relative !important;
+    position: static !important;
     width: 100% !important;
     height: auto !important;
-    min-height: 50vh;
+    min-height: 0 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
     transform: none !important;
     border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    overflow: visible !important;
   }
 
   .base-left-page, .base-right-page {
     display: block !important;
-  }
-
-  .flip-page {
-    display: none !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   .page-content {
     overflow: visible !important;
-  }
-
-  /* Bookmarks / Navigation (Bottom Bar) */
-  #gridBookmarks {
-    position: fixed !important;
-    top: auto !important;
-    bottom: 60px !important; /* Just above the banner */
-    left: 0 !important;
-    width: 100% !important;
     height: auto !important;
-    display: flex;
-    justify-content: center;
-    z-index: 9000 !important;
-    transform: none !important;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 10px;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-    flex-direction: row !important;
-  }
-  
-  .book.is-open #gridBookmarks {
-    display: flex !important; /* override book open animations */
-  }
-
-  #leftBookmarks {
-    display: none !important; /* Hide home bookmark on mobile to save space */
-  }
-
-  .bookmarks-window {
-    width: 100% !important;
-    max-width: 300px;
-  }
-
-  .bookmarks-page {
-    flex-direction: row !important;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .bookmark {
-    border-radius: 20px !important;
-    padding: 8px 15px !important;
-    margin: 5px !important;
-    font-size: 0.9rem !important;
-  }
-
-  .slider-arrow {
-    display: none !important; /* Hide arrows, just allow wrap */
-  }
-
-  /* Sticky Notes (Top Navigation) */
-  .sticky-notes-container {
-    position: relative !important;
-    right: auto !important;
-    top: auto !important;
-    width: 100% !important;
-    display: flex;
-    flex-direction: row !important;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 20px;
-    background: transparent;
-    z-index: 8000;
-  }
-
-  .sticky-note-tab {
-    position: relative !important;
-    transform: none !important;
-    width: auto !important;
-    padding: 10px 20px !important;
-    border-radius: 5px !important;
+    padding: 0 !important;
   }
 
   /* Grid Adjustments */
   .components-grid {
     grid-template-columns: 1fr !important;
-    padding: 20px !important;
+    padding: 20px 15px !important;
+    gap: 30px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow-x: hidden !important;
   }
 
   .component-card {
     min-height: 250px;
-    margin-bottom: 20px;
+    margin: 0 auto !important;
+    width: calc(100% - 10px) !important; /* prevent box-shadow overflow */
+    position: relative !important;
+    transform: none !important;
+    box-shadow: 4px 6px 0px rgba(0,0,0,0.85) !important; /* Smaller shadow for mobile */
   }
   
   .card-preview {
-    height: 200px !important;
+    height: 220px !important;
   }
   
   /* Disable hover effects that look bad on touch */
-  .component-card:hover {
+  .component-card:hover, .component-card.is-clicked {
     transform: none !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    box-shadow: 4px 6px 0px rgba(0,0,0,0.85) !important;
+  }
+  
+  .component-card:hover::after, .component-card.is-clicked::after {
+    transform: translateX(-50%) rotate(-4deg) !important;
+    background-color: rgba(255, 255, 240, 0.7) !important;
+  }
+
+  .component-card:hover .card-preview iframe,
+  .component-card:hover .card-preview video,
+  .component-card:hover .card-preview img,
+  .component-card.is-clicked .card-preview iframe,
+  .component-card.is-clicked .card-preview video,
+  .component-card.is-clicked .card-preview img {
+    transform: scale(1.02) translateZ(0) !important;
+  }
+
+  /* Fullscreen Mobile Video Overlay */
+  .card-preview.fullscreen-mobile {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 100000 !important;
+    background: rgba(0,0,0,0.95) !important;
+    border: none !important;
+    border-radius: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .card-preview.fullscreen-mobile iframe,
+  .card-preview.fullscreen-mobile video,
+  .card-preview.fullscreen-mobile img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 100vh !important;
+    object-fit: contain !important;
+    transform: scale(1) !important;
+    pointer-events: auto !important; /* Allow native video controls to be tapped if needed */
+  }
+  
+  .card-preview.fullscreen-mobile::after {
+    content: "Tap anywhere to close ✖";
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-family: var(--font-main, sans-serif);
+    font-size: 1rem;
+    background: rgba(0,0,0,0.5);
+    padding: 8px 16px;
+    border-radius: 20px;
+    pointer-events: none;
+  }
+
+  /* Fix for titles */
+  .page-title {
+    font-size: 2rem !important;
+    margin: 20px 0 10px 0 !important;
+    text-align: center !important;
   }
 }

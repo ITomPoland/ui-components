@@ -9,7 +9,7 @@ export async function fetchShowcaseProjects() {
   }
 
   // GROQ Query to fetch all showcase projects and format them exactly like the old static data
-  const query = encodeURIComponent(`*[_type == "showcaseProject"]{
+  const query = encodeURIComponent(`*[_type == "showcaseProject"] | order(_createdAt desc) {
     "name": title,
     url,
     author,
