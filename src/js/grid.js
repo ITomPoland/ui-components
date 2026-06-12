@@ -180,6 +180,14 @@ function createCardElement(comp) {
     </div>
   `;
   
+  card.addEventListener('click', (e) => {
+    if (window.innerWidth <= 900) {
+      e.preventDefault();
+      // On mobile, clicking a card does nothing, as the preview plays inline.
+      // We rely on the sticky mobile banner to explain they need a desktop for code.
+    }
+  });
+
   lazyLoadObserver.observe(card);
   return card;
 }

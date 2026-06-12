@@ -9,3 +9,4 @@
 /* Page-Specific Styles */
 @import './pages/showcase.css';
 @import './pages/submit.css';
+@import './mobile.css';

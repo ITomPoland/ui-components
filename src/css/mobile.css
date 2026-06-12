@@ -1,0 +1,180 @@
+/* =========================================================================
+   Mobile Preview Mode (max-width: 900px)
+   Flattens the 3D book into a scrollable feed and reorganizes navigation.
+   ========================================================================= */
+
+.mobile-preview-banner {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  /* Sticky Banner */
+  .mobile-preview-banner {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--primary-accent, #333);
+    color: #fff;
+    text-align: center;
+    padding: 15px 20px;
+    font-family: var(--font-main, sans-serif);
+    font-size: 0.95rem;
+    z-index: 10000;
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.15);
+  }
+
+  /* Flatten Book Scene */
+  body {
+    overflow: auto !important; /* Allow body scrolling */
+  }
+
+  .book-scene {
+    perspective: none !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding-bottom: 80px; /* space for banner */
+  }
+
+  .book {
+    transform-style: flat !important;
+    width: 100% !important;
+    height: auto !important;
+    display: flex;
+    flex-direction: column;
+    position: relative !important;
+    transform: none !important;
+  }
+
+  /* Cover Behavior */
+  .cover {
+    position: relative !important;
+    width: 100% !important;
+    height: 100vh !important;
+    transform: none !important;
+    z-index: 50 !important;
+  }
+  
+  .book.is-open .cover {
+    display: none !important; /* simply hide the cover when open on mobile */
+  }
+
+  /* Pages */
+  .page {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 50vh;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    border: none !important;
+  }
+
+  .base-left-page, .base-right-page {
+    display: block !important;
+  }
+
+  .flip-page {
+    display: none !important;
+  }
+
+  .page-content {
+    overflow: visible !important;
+  }
+
+  /* Bookmarks / Navigation (Bottom Bar) */
+  #gridBookmarks {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 60px !important; /* Just above the banner */
+    left: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    display: flex;
+    justify-content: center;
+    z-index: 9000 !important;
+    transform: none !important;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 10px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    flex-direction: row !important;
+  }
+  
+  .book.is-open #gridBookmarks {
+    display: flex !important; /* override book open animations */
+  }
+
+  #leftBookmarks {
+    display: none !important; /* Hide home bookmark on mobile to save space */
+  }
+
+  .bookmarks-window {
+    width: 100% !important;
+    max-width: 300px;
+  }
+
+  .bookmarks-page {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .bookmark {
+    border-radius: 20px !important;
+    padding: 8px 15px !important;
+    margin: 5px !important;
+    font-size: 0.9rem !important;
+  }
+
+  .slider-arrow {
+    display: none !important; /* Hide arrows, just allow wrap */
+  }
+
+  /* Sticky Notes (Top Navigation) */
+  .sticky-notes-container {
+    position: relative !important;
+    right: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    display: flex;
+    flex-direction: row !important;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 20px;
+    background: transparent;
+    z-index: 8000;
+  }
+
+  .sticky-note-tab {
+    position: relative !important;
+    transform: none !important;
+    width: auto !important;
+    padding: 10px 20px !important;
+    border-radius: 5px !important;
+  }
+
+  /* Grid Adjustments */
+  .components-grid {
+    grid-template-columns: 1fr !important;
+    padding: 20px !important;
+  }
+
+  .component-card {
+    min-height: 250px;
+    margin-bottom: 20px;
+  }
+  
+  .card-preview {
+    height: 200px !important;
+  }
+  
+  /* Disable hover effects that look bad on touch */
+  .component-card:hover {
+    transform: none !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+  }
+}
