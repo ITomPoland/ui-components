@@ -27,6 +27,12 @@ export default {
       type: 'url'
     },
     {
+      name: 'contactEmail',
+      title: 'Author Contact Email (Private)',
+      type: 'string',
+      description: 'Used for automated approval notifications. This is NOT public.'
+    },
+    {
       name: 'image',
       title: 'Project Image',
       type: 'image',

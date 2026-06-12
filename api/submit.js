@@ -54,6 +54,7 @@ export default async function handler(req, res) {
       url: data.siteUrl,
       author: data.authorName || 'Anonymous',
       authorUrl: data.authorPortfolio || '',
+      contactEmail: data.contactEmail || undefined,
       tags: data.componentsUsed,
       socials: socialsArray.length > 0 ? socialsArray : undefined,
       // Note: We leave the 'image' field empty for now. The site owner will upload
