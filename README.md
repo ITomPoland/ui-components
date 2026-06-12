@@ -43,7 +43,7 @@ There is **no lock-in**, **no React**, and **no bloated framework**. Just pure, 
 
 ## ✂️ How to use
 
-1. **Browse:** Open the [Live Sketchbook 📖](https://ITomPoland.github.io/ui-components/)
+1. **Browse:** Open the [Live Sketchbook 📖](https://itom-ui-components.vercel.app)
 2. **Find:** Click through the categories (Buttons, Preloaders, etc.)
 3. **Copy:** Every component has a "Code" view. Just copy the HTML, CSS, and JS directly into your project!
 
