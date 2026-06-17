@@ -163,52 +163,51 @@
     transform: scale(1.02) translateZ(0) !important;
   }
 
-  /* Fullscreen Mobile Video Overlay */
-  .card-preview.fullscreen-mobile {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    z-index: 100000 !important;
-    background: rgba(0,0,0,0.95) !important;
-    border: none !important;
-    border-radius: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  .card-preview.fullscreen-mobile iframe,
-  .card-preview.fullscreen-mobile video,
-  .card-preview.fullscreen-mobile img {
-    width: 100% !important;
-    height: auto !important;
-    max-height: 100vh !important;
-    object-fit: contain !important;
-    transform: scale(1) !important;
-    pointer-events: auto !important; /* Allow native video controls to be tapped if needed */
-  }
-  
-  .card-preview.fullscreen-mobile::after {
-    content: "Tap anywhere to close ✖";
-    position: absolute;
-    top: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-family: var(--font-main, sans-serif);
-    font-size: 1rem;
-    background: rgba(0,0,0,0.5);
-    padding: 8px 16px;
-    border-radius: 20px;
-    pointer-events: none;
-  }
-
   /* Fix for titles */
   .page-title {
     font-size: 2rem !important;
     margin: 20px 0 10px 0 !important;
     text-align: center !important;
   }
+}
+
+/* Fullscreen overlay when appended to body (outside containing blocks) */
+.mobile-fullscreen-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 100000 !important;
+  background: rgba(0,0,0,0.95) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer;
+}
+
+.mobile-fullscreen-overlay iframe,
+.mobile-fullscreen-overlay video,
+.mobile-fullscreen-overlay img {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100vh !important;
+  object-fit: contain !important;
+  border: none !important;
+  pointer-events: auto !important;
+}
+
+.mobile-fullscreen-overlay .fullscreen-close-hint {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-family: var(--font-main, sans-serif);
+  font-size: 1rem;
+  background: rgba(0,0,0,0.5);
+  padding: 8px 16px;
+  border-radius: 20px;
+  pointer-events: none;
+  z-index: 1;
 }

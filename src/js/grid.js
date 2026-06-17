@@ -1,7 +1,6 @@
 import { gsap } from 'gsap';
 import { components } from '../data/components.js';
 import { fetchShowcaseProjects } from './sanity.js';
-import { attachAudioHoverListeners } from './audio.js';
 import { turnPage, getIsAnimating } from './animations.js';
 
 let currentFilter = 'all';
@@ -260,14 +259,44 @@ function createCardElement(comp) {
       e.stopPropagation();
       const preview = card.querySelector('.card-preview');
       
-      // Toggle fullscreen view
-      if (preview.classList.contains('fullscreen-mobile')) {
-        preview.classList.remove('fullscreen-mobile');
-      } else {
-        // Close others first
-        document.querySelectorAll('.fullscreen-mobile').forEach(el => el.classList.remove('fullscreen-mobile'));
-        preview.classList.add('fullscreen-mobile');
+      // Create a fullscreen overlay appended to body (outside all containing blocks)
+      const existingOverlay = document.querySelector('.mobile-fullscreen-overlay');
+      if (existingOverlay) {
+        existingOverlay.remove();
+        return;
       }
+
+      const overlay = document.createElement('div');
+      overlay.className = 'mobile-fullscreen-overlay';
+
+      // Clone the media element (video or iframe) into the overlay
+      const video = preview.querySelector('video');
+      const iframe = preview.querySelector('iframe');
+      
+      if (video) {
+        const clone = video.cloneNode(true);
+        clone.autoplay = true;
+        clone.muted = true;
+        clone.loop = true;
+        clone.playsInline = true;
+        overlay.appendChild(clone);
+      } else if (iframe) {
+        const clone = iframe.cloneNode(true);
+        overlay.appendChild(clone);
+      }
+
+      const hint = document.createElement('div');
+      hint.className = 'fullscreen-close-hint';
+      hint.textContent = 'Tap anywhere to close ✖';
+      overlay.appendChild(hint);
+
+      overlay.addEventListener('click', (ev) => {
+        // Don't close if tapping on iframe itself
+        if (ev.target.tagName === 'IFRAME') return;
+        overlay.remove();
+      });
+
+      document.body.appendChild(overlay);
     }
   });
 
@@ -432,7 +461,6 @@ export function loadCategory(filter, forward = true) {
     
     // Re-observe cards after injection
     document.querySelectorAll('.component-card').forEach(c => lazyLoadObserver.observe(c));
-    attachAudioHoverListeners();
 
     if (filter === 'submit') {
       bindSubmitForm();
@@ -441,7 +469,6 @@ export function loadCategory(filter, forward = true) {
     if (getIsAnimating()) return; // Skip if a page turn is already in progress
     turnPage(leftContent.innerHTML, rightContent.innerHTML, forward, isHome).then(() => {
       document.querySelectorAll('.component-card').forEach(c => lazyLoadObserver.observe(c));
-      attachAudioHoverListeners();
 
       if (filter === 'submit') {
         bindSubmitForm();

@@ -1,5 +1,4 @@
 import { gsap } from 'gsap';
-import { playPencilScratch } from './audio.js';
 
 let bookOpened = false;
 const componentCache = new Map();
@@ -22,8 +21,6 @@ export function initAnimations() {
     if (bookOpened || isAnimating) return;
     bookOpened = true;
     isAnimating = true;
-    
-    playPencilScratch(800, 0.4, 0.05);
 
     const tl = gsap.timeline({
       onComplete: () => { isAnimating = false; }
@@ -230,7 +227,6 @@ export function turnPage(newLeftHTML, newRightHTML, forward = true, isLeftCover 
     }
 
     isAnimating = true;
-    playPencilScratch(900, 0.4, 0.05);
 
     const leftContainer = document.getElementById('leftPageContainer');
     const rightContainer = document.getElementById('rightPageContainer');
@@ -459,9 +455,6 @@ export async function flipToComponent(path) {
 }
 
 export function triggerSubmitSuccess() {
-  // Odtwórz dźwięk ołówka
-  playPencilScratch(600, 0.4, 0.05);
-  
   // Pokaż popup
   const successPopup = document.getElementById('successPopup');
   if (successPopup) {
