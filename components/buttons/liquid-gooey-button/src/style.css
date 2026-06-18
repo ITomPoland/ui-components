@@ -82,3 +82,15 @@
   height: 0;
   pointer-events: none;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .t-blob-container {
+    display: none !important;
+  }
+  .t-liquid-btn {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
+  }
+  .t-liquid-btn:hover {
+    background-color: var(--t-blob-color) !important;
+  }
+}

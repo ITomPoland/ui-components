@@ -3,13 +3,14 @@ import { gsap } from 'gsap';
 export class LiquidButton {
   constructor(element) {
     this.element = element;
-    this.element.__liquidButton = this;
     this.blobs = this.element.querySelectorAll('.t-blob');
     this.baseBlob = this.element.querySelector('.t-blob-base');
     this.floatingBlobs = this.element.querySelectorAll('.t-blob:not(.t-blob-base)');
     
     this.gooeyStrength = 10;
     this.speed = 0.5;
+    
+    this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
     this.init();
   }
@@ -21,6 +22,7 @@ export class LiquidButton {
   }
 
   onMouseEnter() {
+    if (this.prefersReducedMotion) return;
     gsap.killTweensOf(this.blobs);
     
     // Scale up base blob to cover the main center area
@@ -40,6 +42,7 @@ export class LiquidButton {
   }
 
   onMouseMove(e) {
+    if (this.prefersReducedMotion) return;
     const rect = this.element.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
@@ -68,6 +71,7 @@ export class LiquidButton {
   }
 
   onMouseLeave() {
+    if (this.prefersReducedMotion) return;
     gsap.killTweensOf(this.blobs);
     
     // Reset all blobs to scale(0)
@@ -91,32 +95,4 @@ export class LiquidButton {
   }
 }
 
-// Initialize on DOM load
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll('.t-liquid-btn').forEach(btn => {
-    new LiquidButton(btn);
-  });
-});
 
-// Connect code configuration overrides with Sketchbook UI preview controls
-window.addEventListener('message', (e) => {
-  if (e.data && e.data.type === 'update-config') {
-    const config = e.data.config;
-    document.documentElement.style.setProperty('--t-btn-bg', config.btnBg);
-    document.documentElement.style.setProperty('--t-btn-radius', config.borderRadius + 'px');
-    document.documentElement.style.setProperty('--t-btn-border-color', config.borderColor);
-    document.documentElement.style.setProperty('--t-btn-color', config.textColor);
-    document.documentElement.style.setProperty('--t-blob-color', config.blobColor);
-    document.querySelectorAll('.t-liquid-btn').forEach(btn => {
-      if (btn.__liquidButton) {
-        btn.__liquidButton.speed = config.speed;
-        
-        // Update SVG filter standard deviation in real time
-        const gaussianBlur = document.querySelector('#t-gooey-effect feGaussianBlur');
-        if (gaussianBlur) {
-          gaussianBlur.setAttribute('stdDeviation', config.gooeyStrength);
-        }
-      }
-    });
-  }
-});

@@ -86,3 +86,9 @@
 .t-glass-btn:hover .t-border-rect {
   stroke-dashoffset: 0;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .t-border-svg {
+    display: none !important;
+  }
+}

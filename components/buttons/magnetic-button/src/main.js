@@ -2,11 +2,14 @@ import gsap from 'gsap';
 export class MagneticButton {
   constructor(element) {
     this.element = element;
-    this.element.__magneticButton = this;
     this.textElement = this.element.querySelector('.t-text');
     this.hoverCircle = this.element.querySelector('.t-hover-circle');
+    
     this.magnetStrength = 0.5;
     this.textStrength = 0.2;  
+    
+    this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
     this.init();
   }
   init() {
@@ -15,6 +18,7 @@ export class MagneticButton {
     this.element.addEventListener('mouseenter', (e) => this.onMouseEnter(e));
   }
   onMouseEnter(e) {
+    if (this.prefersReducedMotion) return;
     if (!this.hoverCircle) return;
     const rect = this.element.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -29,6 +33,7 @@ export class MagneticButton {
     });
   }
   onMouseMove(e) {
+    if (this.prefersReducedMotion) return;
     const bounding = this.element.getBoundingClientRect();
     const x = e.clientX - bounding.left - bounding.width / 2;
     const y = e.clientY - bounding.top - bounding.height / 2;
@@ -48,6 +53,7 @@ export class MagneticButton {
     }
   }
   onMouseLeave(e) {
+    if (this.prefersReducedMotion) return;
     gsap.to(this.element, {
       x: 0,
       y: 0,
@@ -77,23 +83,3 @@ export class MagneticButton {
     }
   }
 }
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll('.t-magnetic-btn').forEach(btn => {
-    new MagneticButton(btn);
-  });
-});
-window.addEventListener('message', (e) => {
-  if (e.data && e.data.type === 'update-config') {
-    const config = e.data.config;
-    document.querySelectorAll('.t-magnetic-btn').forEach(btn => {
-      if (btn.__magneticButton) {
-        btn.__magneticButton.magnetStrength = config.magnetStrength;
-        btn.__magneticButton.textStrength = config.textStrength;
-      }
-    });
-    document.documentElement.style.setProperty('--t-btn-radius', config.borderRadius + 'px');
-    document.documentElement.style.setProperty('--t-btn-bg', config.bgColor);
-    document.documentElement.style.setProperty('--t-btn-color', config.textColor);
-    document.documentElement.style.setProperty('--t-btn-hover-bg', config.hoverColor);
-  }
-});

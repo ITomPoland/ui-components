@@ -39,3 +39,16 @@
   pointer-events: none;
   display: inline-block;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .t-magnetic-btn {
+    transition: background-color 0.3s ease, color 0.3s ease !important;
+  }
+  .t-magnetic-btn:hover {
+    background-color: var(--t-btn-hover-bg) !important;
+    color: var(--t-btn-color) !important;
+  }
+  .t-hover-circle {
+    display: none !important;
+  }
+}

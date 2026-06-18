@@ -2,6 +2,8 @@ let activePreloaderTl = null;
 
 function runPreloaderAnimation() {
   return new Promise(resolve => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     // Kill any existing GSAP timelines and tweens if we are restarting
     if (activePreloaderTl) {
       activePreloaderTl.kill();
@@ -17,6 +19,11 @@ function runPreloaderAnimation() {
     const images = Array.from(document.querySelectorAll('.montage-img')).filter(img => img.style.display !== 'none');
 
     if(!container || !topText) return resolve();
+
+    if (prefersReducedMotion) {
+      gsap.set(container, { display: 'none' });
+      return resolve();
+    }
 
     // Initialization (Reset states for replayability)
     gsap.set(container, { visibility: "visible", backgroundColor: "var(--preloader-bg)", zIndex: 9999 });

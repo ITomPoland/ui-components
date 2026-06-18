@@ -10,12 +10,13 @@
  */
 
 function initHeroAnimations(isSkipped = false) {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const title = document.querySelector('.hero-title');
   const titleInner = document.querySelector('.hero-title-inner');
 
   if (!title || !titleInner) return;
 
-  if (isSkipped) {
+  if (isSkipped || prefersReducedMotion) {
     gsap.set(title, { opacity: 1, letterSpacing: '0.02em' });
     gsap.set(titleInner, { y: '0%' });
     return;

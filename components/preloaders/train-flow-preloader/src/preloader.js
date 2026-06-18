@@ -16,6 +16,8 @@ let activePreloaderTl = null;
 
 function runPreloaderAnimation() {
   return new Promise(resolve => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     if (activePreloaderTl) {
       activePreloaderTl.kill();
       activePreloaderTl = null;
@@ -28,6 +30,11 @@ function runPreloaderAnimation() {
       .filter(img => img.style.display !== 'none');
 
     if (!container || !marqueeContent || images.length === 0) {
+      return resolve();
+    }
+
+    if (prefersReducedMotion) {
+      gsap.set(container, { display: 'none' });
       return resolve();
     }
 
