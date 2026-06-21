@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Transition Shrink & Slide - Preview</title>
+  <link rel="stylesheet" href="./src/transition-shrink-slide.css" />
+</head>
+<body data-barba="wrapper" class="ts-wrapper">
+  
+  <header class="ts-header">
+    <nav>
+      <a href="./preview.html">Home</a>
+      <a href="./page2.html">About</a>
+    </nav>
+  </header>
+
+  <!-- The container that gets swapped and animated -->
+  <main tabindex="-1" data-barba="container" data-barba-namespace="home" class="ts-container" style="background-color: #1a1a1a;">
+    <div class="ts-content">
+      <h1>Home Page</h1>
+      <p>This is the initial page. Click 'About' in the navigation to see the shrink and slide effect.</p>
+    </div>
+  </main>
+
+  <!-- Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@barba/core"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  
+  <!-- Component Logic -->
+  <script src="./src/transition-shrink-slide.js"></script>
+</body>
+</html>

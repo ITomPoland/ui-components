@@ -1,0 +1,23 @@
+<!-- 
+  Copy-paste this structure into your project. 
+  Ensure you have the wrapper and container data attributes.
+-->
+<div data-barba="wrapper" class="ts-wrapper">
+  
+  <!-- Navbar or persistent elements can go outside or inside depending on if you want them to transition -->
+  <header class="ts-header">
+    <nav>
+      <a href="./preview.html">Home</a>
+      <a href="./page2.html">About</a>
+    </nav>
+  </header>
+
+  <!-- The container that gets swapped and animated -->
+  <main tabindex="-1" data-barba="container" data-barba-namespace="home" class="ts-container" style="background-color: #1a1a1a;">
+    <div class="ts-content">
+      <h1>Page Transition Component</h1>
+      <p>This is the Home page. Click the link above to see the shrink and slide effect.</p>
+    </div>
+  </main>
+
+</div>
