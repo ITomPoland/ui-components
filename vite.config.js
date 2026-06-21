@@ -16,7 +16,10 @@ function scanComponents(dir) {
       const indexFile = join(fullPath, 'index.html');
       const previewFile = join(fullPath, 'preview.html');
       
-      if (fs.existsSync(indexFile) || fs.existsSync(previewFile)) {
+      // We need to bundle ALL HTML files in the component directory (e.g., page2.html)
+      const htmlFiles = fs.readdirSync(fullPath).filter(file => file.endsWith('.html'));
+      
+      if (htmlFiles.length > 0) {
         const relativeFolder = fullPath
           .replace(componentsDir + '\\', '')
           .replace(componentsDir + '/', '')
@@ -24,17 +27,11 @@ function scanComponents(dir) {
         
         const keyBase = relativeFolder.replace(/\//g, '-');
         
-        if (fs.existsSync(indexFile)) {
-          input[`${keyBase}-index`] = indexFile;
-        }
-        if (fs.existsSync(previewFile)) {
-          input[`${keyBase}-preview`] = previewFile;
-        }
-        // Include fullscreen preview pages if they exist
-        const fullscreenFile = join(fullPath, 'fullscreen.html');
-        if (fs.existsSync(fullscreenFile)) {
-          input[`${keyBase}-fullscreen`] = fullscreenFile;
-        }
+        htmlFiles.forEach(htmlFile => {
+          const filePath = join(fullPath, htmlFile);
+          const nameName = htmlFile.replace('.html', '');
+          input[`${keyBase}-${nameName}`] = filePath;
+        });
       } else {
         scanComponents(fullPath);
       }
