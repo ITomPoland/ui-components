@@ -4,8 +4,17 @@ import splitTextPreloaderDemo from '../../components/preloaders/split-text-prelo
 import liquidGooeyButtonDemo from '../../components/buttons/liquid-gooey-button/demo.mp4';
 import kineticTextButtonDemo from '../../components/buttons/kinetic-text-button/demo.mp4';
 import magneticGlassButtonDemo from '../../components/buttons/magnetic-glass-button/demo.mp4';
+import transitionShrinkSlideDemo from '../../components/page-transitions/transition-shrink-slide/demo.mp4';
 
 export const components = [
+  {
+    id: 'transition-shrink-slide',
+    name: 'Shrink & Slide',
+    description: 'Smooth page transition using Barba.js where the current page shrinks and blurs while the new page slides up from the bottom.',
+    tags: ['page-transition', 'animation'],
+    path: './components/page-transitions/transition-shrink-slide/',
+    demo: transitionShrinkSlideDemo
+  },
   {
     id: 'train-flow-preloader',
     name: 'Train Flow Preloader',
