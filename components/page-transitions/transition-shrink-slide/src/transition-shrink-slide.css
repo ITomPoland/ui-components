@@ -74,12 +74,19 @@ body {
 }
 
 .ts-content h1 {
-  font-size: 4rem;
+  font-size: clamp(2.5rem, 8vw, 4rem);
   margin-bottom: 1rem;
+  word-wrap: break-word;
 }
 
 .ts-content p {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 4vw, 1.2rem);
   line-height: 1.6;
   opacity: 0.8;
+}
+
+@media (max-width: 600px) {
+  .ts-content {
+    padding: 1rem;
+  }
 }
