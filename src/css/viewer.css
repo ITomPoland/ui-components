@@ -231,6 +231,19 @@
 .control-group input[type="range"]::-webkit-slider-thumb:hover {
   transform: scale(1.15);
 }
+.control-group input[type="number"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  font-family: var(--font-sketch);
+  font-size: 1rem;
+  border-radius: 4px;
+  border: var(--stroke-width) solid var(--text-ink);
+  box-shadow: 2px 2px 0px var(--text-ink);
+  outline: none;
+  background: white;
+  color: var(--text-ink);
+}
 .theme-toggles {
   display: flex;
   gap: 0.5rem;
