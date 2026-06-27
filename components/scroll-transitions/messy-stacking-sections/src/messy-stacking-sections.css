@@ -1,0 +1,138 @@
+.messy-stack-container {
+  width: 100%;
+  position: relative;
+  overflow-x: hidden; /* fallback for Safari 15 and older */
+  overflow-x: clip;
+  padding-bottom: 50vh; 
+}
+
+.messy-section {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: var(--bg-color, #fff);
+  color: var(--text-color, #000);
+  font-family: system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform-origin: center bottom;
+}
+
+/* Subtle paper texture */
+.messy-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+/* ── Content ── */
+.messy-content {
+  text-align: center;
+  max-width: min(700px, 90vw);
+  /* Fluid padding: 1rem at 320px → 2.5rem at 1200px */
+  padding: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+  position: relative;
+}
+
+/* Section number label — fluid size */
+.messy-label {
+  /* 4rem at 320px → 10rem at 1200px */
+  font-size: clamp(4rem, 2rem + 8vw, 10rem);
+  font-weight: 900;
+  opacity: 0.06;
+  position: absolute;
+  top: clamp(-2rem, -1rem + -1.5vw, -3rem);
+  left: 50%;
+  transform: translateX(-50%);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -0.05em;
+}
+
+/* Heading — fluid typography */
+.messy-heading {
+  /* 2rem at 320px → 5rem at 1200px */
+  font-size: clamp(2rem, 1rem + 4vw, 5rem);
+  font-weight: 800;
+  margin-bottom: clamp(0.6rem, 0.3rem + 1vw, 1.5rem);
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  position: relative;
+}
+
+.messy-heading .word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.messy-heading .char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* Paragraph — fluid */
+.messy-paragraph {
+  /* 1rem at 320px → 1.4rem at 1200px */
+  font-size: clamp(1rem, 0.85rem + 0.5vw, 1.4rem);
+  opacity: 0;
+  line-height: 1.6;
+  max-width: min(480px, 85vw);
+  margin: 0 auto;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+}
+
+/* ── Decorative SVG Doodles — fluid sizes ── */
+.doodle {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  color: currentColor;
+}
+
+.doodle-arrow {
+  /* 30px at 320px → 50px at 1200px */
+  width: clamp(30px, 20px + 2vw, 50px);
+  bottom: clamp(-40px, -30px + -1.5vw, -70px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.doodle-circle {
+  /* 80px at 320px → 160px at 1200px */
+  width: clamp(80px, 50px + 8vw, 160px);
+  top: clamp(-15px, -10px + -1vw, -35px);
+  right: clamp(-20px, -15px + -2vw, -55px);
+  opacity: 0.15;
+}
+
+.doodle-underline {
+  /* 140px at 320px → 240px at 1200px */
+  width: clamp(140px, 100px + 10vw, 240px);
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.doodle-sparkle {
+  /* 35px at 320px → 55px at 1200px */
+  width: clamp(35px, 25px + 2vw, 55px);
+  top: clamp(-10px, -5px + -1vw, -25px);
+  right: clamp(-15px, -10px + -1.5vw, -35px);
+}
+
+/* Doodle path animation */
+.doodle path,
+.doodle ellipse {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+}

@@ -393,6 +393,9 @@ export async function flipToComponent(path) {
     if (iframe) {
       iframe.onload = () => {
         try {
+          if (iframe.src && (iframe.src.includes('scroll-transitions') || iframe.src.includes('page-transitions'))) {
+            return; // Allow native scrolling inside the iframe for these categories
+          }
           iframe.contentDocument.documentElement.style.overflow = 'hidden';
           iframe.contentDocument.body.style.overflow = 'hidden';
           const scrollContainer = document.getElementById('leftPageContainer');

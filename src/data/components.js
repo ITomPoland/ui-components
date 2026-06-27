@@ -5,8 +5,17 @@ import liquidGooeyButtonDemo from '../../components/buttons/liquid-gooey-button/
 import kineticTextButtonDemo from '../../components/buttons/kinetic-text-button/demo.mp4';
 import magneticGlassButtonDemo from '../../components/buttons/magnetic-glass-button/demo.mp4';
 import transitionShrinkSlideDemo from '../../components/page-transitions/transition-shrink-slide/demo.mp4';
+import messyStackingSectionsDemo from '../../components/scroll-transitions/messy-stacking-sections/demo.mp4';
 
 export const components = [
+  {
+    id: 'messy-stacking-sections',
+    name: 'Messy Stacking Sections',
+    description: 'A tactile scroll transition where sections stack on top of each other like slightly crooked pieces of paper.',
+    tags: ['scroll-transition', 'animation'],
+    path: './components/scroll-transitions/messy-stacking-sections/',
+    demo: messyStackingSectionsDemo
+  },
   {
     id: 'transition-shrink-slide',
     name: 'Shrink & Slide',
