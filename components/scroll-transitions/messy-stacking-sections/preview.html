@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Messy Stacking Sections - Preview</title>
+  <link rel="stylesheet" href="./src/messy-stacking-sections.css" />
+  <style>
+    /* Reset for preview */
+    body, html {
+      margin: 0;
+      padding: 0;
+      background: #0a0a0a;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Component HTML -->
+  <div class="messy-stack-container">
+  
+    <section class="messy-section" style="--bg-color: #0f0f0f; --text-color: #f8f9fa;">
+      <div class="messy-content">
+        <div class="messy-label">01</div>
+        <h2 class="messy-heading" data-split>Messy Stacking</h2>
+        <p class="messy-paragraph">Scroll down and watch sections land like tossed papers.</p>
+        <!-- Decorative doodle: arrow pointing down -->
+        <svg class="doodle doodle-arrow" viewBox="0 0 60 80" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M30 5 C28 25, 32 45, 30 65" />
+          <path d="M20 55 L30 70 L40 55" />
+        </svg>
+      </div>
+    </section>
+
+    <section class="messy-section" style="--bg-color: #1a1a2e; --text-color: #e0e0ff;">
+      <div class="messy-content">
+        <div class="messy-label">02</div>
+        <h2 class="messy-heading" data-split>Crooked Entry</h2>
+        <p class="messy-paragraph">Each section slides in at a random angle — like a carelessly thrown sheet of paper.</p>
+        <!-- Decorative doodle: circle emphasis -->
+        <svg class="doodle doodle-circle" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <ellipse cx="60" cy="60" rx="50" ry="45" transform="rotate(-5 60 60)" stroke-dasharray="6 4" />
+        </svg>
+      </div>
+    </section>
+
+    <section class="messy-section" style="--bg-color: #16213e; --text-color: #94e2ff;">
+      <div class="messy-content">
+        <div class="messy-label">03</div>
+        <h2 class="messy-heading" data-split>Dynamic Heights</h2>
+        <p class="messy-paragraph">Sections adapt to their content — short or tall, the engine handles it all.</p>
+        <!-- Decorative doodle: squiggly underline -->
+        <svg class="doodle doodle-underline" viewBox="0 0 200 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M5 10 Q25 2, 45 10 Q65 18, 85 10 Q105 2, 125 10 Q145 18, 165 10 Q185 2, 195 10" />
+        </svg>
+      </div>
+    </section>
+
+    <section class="messy-section" style="--bg-color: #0a1628; --text-color: #ff9f43;">
+      <div class="messy-content">
+        <div class="messy-label">04</div>
+        <h2 class="messy-heading" data-split>Stack Complete</h2>
+        <p class="messy-paragraph">A messy pile of beautifully stacked sections. Copy, paste, ship it.</p>
+        <!-- Decorative doodle: star/sparkle -->
+        <svg class="doodle doodle-sparkle" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M30 5 L30 55" />
+          <path d="M5 30 L55 30" />
+          <path d="M12 12 L48 48" />
+          <path d="M48 12 L12 48" />
+        </svg>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Component Logic -->
+  <script type="module">
+    import { initMessyStackingSections } from './src/messy-stacking-sections.js';
+    
+    let instance = null;
+
+    const premiumColors = [
+      { bg: '#0f0f0f', text: '#f8f9fa' },
+      { bg: '#1a1a2e', text: '#e0e0ff' },
+      { bg: '#16213e', text: '#94e2ff' },
+      { bg: '#0a1628', text: '#ff9f43' }
+    ];
+
+    function generateSectionHTML(index) {
+      const colors = premiumColors[index % premiumColors.length];
+      const num = String(index + 1).padStart(2, '0');
+      return `
+        <section class="messy-section" style="--bg-color: ${colors.bg}; --text-color: ${colors.text};">
+          <div class="messy-content">
+            <div class="messy-label">${num}</div>
+            <h2 class="messy-heading" data-split>Section ${num}</h2>
+            <p class="messy-paragraph">This section was dynamically generated. Keep scrolling to see more stacking action.</p>
+          </div>
+        </section>
+      `;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      instance = initMessyStackingSections();
+    });
+
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.type === 'updateConfig') {
+        const { count, intensity } = e.data;
+        
+        if (instance) {
+          instance.destroy();
+        }
+
+        const container = document.querySelector('.messy-stack-container');
+        const currentSections = container.querySelectorAll('.messy-section');
+        const currentCount = currentSections.length;
+
+        if (count > currentCount) {
+          for (let i = currentCount; i < count; i++) {
+            container.insertAdjacentHTML('beforeend', generateSectionHTML(i));
+          }
+        } else if (count < currentCount) {
+          for (let i = currentCount - 1; i >= count; i--) {
+            currentSections[i].remove();
+          }
+        }
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            instance = initMessyStackingSections({ rotationIntensity: intensity });
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>
