@@ -1,0 +1,246 @@
+/* 
+ * Curved Arc Carousel 
+ * Sketchbook & Paper Tactile Aesthetics
+ */
+
+/* ========================================================
+   EASY CONFIGURATION
+   ======================================================== */
+:root {
+  /* Spacing & Position */
+  --arc-vertical-position: 28%; /* Increase to lower the arc (e.g., 35%), decrease to raise it (e.g., 20%) */
+  --arc-card-width: clamp(260px, min(80vw, 70svh), 800px); /* Width of card area - prevents clipping */
+
+  /* Typography - using min(vw, svh) to prevent layout shifts and clipping on mobile */
+  --font-number-size: clamp(8rem, min(25vw, 45svh), 30rem); 
+  --font-pill-size: clamp(0.75rem, min(1.5vw, 3svh), 1.6rem);
+  --font-desc-size: clamp(1rem, min(2.5vw, 5svh), 2.5rem);
+
+  /* Sketchbook Theme Colors */
+  --sk-bg: #fbf9f4;
+  --sk-paper: #f0ebd8;
+  --sk-ink: #191b1f;
+  --sk-ink-light: #333333;
+  --sk-paper-shadow: rgba(0, 0, 0, 0.08);
+  --sk-accent-red: #ef233c;
+  --sk-accent-blue: #3a86ff;
+  --sk-accent-yellow: #f4a261;
+  --sk-accent-green: #2a9d8f;
+  --sk-accent-purple: #9b5de5;
+  --sk-grid: rgba(0, 0, 0, 0.04);
+}
+
+/* Wrapper to isolate pinning logic and prevent jumpiness */
+#arcCarouselPinWrapper {
+  position: relative;
+  width: 100%;
+  background-color: var(--sk-bg);
+  overflow: hidden;
+}
+
+/* Main Section */
+.arc-carousel-section {
+  position: relative;
+  width: 100vw;
+  height: 100svh;
+  background-color: var(--sk-bg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+
+/* Grid Overlay (Notebook Graph Paper) */
+.sketch-grid-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: 
+    linear-gradient(var(--sk-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--sk-grid) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Header - Removed */
+
+/* System Coordinate Root */
+.arc-system {
+  position: absolute;
+  top: var(--arc-vertical-position);
+  left: 0;
+  width: 100%;
+  height: 0;
+  z-index: 10;
+}
+
+/* Integrated Header (Mobile Only) */
+.arc-content-header {
+  position: absolute;
+  top: 8%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+}
+
+/* Integrated Footer (Mobile Only) */
+.arc-content-footer {
+  position: absolute;
+  bottom: 8%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+}
+
+.arc-header-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2rem, 8vw, 3rem);
+  font-weight: 900;
+  color: var(--sk-ink);
+  margin: 0 0 0.5rem 0;
+}
+
+.arc-header-desc {
+  font-family: 'Caveat', cursive;
+  font-size: clamp(1.2rem, 5vw, 1.8rem);
+  color: var(--sk-ink-light);
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+@media (max-width: 1023px) {
+  :root {
+    /* Perfect center alignment for mobile devices */
+    --arc-vertical-position: 50%;
+    
+    /* Force larger text relative to screen on mobile, while preventing vertical clipping */
+    --font-number-size: clamp(6rem, min(35vw, 40svh), 30rem);
+    --font-desc-size: clamp(0.9rem, min(4.5vw, 4.5svh), 2.5rem);
+  }
+}
+
+/* Sketchbook preview fix: hide integrated header/footer on very short screens to prevent overlapping */
+@media (max-width: 1023px) and (max-height: 650px) {
+  .arc-content-header,
+  .arc-content-footer {
+    display: none !important;
+  }
+  :root {
+    /* Since the card's visual weight is at the bottom (text under the number), 
+       on shorter screens the arc axis must be positioned higher (30%) so the description fits! */
+    --arc-vertical-position: 30%;
+  }
+}
+@media (min-width: 1024px) {
+  /* On desktop, the 100vh area is strictly for the giant numbers.
+     The standalone preview page handles the title above the component. */
+  .arc-content-header,
+  .arc-content-footer {
+    display: none;
+  }
+}
+
+/* SVG Track */
+.arc-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* Height is large enough to not clip the arc */
+  height: 1500px;
+  overflow: visible;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.arc-path-bg {
+  fill: none;
+  stroke: var(--sk-ink);
+  stroke-width: 2;
+  opacity: 0.1;
+  stroke-dasharray: 6 6;
+}
+
+.arc-path-ticks {
+  fill: none;
+  stroke: var(--sk-ink);
+  stroke-width: 12;
+  stroke-dasharray: 2 120;
+  opacity: 0.15;
+}
+
+/* Removed doodle arrow */
+
+/* Cards Container */
+.arc-cards-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  /* Cards are positioned relative to this (50%, 0) point */
+  perspective: 1000px;
+}
+
+.arc-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--arc-card-width);
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+  opacity: 0;
+}
+
+/* Card Visuals - Minimalist */
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+}
+
+.card-number {
+  font-family: 'Outfit', sans-serif;
+  font-size: var(--font-number-size);
+  font-weight: 900;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 3px var(--sk-ink);
+  letter-spacing: -0.05em;
+  margin: 0;
+  /* Pull the number up by exactly half its height to perfectly center it on the arc line */
+  margin-top: -0.5em;
+  /* Use negative margin to offset the invisible vertical space inside the text's bounding box. 
+     Adjust this to change the gap between the number and the pill below it. */
+  margin-bottom: -1rem; 
+}
+
+.card-pill {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: var(--font-pill-size);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: clamp(10px, 1.5vw, 16px) clamp(20px, 3vw, 32px);
+  background: var(--sk-bg);
+  border: clamp(2px, 0.2vw, 4px) solid var(--sk-ink);
+  border-radius: 50px;
+  white-space: nowrap;
+}
+
+.card-desc {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: var(--font-desc-size);
+  line-height: 1.4;
+  color: var(--sk-ink);
+  font-weight: 500;
+  margin: 0;
+  max-width: 100%;
+}
