@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curved Arc Carousel - Preview</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Component Stylesheet -->
+  <link rel="stylesheet" href="./src/curved-arc-carousel.css" />
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: #fbf9f4;
+      color: #191b1f;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .spacer-hero, .spacer-outro {
+      min-height: 55vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-color: transparent;
+      background-image: 
+        linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+      background-size: 30px 30px;
+      padding: 2rem 1rem;
+      box-sizing: border-box;
+    }
+
+    .spacer-hero h1, .spacer-outro h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 900;
+      color: #191b1f;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .spacer-hero p, .spacer-outro p {
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      color: #333333;
+      margin: 0;
+    }
+
+    .scroll-badge {
+      margin-top: 1.2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.9rem;
+      background: #fbf9f4;
+      color: #191b1f;
+      border: 2px solid #191b1f;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      box-shadow: 2.5px 2.5px 0 #000;
+    }
+
+    @media (max-width: 1023px) {
+      /* Hide the preview page hero and outro on mobile, as the component has its own integrated header and footer to fill the 100vh */
+      .spacer-hero,
+      .spacer-outro {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Spacer -->
+  <section class="spacer-hero">
+    <h1>Sketchbook Notebook</h1>
+    <p>Scroll down to enter the Curved Arc Process section</p>
+    <div class="scroll-badge">↓ Scroll Down</div>
+  </section>
+
+  <!-- Component Root -->
+  <div id="componentRoot"></div>
+
+  <!-- Bottom Spacer -->
+  <section class="spacer-outro">
+    <h2>End of Arc Section</h2>
+    <p>You scrolled through all chapter cards!</p>
+  </section>
+
+  <!-- Component HTML -->
+  <script type="module">
+    import htmlContent from './src/curved-arc-carousel.html?raw';
+    document.getElementById('componentRoot').innerHTML = htmlContent;
+  </script>
+
+  <!-- GSAP & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Component Init & Lenis -->
+  <script type="module">
+    import { initCurvedArcCarousel } from './src/curved-arc-carousel.js';
+    import Lenis from 'lenis';
+
+    let instance = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true
+      });
+      window.lenis = lenis;
+
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add((time) => lenis.raf(time * 1000));
+      gsap.ticker.lagSmoothing(0);
+
+      instance = initCurvedArcCarousel();
+    });
+
+    window.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'updateArcConfig' && instance) {
+        instance.updateConfig({ radius: event.data.radius, gap: event.data.gap });
+        
+        if (event.data.grid !== null && event.data.grid !== undefined) {
+            const root = document.querySelector('.arc-carousel-section');
+            if (root) {
+               root.style.setProperty('--sk-grid', event.data.grid ? 'rgba(0, 0, 0, 0.04)' : 'transparent');
+            }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

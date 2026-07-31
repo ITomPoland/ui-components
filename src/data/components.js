@@ -1,3 +1,4 @@
+import curvedArcCarouselDemo from '../../components/scroll-trigger/curved-arc-carousel/demo.mp4';
 import trainFlowPreloaderDemo from '../../components/preloaders/train-flow-preloader/demo.mp4';
 import magneticButtonDemo from '../../components/buttons/magnetic-button/demo.mp4';
 import splitTextPreloaderDemo from '../../components/preloaders/split-text-preloader/demo.mp4';
@@ -8,6 +9,14 @@ import transitionShrinkSlideDemo from '../../components/page-transitions/transit
 import messyStackingSectionsDemo from '../../components/scroll-transitions/messy-stacking-sections/demo.mp4';
 
 export const components = [
+  {
+    id: 'curved-arc-carousel',
+    name: 'Curved Arc Carousel',
+    description: 'A scroll-driven carousel section moving cards along a curved circular arc track with GSAP ScrollTrigger.',
+    tags: ['scroll-trigger', 'scroll-transition', 'animation'],
+    path: './components/scroll-trigger/curved-arc-carousel/',
+    demo: curvedArcCarouselDemo
+  },
   {
     id: 'messy-stacking-sections',
     name: 'Messy Stacking Sections',
